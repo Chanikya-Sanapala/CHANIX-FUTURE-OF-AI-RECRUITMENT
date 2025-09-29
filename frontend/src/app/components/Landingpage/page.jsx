@@ -6,8 +6,6 @@ const Landingpage = () => {
   return (
     <div>
       <h1>Landing Page</h1>
-      {/* <Link href="/components/Login"><div>Login</div></Link>
-      <Link href="/components/Signup"><div>Sign Up</div></Link> */}
 
 
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -51,3 +49,4 @@ const Landingpage = () => {
 }
 
 export default Landingpage
+
