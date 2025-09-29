@@ -1,41 +1,53 @@
-import React from 'react'
-import Link from 'next/link'
+"use client";
+import { useState } from "react";
+import { MdEmail, MdLock } from "react-icons/md"; 
+import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 
-const Login = () => {
+export default function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <div>
-      <h1>Login Page</h1> 
-      {/* <Link href="/components/Signup"><div>Sign Up</div></Link>
-      <Link href="/"><div>Home</div></Link>  */}
+    <div className="login-card">
+      {/* Title */}
+      <h1 className="title">AI job portal</h1>
 
-      <nav className="navbar navbar-light bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">Smart AI</a>
+      
+      <div className="input-wrapper">
+        <MdEmail className="icon email-icon" />
+        <input
+          type="email"
+          placeholder="Email address"
+          className="input-field"
+        />
+      </div>
 
-            {/* <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form> */}
+      
+      <div className="input-wrapper">
+        <MdLock className="icon password-icon" />
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          className="input-field"
+        />
+        
+        <span
+          className="toggle-password"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <FaEyeSlash className="eye-icon" /> : <FaEye className="eye-icon" />}
+        </span>
+      </div>
 
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/components/Signup">SignUp</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">Home</a>
-              </li>
-            </ul>
-            
-          </div>
-        </div>
-      </nav>
- 
+      <div className="forgot-wrapper">
+        <a href="#" className="forgot-link">Forgot password?</a>
+      </div>
+
+      
+      <button className="btn-primary">Login</button>
+
+      <p className="footer-text">
+        Don’t have an account? <a href="#" className="link">Sign up</a>
+      </p>
     </div>
-  )
+  );
 }
-
-export default Login
