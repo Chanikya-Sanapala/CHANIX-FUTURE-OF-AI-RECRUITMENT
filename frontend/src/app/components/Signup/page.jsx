@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-// import axios from "axios";
+import axios from "axios";
 import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -72,7 +72,15 @@ const Signup = () => {
       
       // Simulate an async submission (e.g., API call)
       setTimeout(() => {
-        // console.log('Form Submitted Successfully:', userData);
+        console.log('Form Submitted Successfully:', userData);
+        axios.post('http://localhost:5000/register',userData).then(
+            res => {alert(res.userData);setUserData({
+                username:'',
+                email:'',
+                password:'',
+                confirmpassword:''
+            })}
+        )
         setSubmitMessage('Registration successful! You can now log in.');
         setIsSubmitting(false);
         // Optionally, clear the form after success
