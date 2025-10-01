@@ -42,9 +42,21 @@ const userSchema = new mongoose.Schema({
       message: 'Password must contain at least one letter, one number, and one special character'
     }
   },
+  userType: {
+    type: String,
+    required: [true, 'User type is required'],
+    enum: {
+      values: ['jobseeker', 'recruiter', 'admin'],
+      message: 'User type must be either jobseeker, recruiter, or admin'
+    }
+  },
   isActive: {
     type: Boolean,
     default: true
+  },
+  isProfileCompleted: {
+    type: Boolean,
+    default: false
   },
   lastLogin: {
     type: Date,
@@ -75,8 +87,6 @@ const userSchema = new mongoose.Schema({
 userSchema.virtual('fullName').get(function() {
   return `${this.firstName} ${this.lastName}`;
 });
-
-userSchema.index({ email: 1 }, { unique: true });
 
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();

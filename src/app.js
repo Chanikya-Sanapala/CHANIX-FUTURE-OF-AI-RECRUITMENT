@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import authRoutes from './routes/authRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 import { sendError } from './utils/responseHandler.js';
 
 const app = express();
@@ -34,11 +35,13 @@ app.get('/health', (req, res) => {
     success: true,
     message: 'Smart Engine API is running!',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
+    supportedUserTypes: ['jobseeker', 'recruiter', 'admin']
   });
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 app.use('/*splat', (req, res) => {
   sendError(res, `Route ${req.originalUrl} not found`, null, 404);
