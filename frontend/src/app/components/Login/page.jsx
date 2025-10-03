@@ -39,7 +39,7 @@ export default function LoginForm() {
       </div>
 
       <div className="forgot-wrapper">
-        <a href="#" className="forgot-link">Forgot password?</a>
+        <a href="/components/ForgotPassword" className="forgot-link">Forgot password?</a>
       </div>
 
       
