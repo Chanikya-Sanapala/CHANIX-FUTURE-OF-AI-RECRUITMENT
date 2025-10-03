@@ -1,5 +1,23 @@
 {
   "pages": {
+    "/components/ForgotPassword/page": [
+      "static/chunks/7d81f_next_dist_23f471a0._.js",
+      "static/chunks/Desktop_Smart-Engine_frontend_src_app_favicon_ico_mjs_1093acf1._.js",
+      "static/chunks/[root-of-the-server]__4d173a86._.css",
+      "static/chunks/Desktop_Smart-Engine_frontend_src_app_layout_7fce85e2.js",
+      "static/chunks/7d81f_next_dist_client_components_builtin_global-error_ace662dd.js",
+      "static/chunks/Desktop_Smart-Engine_frontend_f16410a6._.js",
+      "static/chunks/3d860_Smart-Engine_frontend_src_app_components_ForgotPassword_page_jsx_ace662dd._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_5972b898._.js",
+      "static/chunks/7d81f_next_dist_compiled_react-dom_029db4f3._.js",
+      "static/chunks/7d81f_next_dist_compiled_next-devtools_index_e3388628.js",
+      "static/chunks/7d81f_next_dist_compiled_57679dd8._.js",
+      "static/chunks/7d81f_next_dist_client_77d0f1e1._.js",
+      "static/chunks/7d81f_next_dist_4b4e62be._.js",
+      "static/chunks/7d81f_@swc_helpers_cjs_932ca7cb._.js",
+      "static/chunks/Desktop_Smart-Engine_frontend_a0ff3932._.js",
+      "static/chunks/turbopack-Desktop_Smart-Engine_frontend_e2f4c5ef._.js"
+    ],
     "/components/Login/page": [
       "static/chunks/7d81f_next_dist_23f471a0._.js",
       "static/chunks/Desktop_Smart-Engine_frontend_src_app_favicon_ico_mjs_1093acf1._.js",
