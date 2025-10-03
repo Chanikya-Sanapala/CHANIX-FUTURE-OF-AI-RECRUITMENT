@@ -37,9 +37,9 @@ const Landingpage = () => {
         <div className="container">
           <h1 className="jumbotron-heading">Welcome to Smart AI</h1>
           <p className="lead text-muted">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-          <p>
-            <a href="/components/Signup" className="btn btn-primary my-2">Sign Up</a>
-            <a href="/components/Login" className="btn btn-secondary my-2">Login</a>
+          <p className='m-4'>
+            <a href="/components/Signup" className="btn btn-primary my-2 m-2">Sign Up</a>
+            <a href="/components/Login" className="btn btn-secondary my-2 m-2">Login</a>
           </p>
         </div>
       </section>
