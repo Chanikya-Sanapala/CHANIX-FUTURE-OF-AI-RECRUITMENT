@@ -13,16 +13,20 @@ const generateToken = (userId) => {
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, userType } = req.body;
     
     const user = new User({
       firstName,
       lastName,
       email,
-      password
+      password,
+      userType
     });
     
     await user.save();
+    
+    // Don't create profile during registration to avoid validation errors
+    // Profile will be created when user first updates their profile
     
     const token = generateToken(user._id);
     
@@ -37,7 +41,9 @@ export const register = async (req, res) => {
         lastName: user.lastName,
         fullName: user.fullName,
         email: user.email,
+        userType: user.userType,
         isActive: user.isActive,
+        isProfileCompleted: user.isProfileCompleted,
         createdAt: user.createdAt
       }
     }, 201);
@@ -61,6 +67,7 @@ export const register = async (req, res) => {
   }
 };
 
+// Keep other methods unchanged
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -102,7 +109,9 @@ export const login = async (req, res) => {
         lastName: user.lastName,
         fullName: user.fullName,
         email: user.email,
+        userType: user.userType,
         isActive: user.isActive,
+        isProfileCompleted: user.isProfileCompleted,
         lastLogin: user.lastLogin
       }
     });
@@ -122,7 +131,9 @@ export const getProfile = async (req, res) => {
         lastName: req.user.lastName,
         fullName: req.user.fullName,
         email: req.user.email,
+        userType: req.user.userType,
         isActive: req.user.isActive,
+        isProfileCompleted: req.user.isProfileCompleted,
         lastLogin: req.user.lastLogin,
         createdAt: req.user.createdAt
       }
@@ -154,6 +165,7 @@ export const updateProfile = async (req, res) => {
         lastName: user.lastName,
         fullName: user.fullName,
         email: user.email,
+        userType: user.userType,
         isActive: user.isActive,
         updatedAt: user.updatedAt
       }
