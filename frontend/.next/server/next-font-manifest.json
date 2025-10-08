@@ -1,14 +1,18 @@
 {
   "app": {
-    "[project]/Desktop/Smart-Engine/frontend/src/app/components/ForgotPassword/page": [
+    "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/ForgotPassword/page": [
       "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
       "static/media/797e433ab948586e-s.p.dbea232f.woff2"
     ],
-    "[project]/Desktop/Smart-Engine/frontend/src/app/components/Login/page": [
+    "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page": [
       "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
       "static/media/797e433ab948586e-s.p.dbea232f.woff2"
     ],
-    "[project]/Desktop/Smart-Engine/frontend/src/app/components/Signup/page": [
+    "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Signup/page": [
+      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
+      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    ],
+    "[project]/Desktop/Smart-Engine/frontend/src/app/_not-found/page": [
       "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
       "static/media/797e433ab948586e-s.p.dbea232f.woff2"
     ],
