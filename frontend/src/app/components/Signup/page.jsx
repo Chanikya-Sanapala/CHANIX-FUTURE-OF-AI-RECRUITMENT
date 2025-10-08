@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-// import axios from "axios";
+import axios from "axios";
 import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -72,7 +72,15 @@ const Signup = () => {
       
       // Simulate an async submission (e.g., API call)
       setTimeout(() => {
-        // console.log('Form Submitted Successfully:', userData);
+        console.log('Form Submitted Successfully:', userData);
+        axios.post('http://localhost:5000/register',userData).then(
+            res => {alert(res.userData);setUserData({
+                username:'',
+                email:'',
+                password:'',
+                confirmpassword:''
+            })}
+        )
         setSubmitMessage('Registration successful! You can now log in.');
         setIsSubmitting(false);
         // Optionally, clear the form after success
@@ -92,8 +100,8 @@ const Signup = () => {
         : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500';
 
   return (
-          <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-            <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl">
+          <div className="flex justify-center items-center min-h-screen p-4">
+            <div className="w-full max-w-md bg-white p-8 rounded-xl bg-shadow shadow-2xl">
               <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-6"><p className="text-blue-400">Create Account</p>
                 <div className="border border-green-700 mt-2 m-auto lg:w-70"></div>
               </h2>
@@ -144,3 +152,4 @@ const Signup = () => {
 
 
 export default Signup
+

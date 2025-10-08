@@ -34,7 +34,11 @@ export const validateRegistration = [
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long')
     .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/)
-    .withMessage('Password must contain at least one letter, one number, and one special character')
+    .withMessage('Password must contain at least one letter, one number, and one special character'),
+
+  body('userType')
+    .isIn(['jobseeker', 'recruiter', 'admin'])
+    .withMessage('User type must be either jobseeker, recruiter, or admin')
 ];
 
 export const validateLogin = [
@@ -47,6 +51,68 @@ export const validateLogin = [
   body('password')
     .notEmpty()
     .withMessage('Password is required')
+];
+
+export const validateJobSeekerProfile = [
+  body('phone')
+    .optional()
+    .matches(/^[0-9]{10}$/)
+    .withMessage('Phone number must be 10 digits'),
+  
+  body('summary')
+    .optional()
+    .isLength({ max: 1000 })
+    .withMessage('Summary cannot exceed 1000 characters'),
+  
+  body('skills.*.skillName')
+    .optional()
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Skill name is required'),
+  
+  body('skills.*.proficiencyLevel')
+    .optional()
+    .isIn(['beginner', 'intermediate', 'advanced', 'expert'])
+    .withMessage('Invalid proficiency level')
+];
+
+export const validateRecruiterProfile = [
+  body('phone')
+    .matches(/^[0-9]{10}$/)
+    .withMessage('Phone number must be 10 digits'),
+  
+  body('company.name')
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage('Company name is required'),
+  
+  body('company.industry')
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage('Industry is required'),
+  
+  body('company.size')
+    .isIn(['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'])
+    .withMessage('Invalid company size'),
+  
+  body('position')
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage('Position is required')
+];
+
+export const validateAdminProfile = [
+  body('phone')
+    .matches(/^[0-9]{10}$/)
+    .withMessage('Phone number must be 10 digits'),
+  
+  body('role')
+    .isIn(['super-admin', 'admin', 'moderator', 'organiser'])
+    .withMessage('Invalid admin role'),
+  
+  body('department')
+    .isIn(['operations', 'hr', 'tech', 'marketing', 'finance', 'support'])
+    .withMessage('Invalid department')
 ];
 
 export const checkValidation = (req, res, next) => {
