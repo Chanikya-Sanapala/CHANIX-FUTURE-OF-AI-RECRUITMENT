@@ -1,5 +1,4 @@
 {
-  "/(components)/ForgotPassword/page": "app/(components)/ForgotPassword/page.js",
   "/(components)/Login/page": "app/(components)/Login/page.js",
   "/(components)/Signup/page": "app/(components)/Signup/page.js",
   "/_not-found/page": "app/_not-found/page.js",

@@ -2,22 +2,22 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
-  firstName: {
+  username: {
     type: String,
-    required: [true, 'First name is required'],
+    required: [true, 'Username is required'],
     trim: true,
-    minlength: [2, 'First name must be at least 2 characters long'],
-    maxlength: [30, 'First name cannot exceed 30 characters'],
-    match: [/^[a-zA-Z\s]+$/, 'First name can only contain letters and spaces']
+    minlength: [2, 'Username must be at least 2 characters long'],
+    maxlength: [30, 'Username cannot exceed 30 characters'],
+    // match: [/^[a-zA-Z\s]+$/, 'Username can only contain letters and spaces']
   },
-  lastName: {
-    type: String,
-    required: [true, 'Last name is required'],
-    trim: true,
-    minlength: [2, 'Last name must be at least 2 characters long'],
-    maxlength: [30, 'Last name cannot exceed 30 characters'],
-    match: [/^[a-zA-Z\s]+$/, 'Last name can only contain letters and spaces']
-  },
+  // lastName: {
+  //   type: String,
+  //   required: [true, 'Last name is required'],
+  //   trim: true,
+  //   minlength: [2, 'Last name must be at least 2 characters long'],
+  //   maxlength: [30, 'Last name cannot exceed 30 characters'],
+  //   match: [/^[a-zA-Z\s]+$/, 'Last name can only contain letters and spaces']
+  // },
   email: {
     type: String,
     required: [true, 'Email is required'],
@@ -46,8 +46,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'User type is required'],
     enum: {
-      values: ['jobseeker', 'recruiter', 'admin'],
-      message: 'User type must be either jobseeker, recruiter, or admin'
+      values: ['Job Seeker', 'Recruiter', 'Entrepreneur'],
+      message: 'User type must be either Job Seeker, Recruiter, or Entrepreneur'
     }
   },
   isActive: {

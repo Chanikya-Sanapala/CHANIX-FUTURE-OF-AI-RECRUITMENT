@@ -13,11 +13,10 @@ const generateToken = (userId) => {
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, userType } = req.body;
+    const { username, email, password, userType } = req.body;
     
     const user = new User({
-      firstName,
-      lastName,
+      username,
       email,
       password,
       userType
@@ -37,9 +36,9 @@ export const register = async (req, res) => {
       token,
       user: {
         id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        fullName: user.fullName,
+        username: user.username,
+        // lastName: user.lastName,
+        // fullName: user.fullName,
         email: user.email,
         userType: user.userType,
         isActive: user.isActive,
@@ -105,9 +104,9 @@ export const login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        fullName: user.fullName,
+        username: user.username,
+        // lastName: user.lastName,
+        // fullName: user.fullName,
         email: user.email,
         userType: user.userType,
         isActive: user.isActive,

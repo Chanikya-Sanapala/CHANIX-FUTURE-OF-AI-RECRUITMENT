@@ -3,19 +3,19 @@ import User from '../models/User.js';
 import { sendError } from '../utils/responseHandler.js';
 
 export const validateRegistration = [
-  body('firstName')
+  body('username')
     .trim()
     .isLength({ min: 2, max: 30 })
-    .withMessage('First name must be between 2 and 30 characters')
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage('First name can only contain letters and spaces'),
+    .withMessage('Username must be between 2 and 30 characters')
+    // .matches(/^[a-zA-Z\s]+$/)
+    .withMessage('Username can only contain letters and spaces'),
   
-  body('lastName')
-    .trim()
-    .isLength({ min: 2, max: 30 })
-    .withMessage('Last name must be between 2 and 30 characters')
-    .matches(/^[a-zA-Z\s]+$/)
-    .withMessage('Last name can only contain letters and spaces'),
+  // body('lastName')
+  //   .trim()
+  //   .isLength({ min: 2, max: 30 })
+  //   .withMessage('Last name must be between 2 and 30 characters')
+  //   .matches(/^[a-zA-Z\s]+$/)
+  //   .withMessage('Last name can only contain letters and spaces'),
   
   body('email')
     .trim()
@@ -37,8 +37,8 @@ export const validateRegistration = [
     .withMessage('Password must contain at least one letter, one number, and one special character'),
 
   body('userType')
-    .isIn(['jobseeker', 'recruiter', 'admin'])
-    .withMessage('User type must be either jobseeker, recruiter, or admin')
+    .isIn(['Job Seeker', 'Recruiter', 'Entrepreneur'])
+    .withMessage('User type must be either Job Seeker, Recruiter, or Entrepreneur')
 ];
 
 export const validateLogin = [
