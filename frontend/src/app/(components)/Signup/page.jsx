@@ -16,6 +16,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword:"",
+    userType:""
   });
 
   // 2. Initialize state for validation/submission status
@@ -73,12 +74,13 @@ const Signup = () => {
       // Simulate an async submission (e.g., API call)
       setTimeout(() => {
         console.log('Form Submitted Successfully:', userData);
-        axios.post('http://localhost:5000/register',userData).then(
+        axios.post('http://localhost:5000/api/auth/register',userData).then(
             res => {alert(res.userData);setUserData({
                 username:'',
                 email:'',
                 password:'',
-                confirmpassword:''
+                confirmPassword:'',
+                userType:''
             })}
         )
         setSubmitMessage('Registration successful! You can now log in.');
@@ -134,6 +136,13 @@ const Signup = () => {
                     {errors.confirmPassword && 
                     <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>} 
                   </div>
+                    <select name="userType" value={userData.userType} onChange={changeHandler} className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('userType')} required`}>
+                      <option value="" disabled>Select User Type</option>
+                      <option value="Job Seeker">Job Seeker</option>
+                      <option value="Recruiter">Recruiter</option>
+                      <option value="Entrepreneur">Entrepreneur</option>
+                    </select>
+                    {errors.userType && <p className="mt-1 text-sm text-red-500">{errors.userType}</p>}
                   {/* Submit Button */} 
                     <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out disabled:opacity-50" disabled={isSubmitting} > {isSubmitting ? 'Registering...': 'Register'} </button> 
               </form> 
