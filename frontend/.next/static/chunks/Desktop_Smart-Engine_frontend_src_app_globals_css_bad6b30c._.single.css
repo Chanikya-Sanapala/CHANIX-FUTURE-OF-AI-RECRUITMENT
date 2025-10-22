@@ -1231,6 +1231,14 @@
     padding-inline: calc(var(--spacing) * 8);
   }
 
+  .px-9 {
+    padding-inline: calc(var(--spacing) * 9);
+  }
+
+  .px-10 {
+    padding-inline: calc(var(--spacing) * 10);
+  }
+
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
@@ -1417,6 +1425,10 @@
 
   .placeholder-gray-400::placeholder {
     color: var(--color-gray-400);
+  }
+
+  .placeholder-gray-700::placeholder {
+    color: var(--color-gray-700);
   }
 
   .opacity-0 {

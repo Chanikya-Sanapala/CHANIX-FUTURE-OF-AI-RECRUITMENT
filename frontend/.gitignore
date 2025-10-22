@@ -4,7 +4,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .env.local
-.next
 .env.development.local
 .env.test.local
 .env.production.local
