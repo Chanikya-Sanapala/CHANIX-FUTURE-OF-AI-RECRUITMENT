@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
+import { MdEmail, MdLock } from "react-icons/md";
 
 const Signup = () => {
 
@@ -56,6 +57,9 @@ const Signup = () => {
     
     if (userData.password !== userData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match.';
+    }
+    if(!userData.userType){
+      newErrors.userType = 'Please select a user type.';
     }
     
     return newErrors;
@@ -117,7 +121,7 @@ const Signup = () => {
                 <div>
                   <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
                   <input type="text" id="username" name="username" value={userData.username} onChange={changeHandler} placeholder="Your unique username" className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('username')}`} />
-                    {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username}</p>} </div>
+                    {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username}</p>} </div> 
                   {/* Email Field */} 
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
@@ -128,7 +132,8 @@ const Signup = () => {
                   {/* Password Field */} 
                   <div>
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label> 
-                    <input type="password" id="password" name="password" value={userData.password} onChange={changeHandler} placeholder="••••••••" className={`mt-1 block w-full text-gray-700 px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('password')}`}/> {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>} </div>
+                    <input type="password" id="password" name="password" value={userData.password} onChange={changeHandler} placeholder="••••••••" className={`mt-1 block w-full text-gray-700 px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('password')}`}/> {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
+                  </div>
                   {/* Confirm Password Field */} 
                   <div> 
                     <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label> 
@@ -136,11 +141,12 @@ const Signup = () => {
                     {errors.confirmPassword && 
                     <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>} 
                   </div>
-                    <select name="userType" value={userData.userType} onChange={changeHandler} className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('userType')} required`}>
+                    <select name="userType" value={userData.userType} onChange={changeHandler} className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('userType')}`}>
                       <option value="" disabled>Select User Type</option>
-                      <option value="Job Seeker">Job Seeker</option>
+                      <option value="Job Seeker" className="default">Job Seeker</option>
                       <option value="Recruiter">Recruiter</option>
                       <option value="Entrepreneur">Entrepreneur</option>
+                      {errors.userType && <p className="mt-1 text-sm text-red-500">{errors.userType}</p>}
                     </select>
                     {errors.userType && <p className="mt-1 text-sm text-red-500">{errors.userType}</p>}
                   {/* Submit Button */} 
