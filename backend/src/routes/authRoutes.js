@@ -13,6 +13,7 @@ import {
 } from '../middleware/validation.js';
 import { authenticateToken } from '../middleware/auth.js';
 import rateLimit from 'express-rate-limit';
+import { sendWelcomeEmail } from './mail/emailService.js';
 
 const router = express.Router();
 
@@ -32,7 +33,8 @@ router.post('/register',
   authLimiter,
   validateRegistration, 
   checkValidation, 
-  register
+  register,
+  sendWelcomeEmail
 );
 
 router.post('/login', 

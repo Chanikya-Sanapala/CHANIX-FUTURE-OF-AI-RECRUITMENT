@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { jwtConfig, jwtOptions } from '../config/jwt.js';
 import { sendSuccess, sendError } from '../utils/responseHandler.js';
+import { sendWelcomeEmail } from '../routes/mail/emailService.js';
 
 const generateToken = (userId) => {
   return jwt.sign(
@@ -23,6 +24,7 @@ export const register = async (req, res) => {
     });
     
     await user.save();
+    await sendWelcomeEmail(email, username);
     
     // Don't create profile during registration to avoid validation errors
     // Profile will be created when user first updates their profile
