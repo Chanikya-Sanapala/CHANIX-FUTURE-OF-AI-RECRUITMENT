@@ -14,7 +14,9 @@ import {
 import { authenticateToken } from '../middleware/auth.js';
 import rateLimit from 'express-rate-limit';
 import { sendWelcomeEmail } from './mail/emailService.js';
-
+import userSchema from '../models/User.js';
+// import { PasswordReset } from '../routes/passwordReset.js';
+import { resetPassword , changePassword} from '../controllers/resetPassword.js';
 const router = express.Router();
 
 const authLimiter = rateLimit({
@@ -43,6 +45,10 @@ router.post('/login',
   checkValidation, 
   login
 );
+
+router.post('/request-password-reset', resetPassword);
+router.post('/reset-password', changePassword);
+
 
 router.get('/profile', authenticateToken, getProfile);
 router.put('/profile', authenticateToken, updateProfile);

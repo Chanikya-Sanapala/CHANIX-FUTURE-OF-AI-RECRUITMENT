@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
+import TextField from "@mui/material/TextField";
 import { MdEmail, MdLock } from "react-icons/md";
 
 const Signup = () => {
@@ -107,7 +108,7 @@ const Signup = () => {
 
   return (
           <div className="flex justify-center items-center min-h-screen p-4">
-            <div className="w-full max-w-md bg-white p-8 rounded-xl bg-shadow shadow-2xl">
+            <div className="w-full max-w-md bg-white p-6 px-8 rounded-xl bg-shadow shadow-2xl">
               <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-6"><p className="text-blue-400">Create Account</p>
                 <div className="border border-green-700 mt-2 m-auto lg:w-70"></div>
               </h2>
@@ -116,31 +117,68 @@ const Signup = () => {
                 {submitMessage && (<div className="p-3 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
                   {submitMessage}
                   </div>)}
-              <form onSubmit={submitHandler} className="space-y-4">
+              <form onSubmit={submitHandler} className="space-y-2">
                 {/* Username Field */}
                 <div>
-                  <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                  <input type="text" id="username" name="username" value={userData.username} onChange={changeHandler} placeholder="Your unique username" className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('username')}`} />
-                    {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username}</p>} </div> 
+                  <TextField  
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Username"
+                    name="username"
+                    autoComplete="username"
+                    autoFocus
+                    value={userData.username} 
+                    onChange={changeHandler}
+                    // className={`${getErrorClass('username')}`}
+                  />
+                </div> 
                   {/* Email Field */} 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
-                    <input type="email" id="email" name="email" value={userData.email} onChange={changeHandler} placeholder="you@example.com" className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('email')}`} /> 
-                    {errors.email && 
-                    <p className="mt-1 text-sm text-red-500">{errors.email}</p>} 
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                      value={userData.email} 
+                      onChange={changeHandler}
+                    />
                   </div>
                   {/* Password Field */} 
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label> 
-                    <input type="password" id="password" name="password" value={userData.password} onChange={changeHandler} placeholder="••••••••" className={`mt-1 block w-full text-gray-700 px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('password')}`}/> {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="password"
+                      label="Password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      value={userData.password}
+                      onChange={changeHandler}
+                    />
                   </div>
                   {/* Confirm Password Field */} 
                   <div> 
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label> 
-                    <input type="password" id="confirmPassword" name="confirmPassword" value={userData.confirmPassword} onChange={changeHandler} placeholder="••••••••" className={`mt-1 block w-full text-gray-700 px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('confirmPassword')}`} /> 
-                    {errors.confirmPassword && 
-                    <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>} 
-                  </div>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="confirmPassword"
+                      label="Confirm Password"
+                      name="confirmPassword"
+                      autoComplete="current-password"
+                      type="password"
+                      value={userData.confirmPassword}
+                      onChange={changeHandler}
+                    />
+                    </div>
                     <select name="userType" value={userData.userType} onChange={changeHandler} className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('userType')}`}>
                       <option value="" disabled>Select User Type</option>
                       <option value="Job Seeker" className="default">Job Seeker</option>
