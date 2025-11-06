@@ -39,8 +39,6 @@ export const register = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        // lastName: user.lastName,
-        // fullName: user.fullName,
         email: user.email,
         userType: user.userType,
         isActive: user.isActive,
