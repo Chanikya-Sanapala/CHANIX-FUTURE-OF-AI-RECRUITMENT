@@ -15,7 +15,7 @@ const generateToken = (userId) => {
 export const register = async (req, res) => {
   try {
     const { username, email, password, userType } = req.body;
-    
+
     const user = new User({
       username,
       email,
@@ -185,4 +185,81 @@ export const logout = async (req, res) => {
     console.error('Logout error:', error);
     sendError(res, 'Logout failed', null, 500);
   }
+};
+
+
+
+
+// changePassword
+export const changePassword = async (req, res) => {
+  try {
+    const { userId, newPassword } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return sendError(res, 'User not found', null, 404);
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    sendSuccess(res, 'Password changed successfully');
+  } catch (error) {
+    console.error('Change password error:', error);
+    sendError(res, 'Failed to change password', null, 500);
+  }
+};
+export const resetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findByEmail(email);
+    if (!user) {
+      return sendError(res, 'If that email address is in our database, we will send you an email to reset your password.', null, 200);
+    }
+    // Here you would generate a password reset token and send it via email
+    // For simplicity, we are skipping that part
+    sendSuccess(res, 'If that email address is in our database, we will send you an email to reset your password.');
+  } catch (error) {
+    console.error('Reset password error:', error);
+    sendError(res, 'Failed to initiate password reset', null, 500);
+  }
+};
+
+// export const updatePassword = async (req, res) => {
+//   try {
+//     const { userId, token, password } = req.body;
+//     // Here you would verify the token
+//     // For simplicity, we are skipping that part
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return sendError(res, 'User not found', null, 404);
+//     }
+//     user.password = password;
+//     await user.save();
+//     sendSuccess(res, 'Password updated successfully');
+//   } catch (error) {
+//     console.error('Update password error:', error);
+//     sendError(res, 'Failed to update password', null, 500);
+//   }
+// };
+
+
+// router.get('/check-email', 
+  export const checkEmail = async (req, res) => {
+    try {
+        const { email } = req.query;
+        console.log("Received email:", email);
+
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        const user = await User.findOne({ email: email.toLowerCase() });
+        console.log("User found:", user);
+
+        res.json({ exists: !!user });
+    } catch (err) {
+        console.error("Error in /check-email:", err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
 };

@@ -128,6 +128,7 @@ function LoginForm() {
         password: ""
     });
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [showPassword, setShowPassword] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const changeHandler = (e)=>{
         setUserData({
@@ -144,6 +145,7 @@ function LoginForm() {
             password: userData.password
         }).then((response)=>{
             console.log("Login successful:", response.data);
+            // router.push("/Dashboard");
             setUserData({
                 email: '',
                 password: ''
@@ -153,6 +155,43 @@ function LoginForm() {
         });
     // router.push('/Dashboard');
     };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        // Any side effects or data fetching can go here
+        setLoading(false);
+    }, []);
+    if (loading) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen bg-gray-50 flex items-center justify-center",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "text-center",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
+                        lineNumber: 49,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-4 text-gray-600",
+                        children: "Loading Login..."
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
+                        lineNumber: 50,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
+                lineNumber: 48,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
+            lineNumber: 47,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "login-card",
         children: [
@@ -161,7 +200,7 @@ function LoginForm() {
                 children: "AI job portal"
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                lineNumber: 40,
+                lineNumber: 59,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -175,7 +214,7 @@ function LoginForm() {
                                 className: "icon email-icon"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                lineNumber: 45,
+                                lineNumber: 64,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -188,13 +227,13 @@ function LoginForm() {
                                 className: `mt-1 block w-full px-10 py-2 border rounded-md shadow-sm placeholder-gray-700 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out`
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                lineNumber: 46,
+                                lineNumber: 65,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                        lineNumber: 44,
+                        lineNumber: 63,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -206,7 +245,7 @@ function LoginForm() {
                                         className: "icon password-icon"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                        lineNumber: 51,
+                                        lineNumber: 70,
                                         columnNumber: 11
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -219,13 +258,13 @@ function LoginForm() {
                                         className: `mt-1 block w-full text-gray-700 px-9 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out`
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                        lineNumber: 52,
+                                        lineNumber: 71,
                                         columnNumber: 11
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                lineNumber: 50,
+                                lineNumber: 69,
                                 columnNumber: 9
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -235,24 +274,24 @@ function LoginForm() {
                                     className: "eye-icon"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                    lineNumber: 58,
+                                    lineNumber: 77,
                                     columnNumber: 27
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaEye"], {
                                     className: "eye-icon"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                    lineNumber: 58,
+                                    lineNumber: 77,
                                     columnNumber: 65
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                                lineNumber: 54,
+                                lineNumber: 73,
                                 columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                        lineNumber: 49,
+                        lineNumber: 68,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -263,12 +302,12 @@ function LoginForm() {
                             children: "Forgot password?"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                            lineNumber: 63,
+                            lineNumber: 82,
                             columnNumber: 9
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                        lineNumber: 62,
+                        lineNumber: 81,
                         columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -276,13 +315,13 @@ function LoginForm() {
                         children: "Login"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                        lineNumber: 67,
+                        lineNumber: 86,
                         columnNumber: 7
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                lineNumber: 42,
+                lineNumber: 61,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -295,19 +334,19 @@ function LoginForm() {
                         children: "Sign up"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                        lineNumber: 70,
+                        lineNumber: 89,
                         columnNumber: 32
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-                lineNumber: 69,
+                lineNumber: 88,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Login/page.jsx",
-        lineNumber: 38,
+        lineNumber: 57,
         columnNumber: 5
     }, this);
 }

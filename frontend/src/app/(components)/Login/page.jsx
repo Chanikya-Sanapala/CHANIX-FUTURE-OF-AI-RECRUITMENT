@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md"; 
 import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 import { useRouter } from "next/navigation";
@@ -13,6 +13,7 @@ const router = useRouter()
     password: "" 
   });
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const changeHandler = (e) => {
@@ -28,13 +29,31 @@ const router = useRouter()
       password: userData.password
     }).then(response => {
       console.log("Login successful:", response.data);
+          // router.push("/Dashboard");
       setUserData({ email: '', password: '' });
     }).catch(error => {
       console.error("Login failed:", error);
     });
     // router.push('/Dashboard');
   }
-  return (
+
+  useEffect(() => {
+      // Any side effects or data fetching can go here
+      setLoading(false);
+    }, []);
+
+    if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading Login...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return(
     <div className="login-card">
       {/* Title */}
       <h1 className="title">AI job portal</h1>

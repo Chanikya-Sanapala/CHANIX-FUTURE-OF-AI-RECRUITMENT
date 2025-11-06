@@ -2,7 +2,83 @@
 "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx [app-client] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-// app/dashboard/page.js
+// // app/dashboard/page.js
+// "use client";
+// import { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
+// import Header from "../../components/Header";
+// import Sidebar from "../../components/Sidebar";
+// import JobSeekerDashboard from "../../components/JobSeekerDashboard";
+// import CompanyDashboard from "../../components/CompanyDashboard";
+// import AdminDashboard from "../../components/AdminDashboard";
+// export default function Dashboard() {
+//   const [activeUser, setActiveUser] = useState("jobseeker");
+//   const [sidebarOpen, setSidebarOpen] = useState(true);
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const router = useRouter();
+//   useEffect(() => {
+//     // Check if user is logged in
+//     const userData = localStorage.getItem("user");
+//     const token = localStorage.getItem("token");
+//     if (!userData || !token) {
+//       router.push("/");
+//       return;
+//     }
+//     setUser(JSON.parse(userData));
+//     setLoading(false);
+//   }, [router]);
+//   const renderDashboard = () => {
+//     switch (activeUser) {
+//       case "jobseeker":
+//         return <JobSeekerDashboard user={user} />;
+//       case "company":
+//         return <CompanyDashboard user={user} />;
+//       case "admin":
+//         return <AdminDashboard user={user} />;
+//       default:
+//         return <JobSeekerDashboard user={user} />;
+//     }
+//   };
+//   const handleLogout = () => {
+//     localStorage.removeItem("user");
+//     localStorage.removeItem("token");
+//     router.push("/");
+//   };
+//   if (loading) {
+//     return (
+//       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+//         <div className="text-center">
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+//           <p className="mt-4 text-gray-600">Loading dashboard...</p>
+//         </div>
+//       </div>
+//     );
+//   }
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <Header 
+//         activeUser={activeUser} 
+//         setActiveUser={setActiveUser}
+//         sidebarOpen={sidebarOpen}
+//         setSidebarOpen={setSidebarOpen}
+//         user={user}
+//         onLogout={handleLogout}
+//       />
+//       <div className="flex">
+//         <Sidebar 
+//           activeUser={activeUser} 
+//           sidebarOpen={sidebarOpen}
+//         />
+//         <main className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-0'}`}>
+//           <div className="p-6">
+//             {renderDashboard()}
+//           </div>
+//         </main>
+//       </div>
+//     </div>
+//   );
+// }
 __turbopack_context__.s([
     "default",
     ()=>Dashboard
@@ -10,45 +86,13 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Smart-Engine/frontend/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Smart-Engine/frontend/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Smart-Engine/frontend/node_modules/next/navigation.js [app-client] (ecmascript)");
-(()=>{
-    const e = new Error("Cannot find module '../../components/Header'");
-    e.code = 'MODULE_NOT_FOUND';
-    throw e;
-})();
-(()=>{
-    const e = new Error("Cannot find module '../../components/Sidebar'");
-    e.code = 'MODULE_NOT_FOUND';
-    throw e;
-})();
-(()=>{
-    const e = new Error("Cannot find module '../../components/JobSeekerDashboard'");
-    e.code = 'MODULE_NOT_FOUND';
-    throw e;
-})();
-(()=>{
-    const e = new Error("Cannot find module '../../components/CompanyDashboard'");
-    e.code = 'MODULE_NOT_FOUND';
-    throw e;
-})();
-(()=>{
-    const e = new Error("Cannot find module '../../components/AdminDashboard'");
-    e.code = 'MODULE_NOT_FOUND';
-    throw e;
-})();
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
 ;
 ;
-;
-;
-;
-;
-;
 function Dashboard() {
     _s();
-    const [activeUser, setActiveUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("jobseeker");
-    const [sidebarOpen, setSidebarOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -58,7 +102,7 @@ function Dashboard() {
             const userData = localStorage.getItem("user");
             const token = localStorage.getItem("token");
             if (!userData || !token) {
-                router.push("/");
+                router.push("/Dashboard");
                 return;
             }
             setUser(JSON.parse(userData));
@@ -67,47 +111,6 @@ function Dashboard() {
     }["Dashboard.useEffect"], [
         router
     ]);
-    const renderDashboard = ()=>{
-        switch(activeUser){
-            case "jobseeker":
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(JobSeekerDashboard, {
-                    user: user
-                }, void 0, false, {
-                    fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                    lineNumber: 34,
-                    columnNumber: 16
-                }, this);
-            case "company":
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CompanyDashboard, {
-                    user: user
-                }, void 0, false, {
-                    fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                    lineNumber: 36,
-                    columnNumber: 16
-                }, this);
-            case "admin":
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AdminDashboard, {
-                    user: user
-                }, void 0, false, {
-                    fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                    lineNumber: 38,
-                    columnNumber: 16
-                }, this);
-            default:
-                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(JobSeekerDashboard, {
-                    user: user
-                }, void 0, false, {
-                    fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                    lineNumber: 40,
-                    columnNumber: 16
-                }, this);
-        }
-    };
-    const handleLogout = ()=>{
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.push("/");
-    };
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "min-h-screen bg-gray-50 flex items-center justify-center",
@@ -118,7 +121,7 @@ function Dashboard() {
                         className: "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                        lineNumber: 54,
+                        lineNumber: 113,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -126,18 +129,18 @@ function Dashboard() {
                         children: "Loading dashboard..."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                        lineNumber: 55,
+                        lineNumber: 114,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                lineNumber: 53,
+                lineNumber: 112,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-            lineNumber: 52,
+            lineNumber: 111,
             columnNumber: 7
         }, this);
     }
@@ -145,57 +148,35 @@ function Dashboard() {
         className: "min-h-screen bg-gray-50",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Header, {
-                activeUser: activeUser,
-                setActiveUser: setActiveUser,
-                sidebarOpen: sidebarOpen,
-                setSidebarOpen: setSidebarOpen,
-                user: user,
-                onLogout: handleLogout
+                user: user
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                lineNumber: 63,
+                lineNumber: 122,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Sidebar, {
-                        activeUser: activeUser,
-                        sidebarOpen: sidebarOpen
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                        lineNumber: 73,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
-                        className: "flex-1 transition-all duration-300 ".concat(sidebarOpen ? 'ml-64' : 'ml-0'),
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "p-6",
-                            children: renderDashboard()
-                        }, void 0, false, {
-                            fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                            lineNumber: 79,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                        lineNumber: 78,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+                className: "p-6",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                    className: "text-2xl font-bold",
+                    children: "Welcome to your dashboard"
+                }, void 0, false, {
+                    fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
+                    lineNumber: 124,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-                lineNumber: 72,
+                lineNumber: 123,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Dashboard/page.jsx",
-        lineNumber: 62,
+        lineNumber: 121,
         columnNumber: 5
     }, this);
 }
-_s(Dashboard, "k9RmARtR/+W4WgXKvo9kU5z88tw=", false, function() {
+_s(Dashboard, "J17Kp8z+0ojgAqGoY5o3BCjwWms=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
