@@ -1,6 +1,6 @@
 {
   "pages": {
-    "/(components)/Dashboard/page": [
+    "/(components)/Dashboard/(components)/JobSeeker/page": [
       "static/chunks/7d81f_next_dist_23f471a0._.js",
       "static/chunks/Desktop_Smart-Engine_frontend_src_app_favicon_ico_mjs_1093acf1._.js",
       "static/chunks/[root-of-the-server]__4d173a86._.css",

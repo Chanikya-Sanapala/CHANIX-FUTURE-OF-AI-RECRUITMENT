@@ -17,6 +17,7 @@ var _s = __turbopack_context__.k.signature();
 function LandingPage() {
     _s();
     const [isScrolled, setIsScrolled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [mobileMenuOpen, setMobileMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "LandingPage.useEffect": ()=>{
@@ -78,6 +79,45 @@ function LandingPage() {
             answer: 'We provide comprehensive support through multiple channels including email, live chat, and detailed help documentation. Our support team is available to assist you with any questions or concerns.'
         }
     ];
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "LandingPage.useEffect": ()=>{
+            // Any side effects or data fetching can go here
+            setLoading(false);
+        }
+    }["LandingPage.useEffect"], []);
+    if (loading) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen bg-gray-50 flex items-center justify-center",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "text-center",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
+                        lineNumber: 78,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "mt-4 text-gray-600",
+                        children: "Loading Landing Page..."
+                    }, void 0, false, {
+                        fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
+                        lineNumber: 79,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
+                lineNumber: 77,
+                columnNumber: 15
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
+            lineNumber: 76,
+            columnNumber: 13
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen bg-white text-gray-900 antialiased",
         children: [
@@ -102,12 +142,12 @@ function LandingPage() {
                                                 children: "AI"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 86,
+                                                lineNumber: 104,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 85,
+                                            lineNumber: 103,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -115,13 +155,13 @@ function LandingPage() {
                                             children: "JobPortal"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 88,
+                                            lineNumber: 106,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 80,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -134,7 +174,7 @@ function LandingPage() {
                                             children: "Features"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 95,
+                                            lineNumber: 113,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -144,13 +184,13 @@ function LandingPage() {
                                             children: "FAQ"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 102,
+                                            lineNumber: 120,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 94,
+                                    lineNumber: 112,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -162,7 +202,7 @@ function LandingPage() {
                                             children: "Login In"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 113,
+                                            lineNumber: 131,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -171,13 +211,13 @@ function LandingPage() {
                                             children: "Get Started Free"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 119,
+                                            lineNumber: 137,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 112,
+                                    lineNumber: 130,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -192,38 +232,38 @@ function LandingPage() {
                                                 className: "block h-0.5 w-6 bg-gray-700 transition-transform ".concat(mobileMenuOpen ? 'rotate-45 translate-y-1.5' : '')
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 135,
+                                                lineNumber: 153,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 className: "block h-0.5 w-6 bg-gray-700 transition-opacity ".concat(mobileMenuOpen ? 'opacity-0' : 'opacity-100')
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 136,
+                                                lineNumber: 154,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 className: "block h-0.5 w-6 bg-gray-700 transition-transform ".concat(mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : '')
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 137,
+                                                lineNumber: 155,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 134,
+                                        lineNumber: 152,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 128,
+                                    lineNumber: 146,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 78,
+                            lineNumber: 96,
                             columnNumber: 11
                         }, this),
                         mobileMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -238,7 +278,7 @@ function LandingPage() {
                                         children: "Features"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 146,
+                                        lineNumber: 164,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -248,7 +288,7 @@ function LandingPage() {
                                         children: "FAQ"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 153,
+                                        lineNumber: 171,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -260,7 +300,7 @@ function LandingPage() {
                                                 children: "Sign In"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 161,
+                                                lineNumber: 179,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -269,35 +309,35 @@ function LandingPage() {
                                                 children: "Get Started Free"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 167,
+                                                lineNumber: 185,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 160,
+                                        lineNumber: 178,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                lineNumber: 145,
+                                lineNumber: 163,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 144,
+                            lineNumber: 162,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                    lineNumber: 77,
+                    lineNumber: 95,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                lineNumber: 70,
+                lineNumber: 88,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -312,7 +352,7 @@ function LandingPage() {
                                     className: "w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 184,
+                                    lineNumber: 202,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -320,13 +360,13 @@ function LandingPage() {
                                     children: "AI-Powered Job Matching"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 185,
+                                    lineNumber: 203,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 183,
+                            lineNumber: 201,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -339,13 +379,13 @@ function LandingPage() {
                                     children: "AI Precision"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 190,
+                                    lineNumber: 208,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 188,
+                            lineNumber: 206,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -353,7 +393,7 @@ function LandingPage() {
                             children: "Advanced AI algorithms match your unique skills and aspirations with top companies. Apply smarter, interview confidently, and launch your dream career."
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 195,
+                            lineNumber: 213,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -376,18 +416,18 @@ function LandingPage() {
                                                 d: "M13 7l5 5m0 0l-5 5m5-5H6"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 207,
+                                                lineNumber: 225,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 206,
+                                            lineNumber: 224,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 201,
+                                    lineNumber: 219,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -408,24 +448,24 @@ function LandingPage() {
                                                 d: "M19 14l-7 7m0 0l-7-7m7 7V3"
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 217,
+                                                lineNumber: 235,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 216,
+                                            lineNumber: 234,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 210,
+                                    lineNumber: 228,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 200,
+                            lineNumber: 218,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -436,7 +476,7 @@ function LandingPage() {
                                     children: "Trusted by job seekers worldwide"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 224,
+                                    lineNumber: 242,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -454,7 +494,7 @@ function LandingPage() {
                                                     children: stat
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 228,
+                                                    lineNumber: 246,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -467,35 +507,35 @@ function LandingPage() {
                                                     ][index]
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 229,
+                                                    lineNumber: 247,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, index, true, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 227,
+                                            lineNumber: 245,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 225,
+                                    lineNumber: 243,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 223,
+                            lineNumber: 241,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                    lineNumber: 182,
+                    lineNumber: 200,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                lineNumber: 181,
+                lineNumber: 199,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -512,7 +552,7 @@ function LandingPage() {
                                     children: "Revolutionize Your Job Search"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 243,
+                                    lineNumber: 261,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -520,13 +560,13 @@ function LandingPage() {
                                     children: "Powered by cutting-edge artificial intelligence to deliver unmatched results in your career journey"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 246,
+                                    lineNumber: 264,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 242,
+                            lineNumber: 260,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -541,12 +581,12 @@ function LandingPage() {
                                                 children: feature.icon
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 258,
+                                                lineNumber: 276,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 257,
+                                            lineNumber: 275,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -554,7 +594,7 @@ function LandingPage() {
                                             children: feature.title
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 260,
+                                            lineNumber: 278,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -562,29 +602,29 @@ function LandingPage() {
                                             children: feature.description
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 263,
+                                            lineNumber: 281,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, index, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 253,
+                                    lineNumber: 271,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 251,
+                            lineNumber: 269,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                    lineNumber: 241,
+                    lineNumber: 259,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                lineNumber: 240,
+                lineNumber: 258,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -601,7 +641,7 @@ function LandingPage() {
                                     children: "Frequently Asked Questions"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 276,
+                                    lineNumber: 294,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -609,13 +649,13 @@ function LandingPage() {
                                     children: "Everything you need to know about our AI-powered job portal"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 279,
+                                    lineNumber: 297,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 275,
+                            lineNumber: 293,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -633,7 +673,7 @@ function LandingPage() {
                                                         children: faq.question
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                        lineNumber: 292,
+                                                        lineNumber: 310,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -648,23 +688,23 @@ function LandingPage() {
                                                             d: "M19 9l-7 7-7-7"
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 301,
+                                                            lineNumber: 319,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                        lineNumber: 295,
+                                                        lineNumber: 313,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 291,
+                                                lineNumber: 309,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 290,
+                                            lineNumber: 308,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -674,23 +714,23 @@ function LandingPage() {
                                                 children: faq.answer
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 306,
+                                                lineNumber: 324,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 305,
+                                            lineNumber: 323,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, index, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 286,
+                                    lineNumber: 304,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 284,
+                            lineNumber: 302,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -703,7 +743,7 @@ function LandingPage() {
                                         children: "Ready to Transform Your Career?"
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 317,
+                                        lineNumber: 335,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -711,7 +751,7 @@ function LandingPage() {
                                         children: "Join thousands of successful professionals who found their dream jobs through our platform."
                                     }, void 0, false, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 320,
+                                        lineNumber: 338,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -731,40 +771,40 @@ function LandingPage() {
                                                     d: "M13 7l5 5m0 0l-5 5m5-5H6"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 329,
+                                                    lineNumber: 347,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                lineNumber: 328,
+                                                lineNumber: 346,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                        lineNumber: 323,
+                                        lineNumber: 341,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                lineNumber: 316,
+                                lineNumber: 334,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 315,
+                            lineNumber: 333,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                    lineNumber: 274,
+                    lineNumber: 292,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                lineNumber: 273,
+                lineNumber: 291,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
@@ -789,12 +829,12 @@ function LandingPage() {
                                                         children: "AI"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                        lineNumber: 344,
+                                                        lineNumber: 362,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 343,
+                                                    lineNumber: 361,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -802,13 +842,13 @@ function LandingPage() {
                                                     children: "JobPortal"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 346,
+                                                    lineNumber: 364,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 342,
+                                            lineNumber: 360,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -816,13 +856,13 @@ function LandingPage() {
                                             children: "Empowering careers through intelligent AI matching and seamless job search experiences."
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 348,
+                                            lineNumber: 366,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 341,
+                                    lineNumber: 359,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -835,7 +875,7 @@ function LandingPage() {
                                                     children: "Product"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 355,
+                                                    lineNumber: 373,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -848,12 +888,12 @@ function LandingPage() {
                                                                 children: "Features"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                                lineNumber: 357,
+                                                                lineNumber: 375,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 357,
+                                                            lineNumber: 375,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -863,12 +903,12 @@ function LandingPage() {
                                                                 children: "FAQ"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                                lineNumber: 358,
+                                                                lineNumber: 376,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 358,
+                                                            lineNumber: 376,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -878,24 +918,24 @@ function LandingPage() {
                                                                 children: "Pricing"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                                lineNumber: 359,
+                                                                lineNumber: 377,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 359,
+                                                            lineNumber: 377,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 356,
+                                                    lineNumber: 374,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 354,
+                                            lineNumber: 372,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -905,7 +945,7 @@ function LandingPage() {
                                                     children: "Company"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 363,
+                                                    lineNumber: 381,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -918,12 +958,12 @@ function LandingPage() {
                                                                 children: "About"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                                lineNumber: 365,
+                                                                lineNumber: 383,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 365,
+                                                            lineNumber: 383,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -933,12 +973,12 @@ function LandingPage() {
                                                                 children: "Contact"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                                lineNumber: 366,
+                                                                lineNumber: 384,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 366,
+                                                            lineNumber: 384,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -948,36 +988,36 @@ function LandingPage() {
                                                                 children: "Privacy"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                                lineNumber: 367,
+                                                                lineNumber: 385,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                            lineNumber: 367,
+                                                            lineNumber: 385,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                                    lineNumber: 364,
+                                                    lineNumber: 382,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                            lineNumber: 362,
+                                            lineNumber: 380,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                    lineNumber: 353,
+                                    lineNumber: 371,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 340,
+                            lineNumber: 358,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Smart$2d$Engine$2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -987,33 +1027,33 @@ function LandingPage() {
                                 children: "© 2024 AI JobPortal. All rights reserved. Designed to help you launch your dream career."
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                                lineNumber: 374,
+                                lineNumber: 392,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                            lineNumber: 373,
+                            lineNumber: 391,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                    lineNumber: 339,
+                    lineNumber: 357,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-                lineNumber: 338,
+                lineNumber: 356,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/Smart-Engine/frontend/src/app/(components)/Landingpage/page.jsx",
-        lineNumber: 68,
+        lineNumber: 86,
         columnNumber: 5
     }, this);
 }
-_s(LandingPage, "Tz1YhpjmJIU2IHcimEech/T/LuY=");
+_s(LandingPage, "rvscW0G6bULLcMUBJ80RuUqehsg=");
 _c = LandingPage;
 var _c;
 __turbopack_context__.k.register(_c, "LandingPage");

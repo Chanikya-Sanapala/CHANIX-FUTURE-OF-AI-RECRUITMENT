@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [loading,setLoading] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -63,6 +64,23 @@ export default function LandingPage() {
       answer: 'We provide comprehensive support through multiple channels including email, live chat, and detailed help documentation. Our support team is available to assist you with any questions or concerns.'
     }
   ]
+
+
+  useEffect(() => {
+          // Any side effects or data fetching can go here
+          setLoading(false);
+        }, []);
+        
+        if (loading) {
+          return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="mt-4 text-gray-600">Loading Landing Page...</p>
+              </div>
+            </div>
+          );
+        }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 antialiased">
