@@ -231,3 +231,14 @@ export const deleteProfile = async (req, res) => {
     sendError(res, 'Failed to delete profile', null, 500);
   }
 };
+
+//users
+export const users = async (req, res) => {
+  try {
+    const users = await User.find();
+    sendSuccess(res, 'Users retrieved successfully', { users });
+  } catch (error) {
+    console.error('Get users error:', error);
+    sendError(res, 'Failed to retrieve users', null, 500);
+  }
+};
