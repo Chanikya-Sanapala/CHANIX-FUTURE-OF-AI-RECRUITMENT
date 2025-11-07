@@ -207,6 +207,7 @@ export const changePassword = async (req, res) => {
     sendError(res, 'Failed to change password', null, 500);
   }
 };
+
 export const resetPassword = async (req, res) => {
   try {
     const { email } = req.body;
