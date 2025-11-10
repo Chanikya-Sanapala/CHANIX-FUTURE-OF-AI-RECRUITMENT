@@ -1,8 +1,7 @@
 {
-  "/(components)/Dashboard/(components)/JobSeeker/page": "app/(components)/Dashboard/(components)/JobSeeker/page.js",
-  "/(components)/Dashboard/(components)/Recruiter/page": "app/(components)/Dashboard/(components)/Recruiter/page.js",
-  "/(components)/Dashboard/page": "app/(components)/Dashboard/page.js",
+  "/(components)/ForgotPassword/page": "app/(components)/ForgotPassword/page.js",
   "/(components)/Login/page": "app/(components)/Login/page.js",
+  "/(components)/ResetPassword/page": "app/(components)/ResetPassword/page.js",
   "/(components)/Signup/page": "app/(components)/Signup/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"

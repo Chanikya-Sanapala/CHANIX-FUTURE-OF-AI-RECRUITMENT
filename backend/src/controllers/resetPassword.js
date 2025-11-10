@@ -1,10 +1,13 @@
 import express from 'express';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import User from '../models/User.js';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+
+const router = express.Router()
 dotenv.config()
 
 const generateResetToken = (user) => {
@@ -77,22 +80,38 @@ const generateResetToken = (user) => {
 
 
     export const updatePassword = async (req, res) => {
-      try {
-        const { userId, currentPassword, newPassword } = req.body 
-      
-        // const { id } = req.params;
-    // console.log("Received ID:", id); // 👈 log it
-        const user = await User.findById(userId)
-        console.log("User found:", user); // 👈 log it
-        if (!user) return res.status(404).json({ message: 'User not found' })
-        const isMatch = await user.comparePassword(currentPassword)
-        if (!isMatch) return res.status(401).json({ message: 'Current password is incorrect' })
+  const { userId, token, password } = req.body;
 
-        user.password = newPassword
-        await user.save()
+  if (!userId || !token || !password) {
+    return res.status(400).json({ success: false, message: "All fields are required." });
+  }
 
-        res.status(200).json({ message: 'Password has been updated successfully' })
-      } catch (error) {
-        res.status(500).json({ message: error.message })
-      }
+  try {
+    // Find user by ID and token
+    const user = await User.findOne({
+      _id: userId,
+      // resetPasswordToken: token,
+      // resetPasswordExpires: { $gt: Date.now() }, // token is not expired
+    });
+    
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Invalid or expired token." });
     }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Update password and remove reset token
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+    console.log(user)
+    res.json({ success: true, message: "Password updated successfully!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+}

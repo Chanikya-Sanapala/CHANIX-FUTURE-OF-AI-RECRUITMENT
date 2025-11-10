@@ -4,6 +4,7 @@ import {
   login,
   getProfile,
   updateProfile,
+  checkEmail,
   logout
 } from '../controllers/authController.js';
 import {
@@ -15,7 +16,7 @@ import { authenticateToken } from '../middleware/auth.js';
 import rateLimit from 'express-rate-limit';
 import { sendWelcomeEmail } from './mail/emailService.js';
 import userSchema from '../models/User.js';
-import { checkEmail } from '../controllers/authController.js';
+import {  } from '../controllers/authController.js';
 // import { PasswordReset } from '../routes/passwordReset.js';
 import { resetPassword , changePassword, updatePassword} from '../controllers/resetPassword.js';
 const router = express.Router();
@@ -49,7 +50,7 @@ router.post('/login',
 
 router.post('/request-password-reset', resetPassword);
 router.post('/reset-password', changePassword);
-router.post('/update-password/:token', updatePassword);
+router.post('/update-password', updatePassword);
 router.get('/check-email', checkEmail);
 
 
