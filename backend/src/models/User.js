@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema({
   loginAttempts: {
     type: Number,
     default: 0,
-    max: 5
+    // max: 5
   },
   lockUntil: {
     type: Date,
