@@ -37,8 +37,8 @@ export const validateRegistration = [
     .withMessage('Password must contain at least one letter, one number, and one special character'),
 
   body('userType')
-    .isIn(['Job Seeker', 'Recruiter', 'Entrepreneur'])
-    .withMessage('User type must be either Job Seeker, Recruiter, or Entrepreneur')
+    .isIn(['Job Seeker', 'Recruiter'])
+    .withMessage('User type must be either Job Seeker or Recruiter')
 ];
 
 export const validateLogin = [

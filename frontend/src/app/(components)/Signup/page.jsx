@@ -1,289 +1,613 @@
-"use client"
+
+"use client";
+
+// import Link from "next/link";
+// import axios from "axios";
+// import React, { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
+// import { TextField, IconButton, InputAdornment } from "@mui/material";
+// import { Visibility, VisibilityOff } from "@mui/icons-material";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// const Signup = () => {
+//   const router = useRouter();
+
+//   const [userData, setUserData] = useState({
+//     username: "",
+//     email: "",
+//     password: "",
+//     confirmPassword: "",
+//     userType: "",
+//   });
+
+//   const [errors, setErrors] = useState({});
+//   const [loading, setLoading] = useState(true);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+
+//   const changeHandler = (e) => {
+//     const { name, value } = e.target;
+//     setUserData((prev) => ({
+//       ...prev,
+//       [name]: value,
+//     }));
+
+//     if (errors[name]) {
+//       setErrors((prev) => ({ ...prev, [name]: null }));
+//     }
+//   };
+
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+//   const handleClickShowPassword = () => setShowPassword(!showPassword);
+//   const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+
+//   const submitHandler = async (e) => {
+//     e.preventDefault();
+
+//     const password = userData.password;
+//     const confirmPassword = userData.confirmPassword;
+
+//     if (password !== confirmPassword) {
+//       toast.error("Password and Confirm Password do not match", {
+//         position: "top-right",
+//         autoClose: 5000,
+//       });
+//       return;
+//     }
+
+//     const url = "http://localhost:5000/api/auth/register";
+
+//     try {
+//       const res = await axios.post(url, {
+//         username: userData.username,
+//         email: userData.email,
+//         password: userData.password,
+//         confirmPassword: userData.confirmPassword,
+//         userType: userData.userType,
+//       });
+
+//       if (!res.data.error) {
+//         toast.success(res.data.message || "Registration successful!", {
+//           position: "top-right",
+//           autoClose: 3000,
+//           onClose: () => router.push("/Login"),
+//         });
+//       } else {
+//         toast.error(res.data.message || "Registration failed", {
+//           position: "top-right",
+//           autoClose: 5000,
+//         });
+//       }
+//     } catch (error) {
+//       if (error.response) {
+//         toast.error(error.response.data.error?.[0]?.message || "Error occurred", {
+//           position: "top-right",
+//           autoClose: 5000,
+//         });
+//       } else if (error.request) {
+//         toast.error("Network error: Server did not respond");
+//       } else {
+//         toast.error(`Error: ${error.message}`);
+//       }
+//     }
+//   };
+
+//   useEffect(() => {
+//     setLoading(false);
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center bg-gray-50">
+//         <div className="text-center">
+//           <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 rounded-full mx-auto"></div>
+//           <p className="mt-4 text-gray-600">Loading Registration...</p>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div>
+//       <div className="min-h-screen flex flex-col lg:flex-row bg-white">
+
+//         {/* LEFT PANEL - visible on all screens */}
+//         <div
+//           className="flex flex-col justify-center w-full lg:w-1/2 p-8 sm:p-10 text-white relative overflow-hidden"
+//           style={{ background: "linear-gradient(135deg, #E91E63 0%, #FF6B9D 100%)" }}
+//         >
+//           <div className="space-y-6">
+
+//             <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 sm:p-8 mb-6">
+//               <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+//                 Powerful,{" "}
+//                 <span className="bg-white text-pink-600 px-3 py-1 rounded-lg">FREE</span> recruiting tools
+//               </h1>
+//               <p className="text-lg sm:text-xl mb-4">to find your perfect match!</p>
+//             </div>
+
+//             {/* FEATURES */}
+//             <div className="space-y-4">
+//               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 sm:p-6 hover:shadow-lg transition transform hover:-translate-y-1">
+//                   <h2 className="text-lg sm:text-2xl font-bold text-white mb-2">Recruiter</h2>
+//                   <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+//                     Stop wasting time on resumes. With{" "}
+//                     <span className="font-semibold bg-white text-pink-600 px-2 rounded">Hyrinpro</span>, recruiters get{" "}
+//                     <span className="font-semibold">AI driven voice interviews</span> and{" "}
+//                     <span className="font-semibold">skill insights</span> that cut screening time by{" "}
+//                     <span className="font-semibold">60%</span>. Build diverse, high‑performing teams with confidence.
+//                   </p>
+//                 </div>
+
+//                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 sm:p-6 hover:shadow-lg transition transform hover:-translate-y-1">
+//                   <h2 className="text-lg sm:text-2xl font-bold text-white mb-2">Job Seeker</h2>
+//                   <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+//                     Showcase your talent through <span className="font-semibold">voice interviews</span> and{" "}
+//                     <span className="font-semibold">skill challenges</span>. No more being overlooked because of where you studied or your resume format — with{" "}
+//                     <span className="font-semibold bg-white text-pink-600 px-2 rounded">Hyrinpro</span>, your skills speak louder.
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* COMPANIES */}
+//             <div className="mt-10">
+//               <p className="text-center text-pink-200 font-semibold mb-4">Powering recruiters at:</p>
+
+//               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 opacity-90">
+//                 {["PLAID", "ROBLOX", "OpenAI", "Airtable", "nerdwallet", "IFTTT"].map((name) => (
+//                   <div key={name} className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center">
+//                     <span className="text-sm font-semibold">{name}</span>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+
+//           </div>
+//         </div>
+
+//         {/* RIGHT SIDE - SIGNUP FORM */}
+//         <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 bg-white">
+//         <div className="w-full max-w-md">
+
+//           {/* Header */}
+//           <h2 className="text-3xl font-extrabold text-center mb-6">
+//             <p className="text-blue-400">Create Account</p>
+//             <div className="border border-green-700 mt-2 w- mx-auto"></div>
+//           </h2>
+
+//           {/* Form */}
+//           <form onSubmit={submitHandler} className="space-y-4">
+
+//             {/* User Type Buttons - stack on mobile */}
+//             <div className="flex flex-col sm:flex-row gap-3">
+//               {["Job Seeker", "Recruiter"].map((type) => (
+//                 <button
+//                   key={type}
+//                   type="button"
+//                   onClick={() => changeHandler({ target: { name: "userType", value: type } })}
+//                   className={`w-full px-4 py-2 rounded-md border transition
+//                     ${userData.userType === type
+//                       ? "bg-blue-600 text-white border-blue-600"
+//                       : "bg-gray-100 text-gray-700 border-gray-300"
+//                     }`}
+//                 >
+//                   {type}
+//                 </button>
+//               ))}
+//             </div>
+
+//             {/* Username */}
+//             <TextField fullWidth margin="normal" label="Username" name="username"
+//               value={userData.username} onChange={changeHandler} required />
+
+//             {/* Email */}
+//             <TextField fullWidth margin="normal" label="Email Address" name="email"
+//               value={userData.email} onChange={changeHandler} required />
+
+//             {/* Password */}
+//             <TextField fullWidth margin="normal" label="Password" type={showPassword ? "text" : "password"}
+//               name="password" value={userData.password} onChange={changeHandler}
+//               InputProps={{
+//                 endAdornment: (
+//                   <InputAdornment position="end">
+//                     <IconButton onClick={handleClickShowPassword}>
+//                       {showPassword ? <VisibilityOff /> : <Visibility />}
+//                     </IconButton>
+//                   </InputAdornment>
+//                 )
+//               }} required />
+
+//             {/* Confirm Password */}
+//             <TextField fullWidth margin="normal" label="Confirm Password"
+//               type={showConfirmPassword ? "text" : "password"} name="confirmPassword"
+//               value={userData.confirmPassword} onChange={changeHandler}
+//               InputProps={{
+//                 endAdornment: (
+//                   <InputAdornment position="end">
+//                     <IconButton onClick={handleClickShowConfirmPassword}>
+//                       {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+//                     </IconButton>
+//                   </InputAdornment>
+//                 )
+//               }} required />
+
+//             {/* Submit */}
+//             <button
+//               type="submit"
+//               className="w-full py-2 rounded-md shadow-sm text-sm font-medium text-white 
+//                 bg-blue-500 hover:bg-blue-600 transition disabled:opacity-50"
+//               disabled={isSubmitting}
+//             >
+//               {isSubmitting ? "Registering..." : "Register"}
+//             </button>
+//           </form>
+
+//           {/* Login Link */}
+//           <div className="mt-6 text-center pt-4">
+//             <p className="text-sm text-gray-600 mb-2">Already have an account?</p>
+
+//             <Link href="/Login"
+//               className="inline-block w-full py-2 bg-indigo-700 text-white rounded-md hover:bg-blue-500 transition">
+//               Go to Login
+//             </Link>
+//           </div>
+
+//         </div>
+//       </div>
+
+//       </div>
+
+//       <ToastContainer />
+//     </div>
+//   );
+// };
+
+// export default Signup;
+
+
+
+
+// changed signup pages
+
 
 import Link from "next/link";
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import TextField from "@mui/material/TextField";
-import { MdEmail, MdLock } from "react-icons/md";
-import { toast,ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import Users from "../../../../../backend/src/controllers/profileController.js";
+import { TextField, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+  const router = useRouter();
 
-  // initialize router
-  const router = useRouter()
-
-  // 1. Initialize sate for form data
   const [userData, setUserData] = useState({
     username: "",
     email: "",
     password: "",
-    confirmPassword:"",
-    userType:""
+    confirmPassword: "",
+    userType: "",
   });
 
-  // 2. Initialize state for validation/submission status
-    const [errors,setErrors] = useState({});
-    const [loading,setLoading] = useState(true);
-    const [emailExists,setEmailExists] = useState(false);
-    const [isSubmitting,setIsSubmitting] = useState(false);
-    const [submitMessage,setSubmitMessage] = useState('');
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // 3. Handle input changes
-    const changeHandler = (e) => {
-    const {name,value} = e.target;
-    setUserData(prevState => ({
-      ...prevState,[name]:value
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
     }));
-  
-  // Clear error for the field as the user types
-    if(errors[name]){
-      setErrors(prevState =>({
-        ...prevState,[name]:null
-      }))
-    }
-  }
 
-  // 4. Validation logic
-    const validate = (e) =>{
-      let newErrors = {};
-      const data = new FormData(e.currentTarget);
-      const email = data.get("email");
-      if(!userData.username) newErrors.username = 'Username is required';
-      if(!userData.email){
-        newErrors.email = 'Email is required';
-      }else if(!/\S+@\S+\.\S+/.test(userData.email)){
-        newErrors.email = 'Email address is invalid.';
-      }
-      if (!result.data.error) {
-            toast.success(res.data.message, { position: "top-right", autoClose: 5000,
-              onClose: () => {
-                  router.push('/Login');
-              }
-            });
-          } else {
-            toast.error(res.data.message, { position: "top-right", autoClose: 5000 });
-          }
-      // if(emailExists){
-      //   toast.error('Email already exists. Please use a different email.', { position: "top-right", autoClose: 5000 })
-      //   newErrors.email = 'Email already exists. Please use a different email.';
-      // }
-       if (!userData.password) {
-        newErrors.password = 'Password is required.';
-      } else if (userData.password.length < 6) {
-       toast.error('Password must be at least 6 characters', { position: "top-right", autoClose: 5000 }) 
-      newErrors.password = 'Password must be at least 6 characters.';
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: null }));
     }
-    
-    if (userData.password !== userData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match.';
-      toast.error('Passwords do not match', { position: "top-right", autoClose: 5000 })
-      console.log('Password and Confirm Password do not match');
-    }
-    if(!userData.userType){
-      newErrors.userType = 'Please select a user type.';
-    }
-    
-    return newErrors;
   };
 
-  // 5. Handle form submission
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
+
   const submitHandler = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Collect form values safely using FormData
-  const data = new FormData(e.currentTarget);
-  const username = data.get("username");
-  const email = data.get("email");
-  const password = data.get("password");
-  const confirmPassword = data.get("confirmPassword");
-  const userType = data.get("userType"); // e.g. "Recruiter" or "Candidate"
+    const password = userData.password;
+    const confirmPassword = userData.confirmPassword;
 
-  // Optional client-side validation before sending request
-  if (password !== confirmPassword) {
-    toast.error("Password and Confirm Password do not match", {
-      position: "top-right",
-      autoClose: 5000,
-    });
-    return; // stop if mismatch
-  }
-
-  const url = "http://localhost:5000/api/auth/register";
-
-  try {
-    const res = await axios.post(url, {
-      username,
-      email,
-      password,
-      confirmPassword,
-      userType,
-    });
-
-    // Success
-    if (!res.data.error) {
-      toast.success(res.data.message || "Registration successful!", {
-        position: "top-right",
-        autoClose: 5000,
-        onClose: () => {
-          router.push("/Login");
-        },
-      });
-    } else {
-      toast.error(res.data.message || "Registration failed", {
+    if (password !== confirmPassword) {
+      toast.error("Password and Confirm Password do not match", {
         position: "top-right",
         autoClose: 5000,
       });
+      return;
     }
-  } catch (error) {
-    // Axios error handling (just like your other handler)
-    if (error.response) {
-      console.log("Error response data:", error.response.data.error[0].message);
-      toast.error(
-        `${error.response.data.error[0].message}`,
-        {
+
+    const url = "http://localhost:5000/api/auth/register";
+
+    try {
+      const res = await axios.post(url, {
+        username: userData.username,
+        email: userData.email,
+        password: userData.password,
+        confirmPassword: userData.confirmPassword,
+        userType: userData.userType,
+      });
+
+      if (!res.data.error) {
+        toast.success(res.data.message || "Registration successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          onClose: () => router.push("/Login"),
+        });
+      } else {
+        toast.error(res.data.message || "Registration failed", {
           position: "top-right",
           autoClose: 5000,
-        }
-      );
-    } else if (error.request) {
-      toast.error("Network error: Server did not respond", {
-        position: "top-right",
-        autoClose: 5000,
-      });
-    } else {
-      toast.error(`Error: ${error.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-      });
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.error?.[0]?.message || "Error occurred", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+      } else if (error.request) {
+        toast.error("Network error: Server did not respond");
+      } else {
+        toast.error(`Error: ${error.message}`);
+      }
     }
-  }
-};
-
-  // Tailwind CSS classes for error styling (conditional class application)
-    const getErrorClass = (fieldName) => 
-      errors[fieldName] 
-        ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
-        : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500';
+  };
 
   useEffect(() => {
-    // Any side effects or data fetching can go here
     setLoading(false);
   }, []);
-  
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin h-12 w-12 border-b-2 border-blue-600 rounded-full mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading Registration...</p>
         </div>
       </div>
     );
   }
 
-
   return (
     <div>
-          <div className="flex justify-center items-center min-h-screen p-4">
-            <div className="w-full max-w-md bg-white p-6 px-8 rounded-xl bg-shadow shadow-2xl">
-              <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-6"><p className="text-blue-400">Create Account</p>
-                <div className="border border-green-700 mt-2 m-auto lg:w-70"></div>
-              </h2>
-                
-              {/* Submission Success/Error Message */}
-                {/* {submitMessage && (<div className="p-3 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
-                  {submitMessage}
-                  </div>)} */}
-              <form onSubmit={submitHandler} className="space-y-2">
-                {/* Username Field */}
-                <div>
-                  <TextField  
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="username"
-                    autoFocus
-                    value={userData.username} 
-                    onChange={changeHandler}
-                    // className={`${getErrorClass('username')}`}
-                  />
-                </div> 
-                  {/* Email Field */} 
-                  <div>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      autoComplete="email"
-                      autoFocus
-                      value={userData.email} 
-                      onChange={changeHandler}
-                    />
-                  </div>
-                  {/* Password Field */} 
-                  <div>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="password"
-                      label="Password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      value={userData.password}
-                      onChange={changeHandler}
-                    />
-                  </div>
-                  {/* Confirm Password Field */} 
-                  <div> 
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="confirmPassword"
-                      label="Confirm Password"
-                      name="confirmPassword"
-                      autoComplete="current-password"
-                      type="password"
-                      value={userData.confirmPassword}
-                      onChange={changeHandler}
-                    />
-                    </div>
-                    <select name="userType" value={userData.userType} onChange={changeHandler} className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition duration-150 ease-in-out ${getErrorClass('userType')}`} required>
-                      <option value="" disabled>Select User Type</option>
-                      <option value="Job Seeker" className="default">Job Seeker</option>
-                      <option value="Recruiter">Recruiter</option>
-                      <option value="Entrepreneur" disabled>Entreprise Coming Soon</option>
-                      {errors.userType && <p className="mt-1 text-sm text-red-500">{errors.userType}</p>}
-                    </select>
-                    {errors.userType && <p className="mt-1 text-sm text-red-500">{errors.userType}</p>}
-                  {/* Submit Button */} 
-                    <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out disabled:opacity-50" disabled={isSubmitting} > {isSubmitting ? 'Registering...': 'Register'} </button> 
-              </form> 
-              {/* Login Button/Link Section */}
-              <div className="mt-4 text-center border-t pt-4 border-gray-200">
-                  <p className="text-sm text-gray-600 mb-3">Already have an account?</p>
-                  <Link href="/Login" passHref className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm bg-indigo-700 font-medium text-gray-700 hover:bg-blue-400 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
-                      Go to Login
-                  </Link>
-                  {/* <button onClick={test}>test</button> */}
+      <div className="min-h-screen flex flex-col lg:flex-row bg-white">
+
+        {/* LEFT PANEL - visible on all screens */}
+        <div
+          className="flex flex-col justify-center w-full lg:w-1/2 p-8 sm:p-10 text-white relative overflow-hidden"
+          style={{ background: "linear-gradient(135deg, #0f172a 0%, #065f46 100%)" }}
+        >
+          {/* Decorative blurs */}
+          <div className="absolute -right-16 -top-20 w-72 h-72 rounded-full bg-white/5 blur-3xl transform rotate-12" />
+          <div className="absolute -left-24 bottom-8 w-56 h-56 rounded-full bg-white/3 blur-2xl" />
+
+          <div className="space-y-6 relative z-10">
+            <div className="bg-white/6 backdrop-blur-sm rounded-3xl p-6 sm:p-8 mb-6 border border-white/8">
+              <h1 className="text-3xl sm:text-4xl font-semibold mb-2 leading-tight">
+                {userData.userType === "Recruiter"
+                  ? "Hire smarter — faster"
+                  : userData.userType === "Job Seeker"
+                  ? "Let your skills speak"
+                  : "Intelligent recruiting, simplified"}
+              </h1>
+
+              <p className="text-sm sm:text-base text-white/85 mb-3">
+                <span className="inline-flex items-center gap-2">
+                  <span className="px-2 py-1 rounded bg-white text-indigo-900 font-medium text-xs">PRO</span>
+                  <span className="font-medium">
+                    {userData.userType === "Recruiter"
+                      ? "AI-driven voice screening & structured insights"
+                      : userData.userType === "Job Seeker"
+                      ? "Voice interviews + skill challenges to showcase talent"
+                      : "AI tools that reduce screening time and highlight skills"}
+                  </span>
+                </span>
+              </p>
+
+              <div className="mt-4 flex flex-wrap gap-3">
+                <span className="text-xs bg-white/8 px-3 py-1 rounded-full">Secure</span>
+                <span className="text-xs bg-white/8 px-3 py-1 rounded-full">GDPR-friendly</span>
+                <span className="text-xs bg-white/8 px-3 py-1 rounded-full">Bias-aware</span>
               </div>
-            </div> 
+            </div>
+
+            {/* Features */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              
+              <div
+                className={`rounded-2xl p-5 sm:p-6 transition transform hover:-translate-y-1 ${
+                  userData.userType === "Job Seeker"
+                    ? "bg-white/10 ring-2 ring-emerald-300/25"
+                    : "bg-white/6"
+                }`}
+              >
+                <h2 className="text-lg sm:text-2xl font-semibold mb-2">Job Seeker</h2>
+                <p className="text-sm sm:text-base text-white/85">
+                  Showcase real ability — recorded voice interviews, live challenges, and portfolio links
+                  that employers actually evaluate.
+                </p>
+              </div>
+              
+              <div
+                className={`rounded-2xl p-5 sm:p-6 transition transform hover:-translate-y-1 ${
+                  userData.userType === "Recruiter"
+                    ? "bg-white/10 ring-2 ring-indigo-300/25"
+                    : "bg-white/6"
+                }`}
+              >
+                <h2 className="text-lg sm:text-2xl font-semibold mb-2">Recruiter</h2>
+                <p className="text-sm sm:text-base text-white/85">
+                  Reduce manual screening with structured voice assessments, calibrated skill scores,
+                  and diversity-aware matching that helps you build stronger teams faster.
+                </p>
+              </div>
+
+            </div>
+
+            {/* Trusted companies */}
+            <div className="mt-6">
+              <p className="text-center text-white/75 font-medium mb-4">Trusted by modern teams</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 opacity-90">
+                {["Plaid", "Roblox", "OpenAI", "Airtable", "NerdWallet", "IFTTT"].map((name) => (
+                  <div
+                    key={name}
+                    className="bg-white/4 rounded-lg p-3 text-center flex items-center justify-center text-xs font-medium"
+                  >
+                    {name}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <ToastContainer />
-        </div> 
-        )
-      }
+        </div>
 
+        {/* RIGHT SIDE - SIGNUP FORM */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 bg-white">
+          <div className="w-full max-w-lg">
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100">
+              {/* Header */}
+              <h2 className="text-4xl font-extrabold text-center mb-6">
+                <span className="block text-blue-500">Create Account</span>
+                <span className="mx-auto mt-2 block h-0.5 w-20 bg-emerald-600 rounded-full w-auto" />
+              </h2>
 
-export default Signup
+              {/* Form */}
+              <form onSubmit={submitHandler} className="space-y-5">
+                {/* User Type Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {["Job Seeker", "Recruiter"].map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => changeHandler({ target: { name: "userType", value: type } })}
+                      aria-pressed={userData.userType === type}
+                      className={`w-full px-4 py-2 rounded-xl transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                        userData.userType === type
+                          ? "bg-gradient-to-r from-emerald-500 to-blue-600 text-white shadow-md ring-2 ring-indigo-200/30"
+                          : "bg-gray-50 text-gray-700 border border-gray-200"
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Username */}
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Username"
+                  name="username"
+                  value={userData.username}
+                  onChange={changeHandler}
+                  required
+                  inputProps={{ "aria-label": "username" }}
+                />
+
+                {/* Email */}
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Email Address"
+                  name="email"
+                  value={userData.email}
+                  onChange={changeHandler}
+                  required
+                  inputProps={{ "aria-label": "email" }}
+                />
+
+                {/* Password */}
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={userData.password}
+                  onChange={changeHandler}
+                  required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                {/* Confirm Password */}
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Confirm Password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={userData.confirmPassword}
+                  onChange={changeHandler}
+                  required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                          onClick={handleClickShowConfirmPassword}
+                          edge="end"
+                        >
+                          {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed shadow"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Registering..." : "Register"}
+                </button>
+              </form>
+
+              {/* Login Link */}
+              <div className="mt-6 text-center pt-3">
+                <p className="text-sm text-gray-600 mb-2">Already have an account?</p>
+                <Link
+                  href="/Login"
+                  className="inline-block w-full py-2 bg-indigo-700 text-white rounded-xl hover:bg-indigo-600 transition"
+                >
+                  Go to Login
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default Signup;
 

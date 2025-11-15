@@ -24,7 +24,7 @@ export const register = async (req, res) => {
     });
     
     await user.save();
-    await sendWelcomeEmail(email, username);
+    await sendWelcomeEmail(email, username, userType);
     
     // Don't create profile during registration to avoid validation errors
     // Profile will be created when user first updates their profile

@@ -1,5 +1,6 @@
 {
   "/(components)/Login/page": "app/(components)/Login/page.js",
-  "/(components)/ResetPassword/page": "app/(components)/ResetPassword/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/(components)/Signup/page": "app/(components)/Signup/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
 }
