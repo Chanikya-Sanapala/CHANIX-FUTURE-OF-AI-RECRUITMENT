@@ -14,8 +14,9 @@ const transporter = nodemailer.createTransport({
  * Sends a welcome/registration email
  * @param {string} toEmail - Recipient email
  * @param {string} username - Recipient name
+ * @param {string} userType - Recipient userType
  */
-async function sendWelcomeEmail(toEmail, username) {
+async function sendWelcomeEmail(toEmail, username , userType) {
   try {
     const info = await transporter.sendMail({
       from: `"AI Smart Engine" <${process.env.EMAIL_USER}>`,
@@ -23,7 +24,7 @@ async function sendWelcomeEmail(toEmail, username) {
       subject: "Welcome to AI Smart Engine 🎉",
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>Welcome, ${username}!</h2>
+          <h2>Welcome, ${username} ${userType}!</h2>
           <p>Thank you for registering at <b>AI Smart Engine</b>. We're excited to have you!</p>
           <p>Feel free to explore and get started.</p>
           <br>
