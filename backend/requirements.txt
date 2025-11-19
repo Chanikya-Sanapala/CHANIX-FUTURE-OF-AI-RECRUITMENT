@@ -1,0 +1,13 @@
+# flask
+# requests
+# pandas
+fastapi
+uvicorn
+python-multipart
+rapidfuzz
+scikit-learn
+spacy
+pdfplumber
+python-docx
+pywin32; platform_system == "Windows"
+pydantic
