@@ -382,16 +382,16 @@ const Signup = () => {
 
   return (
     <div>
-      <div className="min-h-screen flex flex-col lg:flex-row bg-white">
+      <div className="min-h-screen flex flex-col lg:flex-row" style={{ background: "linear-gradient(135deg, #0f172a 0%, #065f46 100%)" }}>
 
         {/* LEFT PANEL - visible on all screens */}
         <div
-          className="flex flex-col justify-center w-full lg:w-1/2 p-8 sm:p-10 text-white relative overflow-hidden"
-          style={{ background: "linear-gradient(135deg, #0f172a 0%, #065f46 100%)" }}
+          className="hidden lg:flex flex-col justify-center w-full lg:w-1/2 p-8 sm:p-10 text-white relative overflow-hidden bg-white/0"
+          // style={{ background: "linear-gradient(135deg, #0f172a 0%, #065f46 100%)" }}
         >
           {/* Decorative blurs */}
-          <div className="absolute -right-16 -top-20 w-72 h-72 rounded-full bg-white/5 blur-3xl transform rotate-12" />
-          <div className="absolute -left-24 bottom-8 w-56 h-56 rounded-full bg-white/3 blur-2xl" />
+          {/* <div className="absolute -right-16 -top-20 w-72 h-72 rounded-full bg-white/5 blur-3xl transform rotate-12" /> */}
+          {/* <div className="absolute -left-24 bottom-8 w-56 h-56 rounded-full bg-white/3 blur-2xl" /> */}
 
           <div className="space-y-6 relative z-10">
             <div className="bg-white/6 backdrop-blur-sm rounded-3xl p-6 sm:p-8 mb-6 border border-white/8">
@@ -457,7 +457,7 @@ const Signup = () => {
             </div>
 
             {/* Trusted companies */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
               <p className="text-center text-white/75 font-medium mb-4">Trusted by modern teams</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 opacity-90">
                 {["Plaid", "Roblox", "OpenAI", "Airtable", "NerdWallet", "IFTTT"].map((name) => (
@@ -469,14 +469,16 @@ const Signup = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* RIGHT SIDE - SIGNUP FORM */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 bg-white">
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 bg-white/0"
+        // style={{ background: "linear-gradient(135deg, #065f46 0%, #0f172a 100%)" }}
+        >
           <div className="w-full max-w-lg">
-            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100">
+            <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100">
               {/* Header */}
               <h2 className="text-4xl font-extrabold text-center mb-6">
                 <span className="block text-blue-500">Create Account</span>
