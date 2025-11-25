@@ -1,5 +1,6 @@
 {
-  "/(components)/Signup/page": "app/(components)/Signup/page.js",
+  "/(components)/ResumeMatcher/page": "app/(components)/ResumeMatcher/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }

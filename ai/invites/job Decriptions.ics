@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Smart-Engine//Interview Scheduler//EN
+BEGIN:VEVENT
+UID:Job-Decriptions-20251123T131432@smart-engine
+DTSTAMP:20251123T111432
+DTSTART:20251123T131432
+DTEND:20251123T134432
+SUMMARY:Initial Interview - Job Decriptions
+LOCATION:https://meet.google.com/your-meet-link
+DESCRIPTION:Interview auto-booked from resume matcher.\nJoin: https://meet.google.com/your-meet-link
+URL:https://meet.google.com/your-meet-link
+END:VEVENT
+END:VCALENDAR
