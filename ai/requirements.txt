@@ -1,0 +1,18 @@
+fastapi
+uvicorn
+python-multipart
+rapidfuzz
+scikit-learn
+spacy
+pdfplumber
+python-docx
+pywin32; platform_system == "Windows"
+pydantic
+# flask
+# openai
+# gTTS
+# SpeechRecognition
+# pyaudio
+# opencv-python
+# python-dotenv
+# pydub

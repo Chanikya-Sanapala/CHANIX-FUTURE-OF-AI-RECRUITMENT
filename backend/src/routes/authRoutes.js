@@ -19,6 +19,9 @@ import userSchema from '../models/User.js';
 import {  } from '../controllers/authController.js';
 // import { PasswordReset } from '../routes/passwordReset.js';
 import { resetPassword , changePassword, updatePassword} from '../controllers/resetPassword.js';
+import { matchResume } from '../controllers/resumeController.js';
+
+
 const router = express.Router();
 
 const authLimiter = rateLimit({
@@ -57,5 +60,6 @@ router.get('/check-email', checkEmail);
 router.get('/profile', authenticateToken, getProfile);
 router.put('/profile', authenticateToken, updateProfile);
 router.post('/logout', authenticateToken, logout);
+router.post('/match-resume', matchResume);
 
 export default router;
