@@ -1,17 +1,24 @@
 import express from 'express';
+<<<<<<< HEAD
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
 import {
   updateJobSeekerProfile,
   updateRecruiterProfile,
   updateAdminProfile,
   getDetailedProfile,
+<<<<<<< HEAD
   deleteProfile,
   getProfileByUser,
   checkProfileCompletion,
   uploadResume,
   uploadPhoto
+=======
+  deleteProfile
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
 } from '../controllers/profileController.js';
 import {
   validateJobSeekerProfile,
@@ -23,6 +30,7 @@ import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
+<<<<<<< HEAD
 // Multer setup for resume uploads
 const resumesDir = path.join(process.cwd(), 'uploads', 'resumes');
 if (!fs.existsSync(resumesDir)) {
@@ -81,6 +89,10 @@ router.post('/upload-resume', authenticateToken, uploadResumeMulter.single('file
 router.post('/upload-photo', authenticateToken, uploadPhotoMulter.single('file'), uploadPhoto);
 
 // Jobseeker profile update (primary endpoint)
+=======
+router.get('/detailed', authenticateToken, getDetailedProfile);
+
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
 router.put('/jobseeker', 
   authenticateToken, 
   validateJobSeekerProfile,
@@ -88,6 +100,7 @@ router.put('/jobseeker',
   updateJobSeekerProfile
 );
 
+<<<<<<< HEAD
 // Backward-compatible alias used by some frontend code
 router.put('/update', 
   authenticateToken,
@@ -96,6 +109,8 @@ router.put('/update',
   updateJobSeekerProfile
 );
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
 router.put('/recruiter', 
   authenticateToken, 
   validateRecruiterProfile,

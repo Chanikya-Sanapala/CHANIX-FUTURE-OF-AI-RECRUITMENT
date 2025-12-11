@@ -7,6 +7,7 @@ export const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1];
+<<<<<<< HEAD
 
     // Debug logging for token issues
     if (!authHeader) {
@@ -14,6 +15,8 @@ export const authenticateToken = async (req, res, next) => {
     } else {
       console.log('Auth middleware: Authorization header received:', authHeader);
     }
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
     
     if (!token) {
       return sendError(res, 'Access token required', null, 401);
@@ -33,16 +36,24 @@ export const authenticateToken = async (req, res, next) => {
     next();
     
   } catch (error) {
+<<<<<<< HEAD
     console.error('Authentication error:', error.name, error.message);
     if (error.name === 'JsonWebTokenError') {
       console.error('JWT error details:', error);
+=======
+    if (error.name === 'JsonWebTokenError') {
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
       return sendError(res, 'Invalid token', null, 401);
     }
     if (error.name === 'TokenExpiredError') {
       return sendError(res, 'Token expired', null, 401);
     }
     
+<<<<<<< HEAD
     console.error('Authentication unexpected error:', error);
+=======
+    console.error('Authentication error:', error);
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
     return sendError(res, 'Authentication failed', null, 500);
   }
 };

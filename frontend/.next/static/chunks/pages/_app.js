@@ -1,4 +1,5 @@
 __turbopack_load_page_chunks__("/_app", [
+<<<<<<< HEAD
   "static/chunks/node_modules_next_dist_compiled_next-devtools_index_5277ebc8.js",
   "static/chunks/node_modules_next_dist_compiled_166120c5._.js",
   "static/chunks/node_modules_next_dist_shared_lib_2c2ec201._.js",
@@ -11,4 +12,18 @@ __turbopack_load_page_chunks__("/_app", [
   "static/chunks/[root-of-the-server]__45f039c3._.js",
   "static/chunks/pages__app_2da965e7._.js",
   "static/chunks/turbopack-pages__app_63a81fd1._.js"
+=======
+  "static/chunks/7d81f_next_dist_compiled_next-devtools_index_6cbcd274.js",
+  "static/chunks/7d81f_next_dist_compiled_21050985._.js",
+  "static/chunks/7d81f_next_dist_shared_lib_13d6ad6c._.js",
+  "static/chunks/7d81f_next_dist_client_254a2077._.js",
+  "static/chunks/7d81f_next_dist_e193a255._.js",
+  "static/chunks/7d81f_next_app_978e3def.js",
+  "static/chunks/[next]_entry_page-loader_ts_30b9cd68._.js",
+  "static/chunks/7d81f_react-dom_87c006e6._.js",
+  "static/chunks/7d81f_691e51ed._.js",
+  "static/chunks/[root-of-the-server]__9443f9e0._.js",
+  "static/chunks/Desktop_Smart-Engine_frontend_pages__app_2da965e7._.js",
+  "static/chunks/turbopack-Desktop_Smart-Engine_frontend_pages__app_12a888b3._.js"
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
 ])

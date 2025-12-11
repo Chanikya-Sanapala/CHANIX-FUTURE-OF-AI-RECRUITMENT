@@ -7,22 +7,34 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   phone: {
     type: String,
     trim: true,
     match: [/^[0-9]{10}$/, 'Phone number must be 10 digits']
   },
+<<<<<<< HEAD
 
   dateOfBirth: {
     type: Date
   },
 
+=======
+  dateOfBirth: {
+    type: Date
+  },
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   gender: {
     type: String,
     enum: ['male', 'female', 'other', 'prefer-not-to-say']
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   address: {
     street: String,
     city: String,
@@ -30,11 +42,17 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     country: String,
     zipCode: String
   },
+<<<<<<< HEAD
 
   profilePicture: {
     type: String
   },
 
+=======
+  profilePicture: {
+    type: String
+  },
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   resume: {
     fileName: String,
     filePath: String,
@@ -43,12 +61,18 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       default: Date.now
     }
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   summary: {
     type: String,
     maxlength: [1000, 'Summary cannot exceed 1000 characters']
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   experience: [{
     jobTitle: {
       type: String,
@@ -62,13 +86,18 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       type: Date,
       required: true
     },
+<<<<<<< HEAD
     endDate: {
       type: Date
     },
+=======
+    endDate: Date,
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
     isCurrentJob: {
       type: Boolean,
       default: false
     },
+<<<<<<< HEAD
     description: {
       type: String
     },
@@ -80,6 +109,11 @@ const jobSeekerProfileSchema = new mongoose.Schema({
   competitiveExams: [mongoose.Schema.Types.Mixed],
   academicAchievements: [mongoose.Schema.Types.Mixed],
 
+=======
+    description: String,
+    location: String
+  }],
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   education: [{
     degree: {
       type: String,
@@ -89,6 +123,7 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+<<<<<<< HEAD
     fieldOfStudy: {
       type: String
     },
@@ -106,6 +141,14 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     }
   }],
 
+=======
+    fieldOfStudy: String,
+    startDate: Date,
+    endDate: Date,
+    grade: String,
+    description: String
+  }],
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   skills: [{
     skillName: {
       type: String,
@@ -117,7 +160,10 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       default: 'intermediate'
     }
   }],
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   certifications: [{
     name: {
       type: String,
@@ -127,6 +173,7 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+<<<<<<< HEAD
     issueDate: {
       type: Date
     },
@@ -141,6 +188,13 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     }
   }],
 
+=======
+    issueDate: Date,
+    expiryDate: Date,
+    credentialId: String,
+    credentialUrl: String
+  }],
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   languages: [{
     language: {
       type: String,
@@ -152,12 +206,16 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       default: 'conversational'
     }
   }],
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   projects: [{
     title: {
       type: String,
       required: true
     },
+<<<<<<< HEAD
     description: {
       type: String
     },
@@ -191,6 +249,21 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     }
   },
 
+=======
+    description: String,
+    technologies: [String],
+    projectUrl: String,
+    githubUrl: String,
+    startDate: Date,
+    endDate: Date
+  }],
+  socialProfiles: {
+    linkedin: String,
+    github: String,
+    portfolio: String,
+    twitter: String
+  },
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
   preferences: {
     jobTypes: [{
       type: String,
@@ -202,20 +275,29 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     }],
     preferredLocations: [String],
     expectedSalary: {
+<<<<<<< HEAD
       min: {
         type: Number
       },
       max: {
         type: Number
       },
+=======
+      min: Number,
+      max: Number,
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
       currency: {
         type: String,
         default: 'INR'
       }
     },
+<<<<<<< HEAD
     availabilityDate: {
       type: Date
     },
+=======
+    availabilityDate: Date,
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
     willingToRelocate: {
       type: Boolean,
       default: false
@@ -226,6 +308,7 @@ const jobSeekerProfileSchema = new mongoose.Schema({
   toJSON: { virtuals: true }
 });
 
+<<<<<<< HEAD
 // Virtual computed field for total years of experience (rounded to 1 decimal)
 jobSeekerProfileSchema.virtual('experienceYears').get(function () {
   if (!this.experience || this.experience.length === 0) return 0;
@@ -253,3 +336,20 @@ jobSeekerProfileSchema.virtual('experienceYears').get(function () {
 
 export default mongoose.models.JobSeekerProfile
   || mongoose.model('JobSeekerProfile', jobSeekerProfileSchema);
+=======
+jobSeekerProfileSchema.virtual('experienceYears').get(function() {
+  if (!this.experience || this.experience.length === 0) return 0;
+  
+  let totalMonths = 0;
+  this.experience.forEach(exp => {
+    const startDate = new Date(exp.startDate);
+    const endDate = exp.isCurrentJob ? new Date() : new Date(exp.endDate);
+    const monthsDiff = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
+    totalMonths += monthsDiff;
+  });
+  
+  return Math.round(totalMonths / 12 * 10) / 10;
+});
+
+export default mongoose.model('JobSeekerProfile', jobSeekerProfileSchema);
+>>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
