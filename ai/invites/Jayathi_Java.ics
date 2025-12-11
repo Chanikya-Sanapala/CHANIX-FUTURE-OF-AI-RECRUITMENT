@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Smart-Engine//Interview Scheduler//EN
+BEGIN:VEVENT
+UID:Jayathi-Java-20251207T235505@smart-engine
+DTSTAMP:20251207T215505
+DTSTART:20251207T235505
+DTEND:20251208T002505
+SUMMARY:Initial Interview - Jayathi_Java
+LOCATION:https://meet.google.com/your-meet-link
+DESCRIPTION:Interview auto-booked from resume matcher.\nJoin: https://meet.google.com/your-meet-link
+URL:https://meet.google.com/your-meet-link
+END:VEVENT
+END:VCALENDAR

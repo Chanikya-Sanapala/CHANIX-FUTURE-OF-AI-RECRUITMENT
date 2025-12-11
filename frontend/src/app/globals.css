@@ -1,0 +1,177 @@
+@import "tailwindcss";
+/* 
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  /* background-color: white; */
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-card {
+  background: #fff;
+  margin: auto;
+  width: 100%;
+  margin-top: 50px;
+  max-width: 420px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px #eaeded;
+  text-align: center;
+}
+
+.bg-shadow{
+  box-shadow: 0px 4px 12px #0d0f0f;
+}
+
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+.input-wrapper {
+  position: relative;
+  color: gray;
+  margin-bottom: 15px;
+}
+
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #888;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 40px 12px 36px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  cursor: pointer;
+  color: #888;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #00D1B2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background-color: #2600d1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+
+.btn-primary:hover {
+  background-color: #2600d1;
+}
+
+.btn-secondary:hover {
+  background-color: #00b39b;
+}
+
+.footer-text {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #666;
+}
+
+.link {
+  color: #00D1B2;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}
+
+.forgot-wrapper {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.forgot-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6C63FF; 
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+.email-icon {
+  color: #6C63FF;
+}
+
+.password-icon {
+  color: #00D1B2;
+}
+
+.eye-icon {
+  color: #333333; 
+  cursor: pointer;
+}
