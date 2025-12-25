@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import JobSeekerProfile from '../models/JobSeekerProfile.js';
 import RecruiterProfile from '../models/RecruiterProfile.js';
 import AdminProfile from '../models/AdminProfile.js';
+import Connection from '../models/Connection.js';
 import { sendSuccess, sendError } from '../utils/responseHandler.js';
 
 const normalizeUserType = (userType) => {
@@ -115,7 +116,7 @@ export const updateJobSeekerProfile = async (req, res) => {
 
     const ProfileModel = getProfileModel(normalizedType);
     let profile = await ProfileModel.findOne({ userId: req.user._id });
-    
+
     if (!profile) {
       profile = new ProfileModel({ userId: req.user._id });
     }
@@ -124,7 +125,7 @@ export const updateJobSeekerProfile = async (req, res) => {
       'phone', 'dateOfBirth', 'gender', 'address', 'profilePicture',
       'summary', 'experience', 'education', 'skills', 'certifications',
       'languages', 'projects', 'socialProfiles', 'preferences',
-      'competitiveExams', 'academicAchievements'
+      'competitiveExams', 'academicAchievements', 'studentId'
     ];
 
     allowedFields.forEach(field => {
@@ -135,13 +136,24 @@ export const updateJobSeekerProfile = async (req, res) => {
 
     await profile.save();
 
+    // Update User model fields if provided (allowing empty strings to clear values)
+    let userUpdated = false;
+    if (req.body.firstName !== undefined) {
+      req.user.firstName = req.body.firstName;
+      userUpdated = true;
+    }
+    if (req.body.lastName !== undefined) {
+      req.user.lastName = req.body.lastName;
+      userUpdated = true;
+    }
+
     req.user.isProfileCompleted = true;
     await req.user.save();
 
-    sendSuccess(res, 'Job seeker profile updated successfully', { profile });
+    sendSuccess(res, 'Job seeker profile updated successfully', { profile, user: req.user });
   } catch (error) {
     console.error('Update job seeker profile error:', error);
-    
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         field: err.path,
@@ -149,7 +161,7 @@ export const updateJobSeekerProfile = async (req, res) => {
       }));
       return sendError(res, 'Validation failed', validationErrors, 422);
     }
-    
+
     sendError(res, 'Failed to update profile', null, 500);
   }
 };
@@ -161,26 +173,17 @@ export const updateRecruiterProfile = async (req, res) => {
       return sendError(res, 'Access denied. This endpoint is for recruiters only.', null, 403);
     }
 
+    console.log('Update Recruiter Payload:', JSON.stringify(req.body, null, 2));
+
     const ProfileModel = getProfileModel(normalizedType);
     let profile = await ProfileModel.findOne({ userId: req.user._id });
-    
+
     if (!profile) {
       profile = new ProfileModel({ userId: req.user._id });
     }
 
-    // Validate required fields for recruiter
-    const requiredFields = ['phone', 'company.name', 'company.industry', 'company.size', 'position'];
+    // Validation is handled by middleware
     const errors = [];
-
-    if (!req.body.phone) errors.push({ field: 'phone', message: 'Phone number is required' });
-    if (!req.body.company?.name) errors.push({ field: 'company.name', message: 'Company name is required' });
-    if (!req.body.company?.industry) errors.push({ field: 'company.industry', message: 'Company industry is required' });
-    if (!req.body.company?.size) errors.push({ field: 'company.size', message: 'Company size is required' });
-    if (!req.body.position) errors.push({ field: 'position', message: 'Position is required' });
-
-    if (errors.length > 0) {
-      return sendError(res, 'Validation failed', errors, 422);
-    }
 
     const allowedFields = [
       'phone', 'profilePicture', 'company', 'position', 'department',
@@ -189,9 +192,24 @@ export const updateRecruiterProfile = async (req, res) => {
 
     allowedFields.forEach(field => {
       if (req.body[field] !== undefined) {
-        profile[field] = req.body[field];
+        if (field === 'company') {
+          if (!profile.company) profile.company = {};
+
+          const newCompany = req.body.company;
+          Object.keys(newCompany).forEach(key => {
+            // Skip undefined values to avoid overwriting with empty
+            if (newCompany[key] !== undefined) {
+              profile.company[key] = newCompany[key];
+            }
+          });
+        } else {
+          profile[field] = req.body[field];
+        }
       }
     });
+
+    // Explicitly mark modified
+    profile.markModified('company');
 
     await profile.save();
 
@@ -209,15 +227,16 @@ export const updateRecruiterProfile = async (req, res) => {
     sendSuccess(res, 'Recruiter profile updated successfully', { profile, user: req.user });
   } catch (error) {
     console.error('Update recruiter profile error:', error);
-    
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         field: err.path,
         message: err.message
       }));
+      console.error("Validation Errors Details:", JSON.stringify(validationErrors, null, 2));
       return sendError(res, 'Validation failed', validationErrors, 422);
     }
-    
+
     sendError(res, 'Failed to update profile', null, 500);
   }
 };
@@ -231,7 +250,7 @@ export const updateAdminProfile = async (req, res) => {
 
     const ProfileModel = getProfileModel(normalizedType);
     let profile = await ProfileModel.findOne({ userId: req.user._id });
-    
+
     if (!profile) {
       profile = new ProfileModel({ userId: req.user._id });
     }
@@ -265,7 +284,7 @@ export const updateAdminProfile = async (req, res) => {
     sendSuccess(res, 'Admin profile updated successfully', { profile });
   } catch (error) {
     console.error('Update admin profile error:', error);
-    
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         field: err.path,
@@ -273,7 +292,7 @@ export const updateAdminProfile = async (req, res) => {
       }));
       return sendError(res, 'Validation failed', validationErrors, 422);
     }
-    
+
     sendError(res, 'Failed to update profile', null, 500);
   }
 };
@@ -282,7 +301,7 @@ export const getDetailedProfile = async (req, res) => {
   try {
     const ProfileModel = getProfileModel(req.user.userType);
     let profile = null;
-    
+
     if (ProfileModel) {
       profile = await ProfileModel.findOne({ userId: req.user._id });
     }
@@ -362,25 +381,34 @@ export const uploadPhoto = async (req, res) => {
       return sendError(res, 'No file uploaded', null, 400);
     }
 
-    const userId = req.body.userId || req.user?._id;
-    const userType = req.body.userType || req.user?.userType || 'jobseeker';
-    
+    const userId = req.user?._id || req.body.userId;
+    const userType = req.user?.userType || req.body.userType || 'jobseeker';
+
     if (!userId) {
-      return sendError(res, 'userId is required', null, 400);
+      if (req.file) {
+        // Clean up file if no userId
+        try {
+          const fs = await import('fs');
+          fs.unlinkSync(req.file.path);
+        } catch (_) { }
+      }
+      return sendError(res, 'userId is required (ensure token is valid or userId is in body)', null, 400);
     }
 
     const photoPath = `/uploads/photos/${req.file.filename}`;
 
     // Get the appropriate profile model based on user type
     const ProfileModel = getProfileModel(userType);
-    
+
     let profile;
     if (ProfileModel) {
       profile = await ProfileModel.findOneAndUpdate(
         { userId },
         {
           $set: {
-            profilePicture: photoPath
+            profilePicture: photoPath,
+            profileImage: photoPath, // legacy alias
+            avatar: photoPath // legacy alias
           }
         },
         { new: true, upsert: true }
@@ -391,12 +419,20 @@ export const uploadPhoto = async (req, res) => {
         { userId },
         {
           $set: {
-            profilePicture: photoPath
+            profilePicture: photoPath,
+            profileImage: photoPath, // legacy alias
+            avatar: photoPath // legacy alias
           }
         },
         { new: true, upsert: true }
       );
     }
+
+    // Also update User model to ensure dashboard thumbnail works
+    await User.findByIdAndUpdate(userId, {
+      $set: { profilePicture: photoPath }
+    });
+
 
     const url = photoPath;
 
@@ -410,7 +446,7 @@ export const uploadPhoto = async (req, res) => {
 export const deleteProfile = async (req, res) => {
   try {
     const ProfileModel = getProfileModel(req.user.userType);
-    
+
     if (ProfileModel) {
       await ProfileModel.findOneAndDelete({ userId: req.user._id });
     }
@@ -431,7 +467,131 @@ export const users = async (req, res) => {
     const users = await User.find();
     sendSuccess(res, 'Users retrieved successfully', { users });
   } catch (error) {
-    console.error('Get users error:', error);
-    sendError(res, 'Failed to retrieve users', null, 500);
+    sendSuccess(res, 'Failed to retrieve users', null, 500);
+  }
+};
+
+export const removeResume = async (req, res) => {
+  try {
+    const userId = req.body.userId || req.user?._id;
+    if (!userId) {
+      return sendError(res, 'userId is required', null, 400);
+    }
+
+    const profile = await JobSeekerProfile.findOne({ userId });
+    if (!profile) {
+      return sendError(res, 'Profile not found', null, 404);
+    }
+
+    if (profile.resume && profile.resume.filePath) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        // Handle both relative and absolute paths
+        // profile.resume.filePath usually starts with /uploads/...
+        // We need to map it to system path: process.cwd() + filePath
+        const relativePath = profile.resume.filePath.replace(/^[\/\\]/, '');
+        const fullPath = path.resolve(process.cwd(), relativePath);
+
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
+        }
+      } catch (err) {
+        console.error('Error deleting resume file:', err);
+        // Continue to remove from DB even if file delete fails
+      }
+    }
+
+    // Unset resume field
+    profile.resume = undefined;
+    await profile.save();
+
+    return sendSuccess(res, 'Resume removed successfully');
+  } catch (error) {
+    console.error('Remove resume error:', error);
+    return sendError(res, 'Failed to remove resume', null, 500);
+  }
+};
+
+export const removePhoto = async (req, res) => {
+  try {
+    const userId = req.body.userId || req.user?._id;
+    const userType = req.body.userType || req.user?.userType || 'jobseeker';
+
+    if (!userId) {
+      return sendError(res, 'userId is required', null, 400);
+    }
+
+    const ProfileModel = getProfileModel(userType);
+    let profile = null;
+
+    if (ProfileModel) {
+      profile = await ProfileModel.findOne({ userId });
+    }
+
+    if (!profile) {
+      return sendError(res, 'Profile not found', null, 404);
+    }
+
+    if (profile.profilePicture) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        // profile.profilePicture is usually /uploads/photos/filename
+        const relativePath = profile.profilePicture.replace(/^[\/\\]/, '');
+        const fullPath = path.resolve(process.cwd(), relativePath);
+
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
+        }
+      } catch (err) {
+        console.error('Error deleting photo file:', err);
+      }
+    }
+
+    profile.profilePicture = undefined;
+    await profile.save();
+
+    return sendSuccess(res, 'Profile photo removed successfully');
+  } catch (error) {
+    console.error('Remove photo error:', error);
+    return sendError(res, 'Failed to remove photo', null, 500);
+  }
+};
+
+export const getSuggestions = async (req, res) => {
+  try {
+    // Exclude current user
+    const currentUserId = req.user ? req.user._id : null;
+    const currentUserType = req.user ? req.user.userType : null;
+
+    // Exclude users already connected or with pending requests
+    const existingConnections = await Connection.find({
+      $or: [{ requester: currentUserId }, { recipient: currentUserId }]
+    });
+
+    const excludedIds = existingConnections.map(conn =>
+      conn.requester.toString() === String(currentUserId) ? conn.recipient : conn.requester
+    );
+
+    // Add current user to exclusion
+    excludedIds.push(currentUserId);
+
+    const query = { _id: { $nin: excludedIds } };
+
+    // If Recruiter, specifically look for other recruiters to connect with
+    if (currentUserType === 'recruiter') {
+      query.userType = 'recruiter';
+    }
+
+    // Fetch up to 5 users
+    const suggestions = await User.find(query)
+      .limit(5)
+      .select('firstName lastName headline userType profilePicture email');
+
+    sendSuccess(res, 'Suggestions fetched successfully', suggestions);
+  } catch (error) {
+    console.error('Fetch suggestions error:', error);
+    sendError(res, 'Failed to fetch suggestions', null, 500);
   }
 };

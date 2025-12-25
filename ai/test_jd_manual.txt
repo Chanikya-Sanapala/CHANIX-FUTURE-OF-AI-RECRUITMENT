@@ -1,0 +1,3 @@
+Must have Java, Spring Boot, MySQL skills.
+Experience with AWS is a plus.
+Bachelor's degree in Computer Science.

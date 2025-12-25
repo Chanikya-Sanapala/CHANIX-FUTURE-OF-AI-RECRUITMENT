@@ -328,7 +328,8 @@ const Signup = () => {
       return;
     }
 
-    const url = "http://localhost:5000/api/auth/register";
+    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5005";
+    const url = `${baseUrl}/api/auth/register`;
 
     try {
       const res = await axios.post(url, {
@@ -399,8 +400,8 @@ const Signup = () => {
                 {userData.userType === "Recruiter"
                   ? "Hire smarter — faster"
                   : userData.userType === "Job Seeker"
-                  ? "Let your skills speak"
-                  : "Intelligent recruiting, simplified"}
+                    ? "Let your skills speak"
+                    : "Intelligent recruiting, simplified"}
               </h1>
 
               <p className="text-sm sm:text-base text-white/85 mb-3">
@@ -410,8 +411,8 @@ const Signup = () => {
                     {userData.userType === "Recruiter"
                       ? "AI-driven voice screening & structured insights"
                       : userData.userType === "Job Seeker"
-                      ? "Voice interviews + skill challenges to showcase talent"
-                      : "AI tools that reduce screening time and highlight skills"}
+                        ? "Voice interviews + skill challenges to showcase talent"
+                        : "AI tools that reduce screening time and highlight skills"}
                   </span>
                 </span>
               </p>
@@ -425,13 +426,12 @@ const Signup = () => {
 
             {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              
+
               <div
-                className={`rounded-2xl p-5 sm:p-6 transition transform hover:-translate-y-1 ${
-                  userData.userType === "Job Seeker"
-                    ? "bg-white/10 ring-2 ring-emerald-300/25"
-                    : "bg-white/6"
-                }`}
+                className={`rounded-2xl p-5 sm:p-6 transition transform hover:-translate-y-1 ${userData.userType === "Job Seeker"
+                  ? "bg-white/10 ring-2 ring-emerald-300/25"
+                  : "bg-white/6"
+                  }`}
               >
                 <h2 className="text-lg sm:text-2xl font-semibold mb-2">Job Seeker</h2>
                 <p className="text-sm sm:text-base text-white/85">
@@ -439,13 +439,12 @@ const Signup = () => {
                   that employers actually evaluate.
                 </p>
               </div>
-              
+
               <div
-                className={`rounded-2xl p-5 sm:p-6 transition transform hover:-translate-y-1 ${
-                  userData.userType === "Recruiter"
-                    ? "bg-white/10 ring-2 ring-indigo-300/25"
-                    : "bg-white/6"
-                }`}
+                className={`rounded-2xl p-5 sm:p-6 transition transform hover:-translate-y-1 ${userData.userType === "Recruiter"
+                  ? "bg-white/10 ring-2 ring-indigo-300/25"
+                  : "bg-white/6"
+                  }`}
               >
                 <h2 className="text-lg sm:text-2xl font-semibold mb-2">Recruiter</h2>
                 <p className="text-sm sm:text-base text-white/85">
@@ -493,11 +492,10 @@ const Signup = () => {
                       type="button"
                       onClick={() => changeHandler({ target: { name: "userType", value: type } })}
                       aria-pressed={userData.userType === type}
-                      className={`w-full px-4 py-2 rounded-xl transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                        userData.userType === type
-                          ? "bg-gradient-to-r from-emerald-500 to-blue-600 text-white shadow-md ring-2 ring-indigo-200/30"
-                          : "bg-gray-50 text-gray-700 border border-gray-200"
-                      }`}
+                      className={`w-full px-4 py-2 rounded-xl transition-transform transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-1 ${userData.userType === type
+                        ? "bg-gradient-to-r from-emerald-500 to-blue-600 text-white shadow-md ring-2 ring-indigo-200/30"
+                        : "bg-gray-50 text-gray-700 border border-gray-200"
+                        }`}
                     >
                       {type}
                     </button>

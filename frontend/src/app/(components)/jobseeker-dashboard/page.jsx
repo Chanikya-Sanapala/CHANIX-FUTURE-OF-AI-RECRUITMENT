@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 import ProfilePage from '../../../components/ProfilePage';
 import {
   FiHome,
@@ -18,7 +19,16 @@ import {
   FiCheck,
   FiSettings,
   FiHelpCircle,
-  FiLogOut
+  FiLogOut,
+  FiPhone,
+  FiMail,
+  FiMapPin,
+  FiFileText,
+  FiSearch,
+  FiBookmark,
+  FiChevronRight,
+  FiCpu,
+  FiVideo
 } from 'react-icons/fi';
 
 // Utility function to safely parse JSON
@@ -55,7 +65,7 @@ export default function JobseekerDashboard() {
   const [profileLoading, setProfileLoading] = useState(false);
   const [showProfilePanel, setShowProfilePanel] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(null);
-  const [showDesktopMenu, setShowDesktopMenu] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Unified sidebar state
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [currentJob, setCurrentJob] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -80,7 +90,7 @@ export default function JobseekerDashboard() {
       throw new Error('File too large. Maximum size is 5MB.');
     }
 
-    const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+    const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
     const uploadUrl = baseUrl ? `${baseUrl}/api/profile/upload-photo` : `/api/profile/upload-photo`;
     const token = localStorage.getItem('token');
 
@@ -137,7 +147,7 @@ export default function JobseekerDashboard() {
   const loadJobs = async (page = 1) => {
     try {
       setJobsLoading(true);
-      const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+      const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
       const apiUrl = baseUrl ? `${baseUrl}/api/jobs?${buildJobsQuery(page)}` : `/api/jobs?${buildJobsQuery(page)}`;
       const res = await fetch(apiUrl, { cache: 'no-store' });
       const json = await res.json();
@@ -180,7 +190,7 @@ export default function JobseekerDashboard() {
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
         if (!token) return;
 
-        const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+        const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
         const apiUrl = baseUrl ? `${baseUrl}/api/notifications` : '/api/notifications';
 
         const res = await fetch(apiUrl, {
@@ -262,6 +272,67 @@ export default function JobseekerDashboard() {
         }
       }
     } catch (_) { }
+
+    // Fetch latest profile to ensure avatar and details are up to date
+    const refreshProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
+        let currentUserId = null;
+
+        if (storedUser) {
+          const parsed = JSON.parse(storedUser);
+          currentUserId = parsed._id || parsed.id;
+        }
+
+        if (token && currentUserId) {
+          const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+          const res = await fetch(`${baseUrl}/api/profile/get`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: currentUserId, userType: 'jobseeker' })
+          });
+          const json = await res.json();
+          if (json?.success && json?.data?.profile) {
+            const p = json.data.profile;
+            // Update avatar
+            if (p.profilePicture) {
+              const apiImg = p.profilePicture;
+              const fullImg = apiImg.startsWith('http') ? apiImg : `${baseUrl}${apiImg.startsWith('/') ? '' : '/'}${apiImg}`;
+              setAvatarPreview(fullImg);
+              localStorage.setItem(`profileImageUrl_${currentUserId}`, fullImg);
+
+              // Update user state if missing image
+              // Update user state if missing image
+              setUser(prev => prev ? ({
+                ...prev,
+                profileImage: fullImg,
+                // Sync missing fields from profile
+                phone: p.contactDetails?.phone || p.phone || prev.phone,
+                gender: p.personalDetails?.gender || p.gender || prev.gender,
+                dob: (p.personalDetails?.dateOfBirth || p.dateOfBirth) ? new Date(p.personalDetails?.dateOfBirth || p.dateOfBirth).toISOString().split('T')[0] : prev.dob,
+                address: (p.contactDetails?.address && typeof p.contactDetails.address === 'string' ? p.contactDetails.address : p.contactDetails?.address?.street) || (typeof p.address === 'string' ? p.address : p.address?.street) || prev.address,
+                summary: p.profileSummary || p.summary || prev.summary,
+                skills: (p.skills && p.skills.length > 0) ? p.skills.map(s => s.skill || s.skillName || s) : (p.keySkills && p.keySkills.length > 0 ? p.keySkills : prev.skills)
+              }) : prev);
+            } else {
+              // Update details even if no image change
+              setUser(prev => prev ? ({
+                ...prev,
+                // Sync missing fields from profile
+                phone: p.contactDetails?.phone || p.phone || prev.phone,
+                gender: p.personalDetails?.gender || p.gender || prev.gender,
+                dob: (p.personalDetails?.dateOfBirth || p.dateOfBirth) ? new Date(p.personalDetails?.dateOfBirth || p.dateOfBirth).toISOString().split('T')[0] : prev.dob,
+                address: (p.contactDetails?.address && typeof p.contactDetails.address === 'string' ? p.contactDetails.address : p.contactDetails?.address?.street) || (typeof p.address === 'string' ? p.address : p.address?.street) || prev.address,
+                summary: p.profileSummary || p.summary || prev.summary,
+                skills: (p.skills && p.skills.length > 0) ? p.skills.map(s => s.skill || s.skillName || s) : (p.keySkills && p.keySkills.length > 0 ? p.keySkills : prev.skills)
+              }) : prev);
+            }
+          }
+        }
+      } catch (e) { console.error('Profile refresh error', e); }
+    };
+    refreshProfile();
   }, []);
 
   const handleUpdateInterviewStatus = async (id, newStatus) => {
@@ -387,7 +458,9 @@ export default function JobseekerDashboard() {
     };
     fetchAppliedJobs();
     // Interviews, assessments, events, and competitions should come only from backend APIs
-    setInterviews([]);
+    // Fetch interviews (Job Seeker's own interviews)
+    // Interviews are fetched in the user-dependent effect below
+
     setAssessments([]);
     setEvents([]);
     setCompetitions([]);
@@ -414,7 +487,9 @@ export default function JobseekerDashboard() {
         if (!token) return;
 
         const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
-        const apiUrl = baseUrl ? `${baseUrl}/api/applications` : '/api/applications';
+        // FIX: Add applicantId to query to ensure we fetch correctly
+        const userId = user._id || user.id || user.email;
+        const apiUrl = baseUrl ? `${baseUrl}/api/applications?applicantId=${userId}` : `/api/applications?applicantId=${userId}`;
 
         const res = await fetch(apiUrl, {
           headers: {
@@ -436,8 +511,8 @@ export default function JobseekerDashboard() {
             appliedDate: a.appliedDate || a.createdAt || new Date().toISOString()
           }));
           setAppliedJobs(apps);
-          const userId = user._id || user.id || user.email || 'default';
-          localStorage.setItem(`appliedJobs_${userId}`, JSON.stringify(apps));
+          const currentUserId = user._id || user.id || user.email || 'default';
+          localStorage.setItem(`appliedJobs_${currentUserId}`, JSON.stringify(apps));
         }
       } catch (_) { }
     };
@@ -506,10 +581,35 @@ export default function JobseekerDashboard() {
       }
     };
 
+    // Load interviews
+    const loadInterviews = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+        const res = await fetch(`${baseUrl}/api/interviews/my-interviews`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const json = await res.json();
+        if (isMounted && json.success) {
+          setInterviews(json.data.map(i => ({
+            id: i._id,
+            title: i.jobId?.title || 'General Interview',
+            company: i.jobId?.company || '',
+            date: new Date(i.createdAt).toLocaleDateString(),
+            time: new Date(i.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            status: i.status === 'pending' ? 'Pending' : (i.status === 'completed' ? 'Completed' : i.status),
+            token: i.uniqueToken,
+            link: i.uniqueToken ? `/interview/${i.uniqueToken}` : '#'
+          })));
+        }
+      } catch (err) { console.error("Error fetching interviews:", err); }
+    };
+
     // Execute all loads once
     loadApplications();
     loadEventsAndCompetitions();
     loadProfileData();
+    loadInterviews();
 
     // Cleanup function
     return () => {
@@ -569,7 +669,15 @@ export default function JobseekerDashboard() {
       if (json?.success) {
         // ... (Success code unchanged) ...
         const at = json?.data?.appliedDate || new Date().toISOString();
-        const applied = [{ id: jobId, at }, ...appliedJobs];
+        const successApp = {
+          _id: json.data._id,
+          jobTitle: job.title,
+          company: job.company,
+          status: json.data.status || 'Applied',
+          matchScore: json.data.matchScore,
+          appliedDate: at
+        };
+        const applied = [successApp, ...appliedJobs];
         setAppliedJobs(applied);
         const userId = user._id || user.id || user.email || 'default';
         if (typeof window !== 'undefined') {
@@ -608,21 +716,35 @@ export default function JobseekerDashboard() {
           const score = json.data.score;
           const suggestions = json.data.suggestions || [];
 
+          // Add rejected application to list immediately
+          if (json.data.applicationId) {
+            const rejectionApp = {
+              _id: json.data.applicationId,
+              jobTitle: job.title,
+              company: job.company,
+              status: 'Rejected',
+              matchScore: score,
+              appliedDate: new Date().toISOString()
+            };
+            setAppliedJobs(prev => [rejectionApp, ...prev]);
+            // Update localStorage too if needed, but simplistic is fine for now
+          }
+
           // REPLACE ALERT WITH MODAL
           setMatchModalState({
             show: true,
             type: 'error',
             score: score,
             suggestions: suggestions,
-            message: `Application Blocked: Match Score Too Low`
+            message: `Match Score Too Low`
           });
         } else {
-          alert('Failed to submit application: ' + (json.message || 'Unknown error'));
+          toast.error('Failed to submit application: ' + (json.message || 'Unknown error'));
         }
       }
     } catch (error) {
       console.error('Application submission error:', error);
-      alert('Failed to submit application. Please try again.');
+      toast.error('Failed to submit application. Please try again.');
     } finally {
       setIsSubmittingApplication(false);
       setApplyingJobId(null);
@@ -678,7 +800,7 @@ export default function JobseekerDashboard() {
 
     const currentQuestion = currentJob.customQuestions[currentQuestionIndex];
     if (currentQuestion?.isRequired && !questionAnswers[currentQuestion.id]?.trim()) {
-      alert('Please answer this required question before proceeding.');
+      toast.warning('Please answer this required question before proceeding.');
       return;
     }
 
@@ -735,23 +857,24 @@ export default function JobseekerDashboard() {
 
   const navigationItems = [
     { id: 'home', label: 'Home', icon: FiHome },
-    { id: 'job-profiles', label: 'Find Jobs', icon: FiBriefcase },
+    { id: 'find-jobs', label: 'Find Jobs', icon: FiSearch },
     { id: 'applied-jobs', label: 'Applied Jobs', icon: FiCheck },
+    { id: 'saved-jobs', label: 'Saved Jobs', icon: FiBookmark },
     { id: 'my-profile', label: 'My Profile', icon: FiUser, path: '/JobseekerProfile' },
     { id: 'interviews', label: 'Interviews', icon: FiCalendar },
-    { id: 'assessments', label: 'Assessments', icon: FiBook }, // Changed icon to distinguish
+    { id: 'assessments', label: 'Assessments', icon: FiBook },
     { id: 'events', label: 'Events', icon: FiAward },
-    { id: 'competitions', label: 'Competitions', icon: FiBook }
+    { id: 'competitions', label: 'Competitions', icon: FiAward }
   ];
 
   const handleNavigation = (item) => {
     if (item.path) {
       router.push(item.path);
-      setIsMobileMenuOpen(false);
+      setIsSidebarOpen(false);
       return;
     }
     setActiveTab(item.id);
-    setIsMobileMenuOpen(false);
+    setIsSidebarOpen(false);
   };
 
   const toggleMobileMenu = () => {
@@ -798,36 +921,14 @@ export default function JobseekerDashboard() {
           <div className="flex justify-between items-center h-16">
             {/* Left: menu icon and title */}
             <div className="flex items-center">
-              <div className="relative mr-3">
+              <div className="mr-3">
                 <button
-                  onClick={() => setShowDesktopMenu(prev => !prev)}
-                  className="p-2 rounded-lg hover:bg-gray-100 text-black"
+                  onClick={() => setIsSidebarOpen(true)}
+                  className="p-2 rounded-lg hover:bg-gray-100 text-black transition-colors"
                   aria-label="Open menu"
-                  aria-expanded={showDesktopMenu}
-                  aria-controls="header-menu-dropdown"
                 >
                   <FiMenu className="w-6 h-6" />
                 </button>
-                {showDesktopMenu && (
-                  <nav id="header-menu-dropdown" className="absolute left-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50">
-                    <ul className="py-2">
-                      {navigationItems.map((item) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <li key={item.id}>
-                            <button
-                              onClick={() => { handleNavigation(item); setShowDesktopMenu(false); }}
-                              className={`w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 ${activeTab === item.id ? 'text-blue-700' : 'text-black'}`}
-                            >
-                              <IconComponent className="w-5 h-5" />
-                              <span className="font-medium">{item.label}</span>
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </nav>
-                )}
               </div>
               <h1 className="text-2xl font-bold text-black">Career Portal</h1>
             </div>
@@ -917,169 +1018,157 @@ export default function JobseekerDashboard() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Mobile Menu Overlay */}
-          {isMobileMenuOpen && (
-            <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsMobileMenuOpen(false)}>
-              <div className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-lg z-50" onClick={(e) => e.stopPropagation()}>
-                {/* Sidebar Navigation - Mobile */}
-                <div className="p-4 border-b">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-black">Menu</h2>
-                    <button
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="p-2 rounded-lg text-black hover:text-gray-900 hover:bg-gray-100"
-                    >
-                      <FiX className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-                <nav className="p-4">
-                  <ul className="space-y-2">
-                    {navigationItems.map((item) => {
-                      const IconComponent = item.icon;
-                      return (
-                        <li key={item.id}>
-                          <button
-                            onClick={() => handleNavigation(item)}
-                            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === item.id
-                              ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                              : 'text-black hover:bg-gray-50'
-                              }`}
-                          >
-                            <IconComponent className="w-5 h-5" />
-                            <span className="font-medium">{item.label}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </nav>
-              </div>
-            </div>
+
+          {/* Animated Sidenav Overlay */}
+
+          {/* Backdrop */}
+          {isSidebarOpen && (
+            <div
+              className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+              onClick={() => setIsSidebarOpen(false)}
+            />
           )}
 
-          {/* Desktop sidebar toast removed; header menu used instead */}
+          {/* Sidenav Panel */}
+          <div
+            className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+              }`}
+          >
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-xl font-bold text-gray-800">Menu</h2>
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors"
+              >
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-64px)]">
+              {navigationItems.map((item) => {
+                const IconComponent = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavigation(item)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
+                      ? 'bg-blue-50 text-blue-700 font-semibold'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
+                  >
+                    <IconComponent className={`w-5 h-5 ${isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'}`} />
+                    <span>{item.label}</span>
+                    {isActive && (
+                      <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-600" />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Sidenav Footer */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <FiLogOut className="w-5 h-5" />
+                <span className="font-medium">Sign Out</span>
+              </button>
+            </div>
+          </div>
 
           {/* Main Content */}
           <main className="flex-1">
-            {activeTab === 'home' && (
+
+
+            {(activeTab === 'home' || activeTab === 'find-jobs') && (
               <div className="space-y-6">
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="relative w-20 h-20">
-                        <svg viewBox="0 0 36 36" className="w-20 h-20">
-                          <path d="M18 2.0845
-                          a 15.9155 15.9155 0 0 1 0 31.831
-                          a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E5E7EB" strokeWidth="3" />
-                          <path d="M18 2.0845
-                          a 15.9155 15.9155 0 0 1 0 31.831" fill="none"
-                            stroke="#2563EB" strokeWidth="3" strokeDasharray={`${Math.max(0, Math.min(100, profileCompletion))}, 100`} />
-                        </svg>
-                        <button
-                          type="button"
-                          onClick={() => document.getElementById('dash-avatar-input')?.click()}
-                          className="absolute inset-1 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden ring-2 ring-transparent hover:ring-blue-200 transition"
-                          title="Click to upload photo"
-                        >
-                          {avatarPreview ? (
-                            <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
+                {/* Enhanced Profile Card */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                  <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <div className="relative group shrink-0">
+                      <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-br from-blue-500 to-indigo-600">
+                        <div className="w-full h-full rounded-full bg-white p-0.5 relative overflow-hidden">
+                          {(user?.profileImage || avatarPreview) ? (
+                            <img src={user?.profileImage || avatarPreview} alt="Profile" className="w-full h-full object-cover rounded-full" />
                           ) : (
-                            <span className="text-black">User</span>
+                            <div className="w-full h-full bg-gray-50 flex items-center justify-center text-2xl font-bold text-blue-600">
+                              {(user?.firstName?.[0] || user?.name?.[0] || 'U').toUpperCase()}
+                            </div>
                           )}
-                        </button>
-                        <input
-                          id="dash-avatar-input"
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={async (e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            const reader = new FileReader();
-                            reader.onload = (ev) => setAvatarPreview(ev.target.result);
-                            reader.readAsDataURL(file);
-                            try {
-                              const r = await uploadAvatar(file);
-                              if (r?.url) setAvatarPreview(r.url);
-                              if (typeof window !== 'undefined') window.dispatchEvent(new Event('focus'));
-                            } catch (_) {
-                              alert('Failed to upload photo. Please try again.');
-                            }
-                          }}
-                        />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white text-blue-600 text-xs font-semibold px-1.5 py-0.5 rounded-full border">
-                          {profileLoading ? '...' : `${Math.max(0, Math.min(100, profileCompletion))}%`}
+                          <button
+                            onClick={() => document.getElementById('dash-avatar-main')?.click()}
+                            className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium"
+                          >
+                            Change
+                          </button>
                         </div>
                       </div>
-                      <div>
-                        <div className="text-lg font-semibold text-black">
-                          {user?.user_name || [user?.firstName, user?.lastName].filter(Boolean).join(' ') || user?.username || user?.name || (user?.email ? user.email.split('@')[0] : 'User')}
-                        </div>
-                        <div className="text-sm text-black mt-1">Profile completion</div>
+                      <input id="dash-avatar-main" type="file" className="hidden" accept="image/*" onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (ev) => setAvatarPreview(ev.target.result);
+                          reader.readAsDataURL(file);
+                          await uploadAvatar(file);
+                        }
+                      }} />
+                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm whitespace-nowrap">
+                        {Math.round(profileCompletion)}% Ready
                       </div>
                     </div>
-                    <Link href="/JobseekerProfile" className="px-4 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700">Complete profile</Link>
+
+                    <div className="flex-1 text-center md:text-left">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                          <h2 className="text-2xl font-bold text-gray-900">
+                            {user?.firstName || user?.lastName
+                              ? `${user?.firstName || ''} ${user?.lastName || ''}`.trim()
+                              : (user?.name || user?.username || 'Job Seeker')}
+                          </h2>
+                          <p className="text-gray-500 font-medium">{user?.profileTitle || user?.title || 'Job Seeker'}</p>
+                          <div className="flex items-center justify-center md:justify-start gap-2 text-sm text-gray-400 mt-1">
+                            <FiMapPin className="w-3.5 h-3.5" />
+                            <span>{user?.address || user?.location || 'Location not set'}</span>
+                          </div>
+                        </div>
+                        <Link href="/JobseekerProfile" className="px-5 py-2.5 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors shadow-lg shadow-gray-200">
+                          Complete Profile
+                        </Link>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+                        <div className="p-3 bg-blue-50 rounded-xl border border-blue-100">
+                          <div className="text-2xl font-bold text-blue-600">{appliedJobs.length}</div>
+                          <div className="text-xs font-semibold text-blue-400 uppercase tracking-wider">Applied</div>
+                        </div>
+                        <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-100">
+                          <div className="text-2xl font-bold text-indigo-600">{savedJobs.length}</div>
+                          <div className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Saved</div>
+                        </div>
+                        <div className="p-3 bg-purple-50 rounded-xl border border-purple-100">
+                          <div className="text-2xl font-bold text-purple-600">
+                            {appliedJobs.filter(job => ['interview', 'interviewing', 'scheduled'].includes((job.status || '').toLowerCase())).length}
+                          </div>
+                          <div className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Interviews</div>
+                        </div>
+                        <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                          <div className="text-2xl font-bold text-emerald-600">
+                            {appliedJobs.filter(job => ['offer', 'offer_received', 'hired'].includes((job.status || '').toLowerCase())).length}
+                          </div>
+                          <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Offers</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                {/* Jobs Filters */}
-                <div className="bg-white rounded-lg shadow-sm p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-6 gap-3">
-                    <input
-                      value={jobFilters.q}
-                      onChange={(e) => setJobFilters(v => ({ ...v, q: e.target.value }))}
-                      className="px-3 py-2 border rounded-lg text-gray-900"
-                      placeholder="Search jobs"
-                    />
-                    <input
-                      value={jobFilters.location}
-                      onChange={(e) => setJobFilters(v => ({ ...v, location: e.target.value }))}
-                      className="px-3 py-2 border rounded-lg text-gray-900"
-                      placeholder="Location"
-                    />
-                    <select
-                      value={jobFilters.jobType}
-                      onChange={(e) => setJobFilters(v => ({ ...v, jobType: e.target.value }))}
-                      className="px-3 py-2 border rounded-lg text-gray-900"
-                    >
-                      <option value="">Any Type</option>
-                      <option value="Full-time">Full-time</option>
-                      <option value="Part-time">Part-time</option>
-                      <option value="Contract">Contract</option>
-                      <option value="Internship">Internship</option>
-                      <option value="Freelance">Freelance</option>
-                    </select>
-                    <input
-                      value={jobFilters.minSalary}
-                      onChange={(e) => setJobFilters(v => ({ ...v, minSalary: e.target.value }))}
-                      type="number"
-                      className="px-3 py-2 border rounded-lg text-gray-900"
-                      placeholder="Min Salary"
-                    />
-                    <input
-                      value={jobFilters.maxSalary}
-                      onChange={(e) => setJobFilters(v => ({ ...v, maxSalary: e.target.value }))}
-                      type="number"
-                      className="px-3 py-2 border rounded-lg text-gray-900"
-                      placeholder="Max Salary"
-                    />
-                    <select
-                      value={jobFilters.sort}
-                      onChange={(e) => setJobFilters(v => ({ ...v, sort: e.target.value }))}
-                      className="px-3 py-2 border rounded-lg text-gray-900"
-                    >
-                      <option value="newest">Newest</option>
-                      <option value="relevance">Relevance</option>
-                      <option value="salary">Salary</option>
-                    </select>
-                  </div>
-                  <div className="mt-3 flex items-center gap-3">
-                    <button onClick={() => { setJobsPage(1); }} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Apply</button>
-                    <button onClick={() => setJobFilters({ q: '', location: '', jobType: '', minSalary: '', maxSalary: '', sort: 'newest' })} className="px-4 py-2 border rounded-lg text-gray-900 hover:bg-gray-50">Clear</button>
-                    {jobsLoading && <span className="text-sm text-gray-500">Loading jobs...</span>}
-                  </div>
-                </div>
+
+
+
                 {jobPosts.map((job) => (
                   <div
                     key={job.id}
@@ -1090,9 +1179,15 @@ export default function JobseekerDashboard() {
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-2">
-                            <span className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
-                              Open for applications
-                            </span>
+                            {new Date(job.deadline) < new Date() ? (
+                              <span className="inline-block bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full">
+                                Expired
+                              </span>
+                            ) : (
+                              <span className="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                                Open for applications
+                              </span>
+                            )}
 
                             {job.featured && (
                               <span className="inline-block bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full">
@@ -1127,8 +1222,8 @@ export default function JobseekerDashboard() {
                           </button>
                           <button
                             onClick={() => handleApplyJob(job.id)}
-                            disabled={appliedJobs.some(j => j.id === job.id) || applyingJobId === job.id}
-                            className={`bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2 ${appliedJobs.some(j => j.id === job.id) || applyingJobId === job.id
+                            disabled={appliedJobs.some(j => j.id === job.id) || applyingJobId === job.id || new Date(job.deadline) < new Date()}
+                            className={`bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2 ${appliedJobs.some(j => j.id === job.id) || applyingJobId === job.id || new Date(job.deadline) < new Date()
                               ? 'opacity-60 cursor-not-allowed'
                               : 'hover:bg-blue-700'
                               }`}
@@ -1141,7 +1236,13 @@ export default function JobseekerDashboard() {
                             ) : (
                               <>
                                 <FiBriefcase className="w-4 h-4" />
-                                <span>{appliedJobs.some(j => j.id === job.id) ? 'Applied' : 'Apply Now'}</span>
+                                <span>
+                                  {appliedJobs.some(j => j.id === job.id)
+                                    ? 'Applied'
+                                    : new Date(job.deadline) < new Date()
+                                      ? 'Expired'
+                                      : 'Apply Now'}
+                                </span>
                               </>
                             )}
                           </button>
@@ -1208,510 +1309,698 @@ export default function JobseekerDashboard() {
               </div>
             )}
 
-            {activeTab === 'job-profiles' && (
+            {activeTab === 'applied-jobs' && (
               <div className="space-y-6">
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Saved Jobs</h2>
-                  {savedJobs.length === 0 ? (
-                    <p className="text-gray-600">No saved jobs yet.</p>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {jobPosts.filter(j => savedJobs.includes(j.id)).map(job => (
-                        <div key={job.id} className="border rounded-lg p-4">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-semibold text-gray-900">{job.title}</h3>
-                              <p className="text-gray-600">{job.company} - {job.location}</p>
-                            </div>
-                            <button onClick={() => toggleSaveJob(job.id)} className="text-blue-600 hover:text-blue-800">Unsave</button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-900">Applied Jobs</h2>
+                  <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">{appliedJobs.length} Applications</span>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Applied Jobs</h2>
-                  {appliedJobs.length === 0 ? (
-                    <p className="text-gray-600">You haven't applied to any jobs yet.</p>
-                  ) : (
-                    <div className="space-y-3">
-                      {appliedJobs.map(app => {
-                        const job = jobPosts.find(j => j.id === app.id);
-                        if (!job) return null;
-                        return (
-                          <div key={app.id} className="border rounded-lg p-4 flex items-center justify-between">
-                            <div>
-                              <h3 className="font-semibold text-gray-900">{job.title}</h3>
-                              <p className="text-gray-600">{job.company} - Applied on {new Date(app.at).toLocaleDateString()}</p>
-                            </div>
-                            <span className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">Submitted</span>
-                          </div>
-                        );
-                      })}
+                {appliedJobs.length === 0 ? (
+                  <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100">
+                    <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FiCheck className="w-8 h-8 text-gray-400" />
                     </div>
-                  )}
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">No applications yet</h3>
+                    <p className="text-gray-500 mb-6">Start applying to jobs to track them here.</p>
+                    <button onClick={() => setActiveTab('home')} className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700">Browse Jobs</button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-4">
+                    {appliedJobs.map(app => (
+                      <div key={app._id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                          <div>
+                            <h3 className="text-lg font-bold text-gray-900">{app.jobTitle}</h3>
+                            <p className="text-gray-600 font-medium">{app.company}</p>
+                            <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
+                              <span className="flex items-center gap-1"><FiCalendar className="w-4 h-4" /> Applied: {new Date(app.appliedDate).toLocaleDateString()}</span>
+                              {app.matchScore > 0 && <span className="flex items-center gap-1 text-emerald-600 font-medium"><FiCheck className="w-4 h-4" /> {app.matchScore}% Match</span>}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize
+                                ${app.status === 'Applied' ? 'bg-blue-50 text-blue-700' :
+                                app.status === 'Rejected' ? 'bg-red-50 text-red-700' :
+                                  'bg-green-50 text-green-700'}`}>
+                              {app.status || 'Applied'}
+                            </span>
+                            <button className="p-2 text-gray-400 hover:text-gray-600"><FiChevronRight className="w-5 h-5" /></button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'saved-jobs' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-900">Saved Jobs</h2>
+                  <span className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">{savedJobs.length} Saved</span>
                 </div>
+
+                {savedJobs.length === 0 ? (
+                  <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100">
+                    <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FiBookmark className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">No saved jobs</h3>
+                    <p className="text-gray-500 mb-6">Save jobs you're interested in to view them later.</p>
+                    <button onClick={() => setActiveTab('home')} className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700">Browse Jobs</button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {jobPosts.filter(j => savedJobs.includes(j.id)).map(job => (
+                      <div key={job.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow relative group">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-bold text-gray-900 line-clamp-1">{job.title}</h3>
+                            <div className="flex items-center gap-2">
+                              <p className="text-gray-600 text-sm">{job.company}</p>
+                              {new Date(job.deadline) < new Date() && (
+                                <span className="text-[10px] font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Expired</span>
+                              )}
+                            </div>
+                          </div>
+                          <button onClick={() => toggleSaveJob(job.id)} className="text-indigo-600 hover:text-indigo-800 p-2 bg-indigo-50 rounded-lg">
+                            <FiBookmark className="w-5 h-5 fill-current" />
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                          <FiMapPin className="w-4 h-4" /> {job.location}
+                        </div>
+                        <button
+                          onClick={() => handleApplyJob(job.id)}
+                          disabled={new Date(job.deadline) < new Date()}
+                          className={`w-full py-2.5 rounded-lg font-medium transition-colors ${new Date(job.deadline) < new Date()
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-gray-900 text-white hover:bg-black'
+                            }`}
+                        >
+                          {new Date(job.deadline) < new Date() ? 'Expired' : 'Apply Now'}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
             {activeTab === 'interviews' && (
-              <div className="space-y-4">
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Upcoming Interviews</h2>
-                  {interviews.length === 0 ? (
-                    <p className="text-gray-600">No interviews scheduled.</p>
-                  ) : (
-                    <div className="space-y-3">
-                      {interviews.map(itv => (
-                        <div key={itv.id} className="border rounded-lg p-4">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <h3 className="font-semibold text-gray-900">{itv.title}</h3>
-                              <p className="text-gray-600">{itv.date} - {itv.time}</p>
-                            </div>
-                            <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full">{itv.status}</span>
-                          </div>
-                          <div className="mt-3 flex items-center gap-2">
-                            <button onClick={() => handleUpdateInterviewStatus(itv.id, 'Completed')} className="px-3 py-2 text-sm border rounded-lg hover:bg-gray-50">Mark as Done</button>
-                            <button onClick={() => handleUpdateInterviewStatus(itv.id, 'Cancelled')} className="px-3 py-2 text-sm border rounded-lg hover:bg-gray-50">Cancel</button>
-                            {itv.link && (
-                              <a href={itv.link} target="_blank" rel="noopener noreferrer" className="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700">Join</a>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-900">My Interviews</h2>
+                  <span className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium">{interviews.length} Scheduled</span>
                 </div>
-              </div>
-            )}
 
-            {activeTab === 'assessments' && (
-              <div className="space-y-4">
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Assessments</h2>
-                  <div className="space-y-3">
-                    {assessments.map(asmt => (
-                      <div key={asmt.id} className="border rounded-lg p-4 flex items-center justify-between">
+                {interviews.length === 0 ? (
+                  <div className="bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100">
+                    <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <FiCalendar className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-1">No interviews scheduled</h3>
+                    <p className="text-gray-500 mb-6">Applications that advance will have interviews appear here.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {interviews.map(itv => (
+                      <div key={itv.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:shadow-md transition-shadow">
                         <div>
-                          <h3 className="font-semibold text-gray-900">{asmt.name}</h3>
-                          <p className="text-gray-600">Status: {asmt.status}{typeof asmt.score === 'number' ? ` - Score: ${asmt.score}` : ''}</p>
+                          <h3 className="text-lg font-bold text-gray-900">{itv.title}</h3>
+                          <p className="text-gray-600 font-medium">{itv.company}</p>
+                          <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
+                            <span className="flex items-center gap-1"><FiCalendar className="w-4 h-4" /> Added: {itv.date} at {itv.time}</span>
+                          </div>
                         </div>
-                        {asmt.status === 'Completed' ? (
-                          <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">Review</button>
-                        ) : asmt.status === 'In Progress' ? (
-                          <button onClick={() => handleSubmitAssessment(asmt.id, 85)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Submit</button>
-                        ) : (
-                          <button onClick={() => handleStartAssessment(asmt.id)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
-                        )}
+
+                        <div className="flex items-center gap-4">
+                          <span className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize flex items-center gap-2
+                                ${itv.status === 'Pending' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' :
+                              itv.status === 'Completed' ? 'bg-green-50 text-green-700 border border-green-200' :
+                                'bg-gray-50 text-gray-700'}`}>
+                            {itv.status === 'Pending' && <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>}
+                            {itv.status === 'Completed' && <FiCheck className="w-4 h-4" />}
+                            {itv.status}
+                          </span>
+
+                          {itv.status === 'Pending' && (
+                            <Link
+                              href={`/interview/${itv.token}`}
+                              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-200 flex items-center gap-2"
+                            >
+                              <FiVideo className="w-4 h-4" /> Start Interview
+                            </Link>
+                          )}
+
+                          {itv.status === 'Completed' && (
+                            <button disabled className="px-6 py-2.5 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed">
+                              Submitted
+                            </button>
+                            // In future, link to feedback/results
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
-                </div>
+                )}
               </div>
             )}
 
-            {activeTab === 'events' && (
-              <div className="space-y-4">
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Events</h2>
-                  {events.length === 0 ? (
-                    <p className="text-gray-600">No events scheduled for you at the moment.</p>
-                  ) : (
-                    <div className="space-y-3">
-                      {events.map(evt => (
-                        <div key={evt.id} className="border rounded-lg p-4 flex items-center justify-between">
-                          <div>
-                            <h3 className="font-semibold text-gray-900">{evt.name || evt.title}</h3>
-                            <p className="text-gray-600">{evt.date} - {evt.location || evt.link}</p>
-                          </div>
-                          <button
-                            className={`px-4 py-2 rounded-lg border ${evt.registered ? 'bg-blue-50 text-blue-700 border-blue-200' : 'hover:bg-gray-50'}`}
-                            onClick={() => handleRegisterEvent(evt._id || evt.id, !!evt.registered)}
-                          >
-                            {evt.registered ? 'Unregister' : 'Register'}
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
 
-            {activeTab === 'competitions' && (
-              <div className="space-y-4">
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Competitions</h2>
-                  {competitions.length === 0 ? (
-                    <p className="text-gray-600">No active competitions.</p>
-                  ) : (
+            {
+              activeTab === 'assessments' && (
+                <div className="space-y-4">
+                  <div className="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Assessments</h2>
                     <div className="space-y-3">
-                      {competitions.map(cmp => (
-                        <div key={cmp.id} className="border rounded-lg p-4 flex items-center justify-between">
+                      {assessments.map(asmt => (
+                        <div key={asmt.id} className="border rounded-lg p-4 flex items-center justify-between">
                           <div>
-                            <h3 className="font-semibold text-gray-900">{cmp.name}</h3>
-                            <p className="text-gray-600">Deadline: {cmp.deadline} - Prize: {cmp.prize}</p>
+                            <h3 className="font-semibold text-gray-900">{asmt.name}</h3>
+                            <p className="text-gray-600">Status: {asmt.status}{typeof asmt.score === 'number' ? ` - Score: ${asmt.score}` : ''}</p>
                           </div>
-                          <button
-                            onClick={() => handleParticipateCompetition(cmp._id || cmp.id)}
-                            disabled={!!cmp.participated}
-                            className={`px-4 py-2 rounded-lg text-white ${cmp.participated ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-                          >
-                            {cmp.participated ? 'Participated' : 'Participate'}
-                          </button>
+                          {asmt.status === 'Completed' ? (
+                            <button className="px-4 py-2 border rounded-lg hover:bg-gray-50">Review</button>
+                          ) : asmt.status === 'In Progress' ? (
+                            <button onClick={() => handleSubmitAssessment(asmt.id, 85)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Submit</button>
+                          ) : (
+                            <button onClick={() => handleStartAssessment(asmt.id)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Start</button>
+                          )}
                         </div>
                       ))}
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )
+            }
+
+            {
+              activeTab === 'events' && (
+                <div className="space-y-4">
+                  <div className="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Events</h2>
+                    {events.length === 0 ? (
+                      <p className="text-gray-600">No events scheduled for you at the moment.</p>
+                    ) : (
+                      <div className="space-y-3">
+                        {events.map(evt => (
+                          <div key={evt.id} className="border rounded-lg p-4 flex items-center justify-between">
+                            <div>
+                              <h3 className="font-semibold text-gray-900">{evt.name || evt.title}</h3>
+                              <p className="text-gray-600">{evt.date} - {evt.location || evt.link}</p>
+                            </div>
+                            <button
+                              className={`px-4 py-2 rounded-lg border ${evt.registered ? 'bg-blue-50 text-blue-700 border-blue-200' : 'hover:bg-gray-50'}`}
+                              onClick={() => handleRegisterEvent(evt._id || evt.id, !!evt.registered)}
+                            >
+                              {evt.registered ? 'Unregister' : 'Register'}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            }
+
+            {
+              activeTab === 'competitions' && (
+                <div className="space-y-4">
+                  <div className="bg-white rounded-lg shadow-sm border p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Competitions</h2>
+                    {competitions.length === 0 ? (
+                      <p className="text-gray-600">No active competitions.</p>
+                    ) : (
+                      <div className="space-y-3">
+                        {competitions.map(cmp => (
+                          <div key={cmp.id} className="border rounded-lg p-4 flex items-center justify-between">
+                            <div>
+                              <h3 className="font-semibold text-gray-900">{cmp.name}</h3>
+                              <p className="text-gray-600">Deadline: {cmp.deadline} - Prize: {cmp.prize}</p>
+                            </div>
+                            <button
+                              onClick={() => handleParticipateCompetition(cmp._id || cmp.id)}
+                              disabled={!!cmp.participated}
+                              className={`px-4 py-2 rounded-lg text-white ${cmp.participated ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+                            >
+                              {cmp.participated ? 'Participated' : 'Participate'}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            }
 
 
             {/* Launchpad Section */}
-            {activeTab === 'home' && (
-              <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-lg shadow-lg text-white p-4 md:p-8 mt-8">
-                <div className="flex flex-col lg:flex-row items-center justify-between">
-                  <div className="lg:w-1/2 mb-6 lg:mb-0">
-                    <div className="flex items-center mb-4">
-                      <span className="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full mr-3">
-                        New
-                      </span>
-                      <h2 className="text-xl md:text-2xl font-bold">Launchpad is now LIVE</h2>
-                    </div>
-                    <h3 className="text-lg md:text-xl font-semibold mb-4">
-                      Upskill, Practice & Crack a Job
-                    </h3>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                      <div className="text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0">
-                        <div className="text-2xl font-bold">{launchpadStats.opportunities}</div>
-                        <div className="text-sm opacity-90">Job Opportunities</div>
+            {
+              activeTab === 'home' && (
+                <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-lg shadow-lg text-white p-4 md:p-8 mt-8">
+                  <div className="flex flex-col lg:flex-row items-center justify-between">
+                    <div className="lg:w-1/2 mb-6 lg:mb-0">
+                      <div className="flex items-center mb-4">
+                        <span className="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full mr-3">
+                          New
+                        </span>
+                        <h2 className="text-xl md:text-2xl font-bold">Launchpad is now LIVE</h2>
                       </div>
-                      <div className="text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0">
-                        <div className="text-2xl font-bold">{launchpadStats.tests}</div>
-                        <div className="text-sm opacity-90">Practice Tests</div>
-                      </div>
-                      <div className="text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0">
-                        <div className="text-2xl font-bold">{launchpadStats.courses}</div>
-                        <div className="text-sm opacity-90">Free Certificate Course</div>
-                      </div>
-                    </div>
+                      <h3 className="text-lg md:text-xl font-semibold mb-4">
+                        Upskill, Practice & Crack a Job
+                      </h3>
 
-                    <div className="mb-4">
-                      <span className="text-lg font-semibold">All for Free</span>
-                      <p className="opacity-90">and let your career take flight</p>
-                    </div>
-
-                    <button className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2">
-                      <FiAward className="w-5 h-5" />
-                      <span>Visit Launchpad Now</span>
-                    </button>
-                  </div>
-
-                  <div className="lg:w-2/5 flex justify-center w-full">
-                    <div className="bg-white bg-opacity-20 rounded-2xl p-6 backdrop-blur-sm w-full max-w-xs sm:max-w-sm">
-                      <div className="text-center">
-                        <div className="w-20 h-20 bg-white bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <FiAward className="w-10 h-10 text-white" />
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                        <div className="text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0">
+                          <div className="text-2xl font-bold">{launchpadStats.opportunities}</div>
+                          <div className="text-sm opacity-90">Job Opportunities</div>
                         </div>
-                        <p className="font-semibold">Start Your Journey Today!</p>
+                        <div className="text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0">
+                          <div className="text-2xl font-bold">{launchpadStats.tests}</div>
+                          <div className="text-sm opacity-90">Practice Tests</div>
+                        </div>
+                        <div className="text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0">
+                          <div className="text-2xl font-bold">{launchpadStats.courses}</div>
+                          <div className="text-sm opacity-90">Free Certificate Course</div>
+                        </div>
+                      </div>
+
+                      <div className="mb-4">
+                        <span className="text-lg font-semibold">All for Free</span>
+                        <p className="opacity-90">and let your career take flight</p>
+                      </div>
+
+                      <button className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2">
+                        <FiAward className="w-5 h-5" />
+                        <span>Visit Launchpad Now</span>
+                      </button>
+                    </div>
+
+                    <div className="lg:w-2/5 flex justify-center w-full">
+                      <div className="bg-white bg-opacity-20 rounded-2xl p-6 backdrop-blur-sm w-full max-w-xs sm:max-w-sm">
+                        <div className="text-center">
+                          <div className="w-20 h-20 bg-white bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <FiAward className="w-10 h-10 text-white" />
+                          </div>
+                          <p className="font-semibold">Start Your Journey Today!</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </main>
-        </div>
-      </div>
+              )
+            }
+          </main >
+        </div >
+      </div >
 
       {/* Question Modal */}
-      {showQuestionModal && currentJob && currentJob.customQuestions && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity duration-300">
-          <div
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden transform transition-all duration-300 scale-95 hover:scale-100"
-            style={{
-              maxHeight: '90vh',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-            }}
-          >
-            <div className="p-8">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-800">Job Application</h2>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {currentJob.title} • {currentJob.company}
-                  </p>
-                  <div className="mt-4 flex items-center">
-                    <div className="flex items-center text-sm text-blue-600">
-                      <span className="font-medium">
-                        Question {currentQuestionIndex + 1} of {currentJob.customQuestions.length}
-                      </span>
-                      <div className="ml-4 w-32 bg-gray-200 rounded-full h-1.5">
-                        <div
-                          className="bg-blue-600 h-1.5 rounded-full transition-all duration-300 ease-out"
-                          style={{ width: `${((currentQuestionIndex + 1) / currentJob.customQuestions.length) * 100}%` }}
-                        ></div>
+      {
+        showQuestionModal && currentJob && currentJob.customQuestions && (
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity duration-300">
+            <div
+              className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden transform transition-all duration-300 scale-95 hover:scale-100"
+              style={{
+                maxHeight: '90vh',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+              }}
+            >
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800">Job Application</h2>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {currentJob.title} • {currentJob.company}
+                    </p>
+                    <div className="mt-4 flex items-center">
+                      <div className="flex items-center text-sm text-blue-600">
+                        <span className="font-medium">
+                          Question {currentQuestionIndex + 1} of {currentJob.customQuestions.length}
+                        </span>
+                        <div className="ml-4 w-32 bg-gray-200 rounded-full h-1.5">
+                          <div
+                            className="bg-blue-600 h-1.5 rounded-full transition-all duration-300 ease-out"
+                            style={{ width: `${((currentQuestionIndex + 1) / currentJob.customQuestions.length) * 100}%` }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <button
+                    onClick={handleCloseQuestionModal}
+                    className="p-1.5 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors"
+                    aria-label="Close"
+                  >
+                    <FiX className="w-5 h-5" />
+                  </button>
                 </div>
+
+                {(currentJob.customQuestions && currentJob.customQuestions[currentQuestionIndex]) && (
+                  <div className="space-y-6">
+                    <div className="bg-gray-50 p-4 rounded-xl">
+                      <label className="block text-base font-medium text-gray-800 mb-3">
+                        {currentJob.customQuestions[currentQuestionIndex].question}
+                        {currentJob.customQuestions[currentQuestionIndex].isRequired && (
+                          <span className="text-red-500 ml-1">*</span>
+                        )}
+                      </label>
+                      <textarea
+                        value={questionAnswers[currentJob.customQuestions[currentQuestionIndex].id] || ''}
+                        onChange={(e) => handleQuestionAnswer(currentJob.customQuestions[currentQuestionIndex].id, e.target.value)}
+                        placeholder="Type your answer here..."
+                        rows={5}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200"
+                        style={{
+                          minHeight: '120px',
+                          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
+                        }}
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row justify-between items-center pt-2 gap-4">
+                      {!currentJob.customQuestions[currentQuestionIndex].isRequired && (
+                        <button
+                          onClick={handleSkipQuestion}
+                          className="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                          Skip this question
+                        </button>
+                      )}
+
+                      <div className="w-full sm:w-auto flex-1 flex justify-end">
+                        <button
+                          onClick={handleNextQuestion}
+                          disabled={isSubmittingApplication || (currentJob.customQuestions[currentQuestionIndex].isRequired && !questionAnswers[currentJob.customQuestions[currentQuestionIndex].id]?.trim())}
+                          className={`w-full sm:w-auto px-6 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 ${isSubmittingApplication || (currentJob.customQuestions[currentQuestionIndex].isRequired && !questionAnswers[currentJob.customQuestions[currentQuestionIndex].id]?.trim())
+                            ? 'bg-blue-400 cursor-not-allowed'
+                            : 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg'
+                            }`}
+                        >
+                          {isSubmittingApplication ? (
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            <span className="flex items-center">
+                              {currentQuestionIndex === currentJob.customQuestions.length - 1 ? (
+                                'Submit Application'
+                              ) : (
+                                <div>
+                                  Next Question
+                                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                  </svg>
+                                </div>
+                              )}
+                            </span>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )
+      }
+
+      {/* Profile Panel */}
+      {/* Profile Panel (Redesigned) */}
+      {
+        showProfilePanel && (
+          <div>
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity" onClick={closeProfilePanel}></div>
+            <div className="fixed right-0 top-0 bottom-0 z-50 w-full sm:w-[480px] bg-white shadow-2xl border-l border-gray-100 transform transition-transform duration-300">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+                <h3 className="text-xl font-bold text-gray-900 tracking-tight">My Profile</h3>
                 <button
-                  onClick={handleCloseQuestionModal}
-                  className="p-1.5 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors"
-                  aria-label="Close"
+                  onClick={closeProfilePanel}
+                  className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-200"
                 >
                   <FiX className="w-5 h-5" />
                 </button>
               </div>
 
-              {(currentJob.customQuestions && currentJob.customQuestions[currentQuestionIndex]) && (
-                <div className="space-y-6">
-                  <div className="bg-gray-50 p-4 rounded-xl">
-                    <label className="block text-base font-medium text-gray-800 mb-3">
-                      {currentJob.customQuestions[currentQuestionIndex].question}
-                      {currentJob.customQuestions[currentQuestionIndex].isRequired && (
-                        <span className="text-red-500 ml-1">*</span>
-                      )}
-                    </label>
-                    <textarea
-                      value={questionAnswers[currentJob.customQuestions[currentQuestionIndex].id] || ''}
-                      onChange={(e) => handleQuestionAnswer(currentJob.customQuestions[currentQuestionIndex].id, e.target.value)}
-                      placeholder="Type your answer here..."
-                      rows={5}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none transition-all duration-200"
-                      style={{
-                        minHeight: '120px',
-                        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
-                      }}
-                    />
-                  </div>
+              <div className="overflow-y-auto h-[calc(100vh-80px)]">
+                {profileEditMode ? (
+                  <JobSeekerProfileForm user={user} />
+                ) : (
+                  <div className="p-6 space-y-8">
+                    {/* User Identity Card */}
+                    <div className="flex flex-col items-center text-center">
+                      <div className="relative mb-4 group">
+                        <div className="w-24 h-24 rounded-full p-1 bg-white border-2 border-blue-100 shadow-sm mx-auto overflow-hidden">
+                          {(user?.profileImage || avatarPreview) ? (
+                            <img
+                              src={user?.profileImage || avatarPreview}
+                              alt="Profile"
+                              className="w-full h-full rounded-full object-cover"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div className={`w-full h-full rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center ${(user?.profileImage || avatarPreview) ? 'hidden' : 'flex'}`}>
+                            <span className="text-3xl font-bold text-blue-600">
+                              {user?.firstName?.[0]?.toUpperCase() || user?.username?.[0]?.toUpperCase() || 'U'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
 
-                  <div className="flex flex-col sm:flex-row justify-between items-center pt-2 gap-4">
-                    {!currentJob.customQuestions[currentQuestionIndex].isRequired && (
-                      <button
-                        onClick={handleSkipQuestion}
-                        className="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                      >
-                        Skip this question
-                      </button>
-                    )}
+                      <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                        {user?.username || user?.firstName || 'User'}
+                      </h2>
+                      <p className="text-base text-gray-500 font-medium mb-1">Job Seeker</p>
+                      <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-5">
+                        <FiMail className="w-4 h-4" />
+                        <span>{user?.email}</span>
+                      </div>
 
-                    <div className="w-full sm:w-auto flex-1 flex justify-end">
                       <button
-                        onClick={handleNextQuestion}
-                        disabled={isSubmittingApplication || (currentJob.customQuestions[currentQuestionIndex].isRequired && !questionAnswers[currentJob.customQuestions[currentQuestionIndex].id]?.trim())}
-                        className={`w-full sm:w-auto px-6 py-2.5 text-sm font-medium text-white rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 ${isSubmittingApplication || (currentJob.customQuestions[currentQuestionIndex].isRequired && !questionAnswers[currentJob.customQuestions[currentQuestionIndex].id]?.trim())
-                          ? 'bg-blue-400 cursor-not-allowed'
-                          : 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg'
-                          }`}
+                        onClick={() => router.push('/JobseekerProfile')}
+                        className="inline-flex items-center justify-center px-6 py-2.5 border border-blue-600 text-blue-600 font-semibold text-sm rounded-full hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all w-full sm:w-auto"
                       >
-                        {isSubmittingApplication ? (
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        ) : (
-                          <span className="flex items-center">
-                            {currentQuestionIndex === currentJob.customQuestions.length - 1 ? (
-                              'Submit Application'
-                            ) : (
-                              <div>
-                                Next Question
-                                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                              </div>
-                            )}
-                          </span>
-                        )}
+                        <span className="mr-2">View & Update Profile</span>
+                        <FiUser className="w-4 h-4" />
                       </button>
                     </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
-      {/* Profile Panel */}
-      {showProfilePanel && (
-        <div>
-          <div className="fixed inset-0 bg-black/40 z-40" onClick={closeProfilePanel}></div>
-          <div className="fixed right-0 top-0 bottom-0 z-50 w-full sm:w-96 bg-white shadow-2xl border-l border-gray-200">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">My Profile</h3>
-              <button onClick={closeProfilePanel} className="text-gray-500 hover:text-gray-700">
-                &times;
-              </button>
-            </div>
-            <div className="overflow-y-auto p-4" style={{ height: 'calc(100vh - 56px)' }}>
-              {profileEditMode ? (
-                <JobSeekerProfileForm user={user} />
-              ) : (
-                <div>
-                  {/* Profile summary view */}
-                  <div className="mb-4 p-4 bg-gray-50 rounded shadow">
-                    <div className="flex items-center mb-2">
-                      <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4">
-                        {user?.firstName?.[0]?.toUpperCase() || user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+                    {/* Profile Details Grid */}
+                    <div className="grid grid-cols-1 gap-6">
+                      <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Contact Information</h4>
+                        <div className="space-y-4">
+                          <div className="flex items-start gap-4">
+                            <div className="p-2.5 bg-white rounded-xl shadow-sm text-blue-600 shrink-0">
+                              <FiPhone className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-400 mb-0.5">Phone</p>
+                              <p className="text-base font-semibold text-gray-900 truncate">{user?.phone || <span className="text-gray-400 italic font-normal">Not provided</span>}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-start gap-4">
+                            <div className="p-2.5 bg-white rounded-xl shadow-sm text-purple-600 shrink-0">
+                              <FiMapPin className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-400 mb-0.5">Location</p>
+                              <p className="text-base font-semibold text-gray-900 break-words">{user?.address || <span className="text-gray-400 italic font-normal">Not provided</span>}</p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-bold text-lg text-black">{user?.username || user?.firstName || 'User'}</div>
-                        <div className="text-sm text-gray-600">Jobseeker</div>
-                        <div className="text-sm text-gray-600">{user?.email}</div>
-                        <button
-                          className="text-blue-600 underline text-xs mt-1"
-                          onClick={() => router.push('/JobseekerProfile')}
-                        >
-                          View & Update Profile
-                        </button>
+
+                      <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Personal Details</h4>
+                        <div className="space-y-4">
+                          <div className="flex items-start gap-4">
+                            <div className="p-2.5 bg-white rounded-xl shadow-sm text-pink-600 shrink-0">
+                              <FiCalendar className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-400 mb-0.5">Date of Birth</p>
+                              <p className="text-base font-semibold text-gray-900">{user?.dob ? String(user.dob).split('T')[0] : <span className="text-gray-400 italic font-normal">Not provided</span>}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-start gap-4">
+                            <div className="p-2.5 bg-white rounded-xl shadow-sm text-teal-600 shrink-0">
+                              <FiUser className="w-5 h-5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-400 mb-0.5">Gender</p>
+                              <p className="text-base font-semibold text-gray-900">{user?.gender || <span className="text-gray-400 italic font-normal">Not provided</span>}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Professional</h4>
+                        <div className="space-y-4">
+                          {((user?.summary && user.summary !== 'Not provided') || (user?.skills && user.skills.length > 0)) ? (
+                            <>
+                              {user?.summary && user.summary !== 'Not provided' && (
+                                <div className="flex items-start gap-4">
+                                  <div className="p-2.5 bg-white rounded-xl shadow-sm text-orange-600 shrink-0">
+                                    <FiFileText className="w-5 h-5" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-400 mb-0.5">Summary</p>
+                                    <p className="text-sm font-medium text-gray-700 leading-relaxed line-clamp-4">{user.summary}</p>
+                                  </div>
+                                </div>
+                              )}
+
+                              {user?.skills && user.skills.length > 0 && (
+                                <div className="flex items-start gap-4">
+                                  <div className="p-2.5 bg-white rounded-xl shadow-sm text-indigo-600 shrink-0">
+                                    <FiCpu className="w-5 h-5" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-400 mb-0.5">Skills</p>
+                                    <div className="flex flex-wrap gap-2 mt-1">
+                                      {user.skills.map((skill, i) => (
+                                        <span key={i} className="px-2.5 py-1 bg-white rounded-md text-xs font-semibold text-gray-700 border border-gray-200 shadow-sm">{skill}</span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <span className="text-gray-400 italic font-normal text-sm block text-center py-2">Add professional details to your profile to see them here.</span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  {/* Profile Information Card */}
-                  <div className="mb-4 p-4 bg-white rounded shadow">
-                    <div className="font-semibold mb-2 text-gray-900">Profile Information</div>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div><span className="font-medium">Phone</span><br />{user?.phone || 'Not provided'}</div>
-                      <div><span className="font-medium">Date of Birth</span><br />{user?.dob || 'Not provided'}</div>
-                      <div><span className="font-medium">Gender</span><br />{user?.gender || 'Not provided'}</div>
-                      <div><span className="font-medium">Address</span><br />{user?.address || 'Not provided'}</div>
-                      <div><span className="font-medium">Summary</span><br />{user?.summary || 'Not provided'}</div>
-                      <div><span className="font-medium">Skills</span><br />{user?.skills?.join(', ') || 'Not provided'}</div>
+
+                    {/* Footer Actions */}
+                    <div className="pt-4 border-t border-gray-100 space-y-3">
+                      <button className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 rounded-xl border border-gray-100 transition-colors group">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-gray-100 text-gray-600 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all">
+                            <FiSettings className="w-5 h-5" />
+                          </div>
+                          <span className="font-semibold text-gray-700">Settings</span>
+                        </div>
+                        <FiChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                      </button>
+
+                      <button className="w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 rounded-xl border border-gray-100 transition-colors group">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-gray-100 text-gray-600 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all">
+                            <FiHelpCircle className="w-5 h-5" />
+                          </div>
+                          <span className="font-semibold text-gray-700">Help & FAQs</span>
+                        </div>
+                        <FiChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                      </button>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center justify-between p-4 bg-red-50 hover:bg-red-100 rounded-xl border border-red-100 transition-colors group mt-2"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-white text-red-500 rounded-lg shadow-sm">
+                            <FiLogOut className="w-5 h-5" />
+                          </div>
+                          <span className="font-semibold text-red-600">Log Out</span>
+                        </div>
+                      </button>
                     </div>
                   </div>
-
-                  {/* Settings / FAQs / Logout Card */}
-                  <div className="mb-4 bg-white rounded shadow divide-y">
-                    <button
-                      type="button"
-                      className="w-full flex items-center justify-between px-4 py-3 text-sm text-gray-900 hover:bg-gray-50"
-                    >
-                      <span className="flex items-center gap-2">
-                        <FiSettings className="w-4 h-4 text-gray-500" />
-                        <span>Settings</span>
-                      </span>
-                      <span className="text-gray-400">›</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full flex items-center justify-between px-4 py-3 text-sm text-gray-900 hover:bg-gray-50"
-                    >
-                      <span className="flex items-center gap-2">
-                        <FiHelpCircle className="w-4 h-4 text-gray-500" />
-                        <span>FAQs</span>
-                      </span>
-                      <span className="text-gray-400">›</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="w-full flex items-center justify-between px-4 py-3 text-sm text-red-600 hover:bg-red-50"
-                    >
-                      <span className="flex items-center gap-2">
-                        <FiLogOut className="w-4 h-4" />
-                        <span>Logout</span>
-                      </span>
-                    </button>
-                  </div>
-
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-      {/* Match Feedback Modal */}
-      {matchModalState.show && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all scale-100 border border-gray-100">
-
-            {/* Header / Banner */}
-            <div className={`h-32 flex items-center justify-center ${matchModalState.type === 'success' ? 'bg-gradient-to-br from-green-400 to-green-600' : 'bg-gradient-to-br from-red-500 to-pink-600'}`}>
-              <div className="text-white text-center">
-                <div className="mb-2">
-                  {matchModalState.type === 'success' ? (
-                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md">
-                      <FiCheck className="w-8 h-8 text-white" />
-                    </div>
-                  ) : (
-                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md">
-                      <FiX className="w-8 h-8 text-white" />
-                    </div>
-                  )}
-                </div>
-                <h3 className="text-xl font-bold text-white tracking-wide">
-                  {matchModalState.type === 'success' ? 'Application Sent' : 'Application Blocked'}
-                </h3>
-              </div>
-            </div>
-
-            {/* Body */}
-            <div className="p-8">
-              <div className="flex flex-col items-center -mt-16 mb-4">
-                {/* Score Circle */}
-                <div className="relative w-24 h-24 bg-white rounded-full p-2 shadow-lg flex items-center justify-center">
-                  <div className={`w-full h-full rounded-full border-4 flex items-center justify-center ${matchModalState.type === 'success' ? 'border-green-500 text-green-600' : 'border-red-500 text-red-600'}`}>
-                    <span className="text-2xl font-bold">{matchModalState.score}%</span>
-                  </div>
-                </div>
-                <span className="text-xs text-gray-400 font-medium uppercase mt-2 tracking-wider">Match Score</span>
-              </div>
-
-              <p className="text-center text-gray-700 font-medium mb-6">
-                {matchModalState.message}
-              </p>
-
-              {matchModalState.suggestions && matchModalState.suggestions.length > 0 && (
-                <div className="bg-orange-50 rounded-xl p-4 mb-6 border border-orange-100">
-                  <h4 className="text-sm font-bold text-orange-800 mb-3 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-                    Improvement Suggestions
-                  </h4>
-                  <ul className="space-y-2">
-                    {matchModalState.suggestions.slice(0, 3).map((s, i) => (
-                      <li key={i} className="text-sm text-gray-700 flex items-start gap-2">
-                        <span className="mt-1.5 w-1 h-1 rounded-full bg-gray-400 shrink-0"></span>
-                        {s}
-                      </li>
-                    ))}
-                    {matchModalState.suggestions.length > 3 && (
-                      <li className="text-xs text-gray-500 italic pl-3">
-                        + {matchModalState.suggestions.length - 3} more suggestions...
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              )}
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setMatchModalState({ ...matchModalState, show: false })}
-                  className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
-                >
-                  Close
-                </button>
-                {matchModalState.type === 'error' && (
-                  <Link href="/JobseekerProfile" className="flex-1 px-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors text-center shadow-lg hover:shadow-xl">
-                    Update Profile
-                  </Link>
                 )}
-                {matchModalState.type === 'success' && (
+              </div>
+            </div>
+          </div>
+        )
+      }
+      {/* Match Feedback Modal */}
+      {
+        matchModalState.show && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 border border-gray-100">
+
+              {/* Header / Banner */}
+              <div className={`h-28 flex flex-col justify-start pt-4 items-center ${matchModalState.type === 'success' ? 'bg-gradient-to-br from-green-400 to-green-600' : 'bg-gradient-to-br from-red-500 to-pink-600'}`}>
+                <div className="text-white text-center">
+                  <div className="mb-1">
+                    {matchModalState.type === 'success' && (
+                      <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md">
+                        <FiCheck className="w-5 h-5 text-white" />
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-lg font-bold text-white tracking-wide">
+                    {matchModalState.type === 'success' ? 'Application Sent' : 'Application'}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="p-5">
+                <div className="flex flex-col items-center -mt-12 mb-3">
+                  {/* Score Circle */}
+                  <div className="relative w-20 h-20 bg-white rounded-full p-1.5 shadow-lg flex items-center justify-center">
+                    <div className={`w-full h-full rounded-full border-4 flex items-center justify-center ${matchModalState.type === 'success' ? 'border-green-500 text-green-600' : 'border-red-500 text-red-600'}`}>
+                      <span className="text-xl font-bold">{matchModalState.score}%</span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-gray-400 font-medium uppercase mt-1 tracking-wider">Match Score</span>
+                </div>
+
+                <p className="text-center text-gray-700 font-medium mb-4 text-sm">
+                  {matchModalState.message}
+                </p>
+
+                {matchModalState.suggestions && matchModalState.suggestions.length > 0 && (
+                  <div className="bg-orange-50 rounded-xl p-3 mb-4 border border-orange-100">
+                    <h4 className="text-xs font-bold text-orange-800 mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                      Improvement Suggestions
+                    </h4>
+                    <ul className="space-y-1.5 max-h-32 overflow-y-auto pr-2">
+                      {matchModalState.suggestions.map((s, i) => (
+                        <li key={i} className="text-xs text-gray-700 flex items-start gap-2">
+                          <span className="mt-1 w-1 h-1 rounded-full bg-gray-400 shrink-0"></span>
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="flex gap-3">
                   <button
                     onClick={() => setMatchModalState({ ...matchModalState, show: false })}
-                    className="flex-1 px-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+                    className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
                   >
-                    Done
+                    Close
                   </button>
-                )}
+                  {matchModalState.type === 'success' && (
+                    <button
+                      onClick={() => setMatchModalState({ ...matchModalState, show: false })}
+                      className="flex-1 px-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+                    >
+                      Done
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }

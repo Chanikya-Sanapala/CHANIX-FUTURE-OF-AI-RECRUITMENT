@@ -4,6 +4,8 @@ import { spawn } from "child_process";
 
 const upload = multer({ dest: "uploads/" });
 
+import path from 'path';
+
 export const matchResume = [
   upload.fields([
     { name: "jd", maxCount: 1 },
@@ -13,14 +15,13 @@ export const matchResume = [
     const jdPath = req.files.jd[0].path;
     const resumePath = req.files.resume[0].path;
 
-    const python = spawn(
-      "C:\\Users\\Administrator\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
-      [
-        "C:\\Users\\Administrator\\Desktop\\Smart-Engine\\ai\\resume_matchmaker2.py",
-        jdPath,
-        resumePath
-      ]
-    );
+    const scriptPath = path.join(process.cwd(), '..', 'ai', 'resume_matchmaker2.py');
+
+    const python = spawn('python', [
+      scriptPath,
+      jdPath,
+      resumePath
+    ]);
 
     let output = "";
     let error = "";

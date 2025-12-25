@@ -217,11 +217,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$noop$2d$head$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/components/noop-head.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$toastify$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-toastify/dist/index.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ProfilePage$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ProfilePage.jsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fi/index.mjs [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -239,7 +241,7 @@ const safeJsonParse = function(str) {
     }
 };
 function JobseekerDashboard() {
-    var _user_user_name, _user_firstName, _user_username, _user_name, _user_email, _questionAnswers_currentJob_customQuestions_currentQuestionIndex_id, _questionAnswers_currentJob_customQuestions_currentQuestionIndex_id1, _user_firstName_, _user_firstName1, _user_username_, _user_username1, _user_email_, _user_email1, _user_skills;
+    var _user_user_name, _user_firstName, _user_username, _user_name, _user_email, _user_firstName1, _user_name1, _questionAnswers_currentJob_customQuestions_currentQuestionIndex_id, _questionAnswers_currentJob_customQuestions_currentQuestionIndex_id1, _user_firstName_, _user_firstName2, _user_username_, _user_username1;
     _s();
     const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('home');
     const [profileEditMode, setProfileEditMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -271,7 +273,7 @@ function JobseekerDashboard() {
     const [profileLoading, setProfileLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [showProfilePanel, setShowProfilePanel] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [avatarPreview, setAvatarPreview] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [showDesktopMenu, setShowDesktopMenu] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isSidebarOpen, setIsSidebarOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false); // Unified sidebar state
     const [showQuestionModal, setShowQuestionModal] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [currentJob, setCurrentJob] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
@@ -306,7 +308,7 @@ function JobseekerDashboard() {
         if (file.size > maxSize) {
             throw new Error('File too large. Maximum size is 5MB.');
         }
-        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
         const uploadUrl = baseUrl ? "".concat(baseUrl, "/api/profile/upload-photo") : "/api/profile/upload-photo";
         const token = localStorage.getItem('token');
         const fd = new FormData();
@@ -357,7 +359,7 @@ function JobseekerDashboard() {
         let page = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
         try {
             setJobsLoading(true);
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const apiUrl = baseUrl ? "".concat(baseUrl, "/api/jobs?").concat(buildJobsQuery(page)) : "/api/jobs?".concat(buildJobsQuery(page));
             const res = await fetch(apiUrl, {
                 cache: 'no-store'
@@ -402,7 +404,7 @@ function JobseekerDashboard() {
                     try {
                         const token = ("TURBOPACK compile-time truthy", 1) ? localStorage.getItem('token') : "TURBOPACK unreachable";
                         if (!token) return;
-                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
                         const apiUrl = baseUrl ? "".concat(baseUrl, "/api/notifications") : '/api/notifications';
                         const res = await fetch(apiUrl, {
                             headers: {
@@ -492,11 +494,92 @@ function JobseekerDashboard() {
                     }
                 }
             } catch (_) {}
+            // Fetch latest profile to ensure avatar and details are up to date
+            const refreshProfile = {
+                "JobseekerDashboard.useEffect.refreshProfile": async ()=>{
+                    try {
+                        const token = localStorage.getItem('token');
+                        const storedUser = localStorage.getItem('user');
+                        let currentUserId = null;
+                        if (storedUser) {
+                            const parsed = JSON.parse(storedUser);
+                            currentUserId = parsed._id || parsed.id;
+                        }
+                        if (token && currentUserId) {
+                            var _json_data;
+                            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                            const res = await fetch("".concat(baseUrl, "/api/profile/get"), {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    userId: currentUserId,
+                                    userType: 'jobseeker'
+                                })
+                            });
+                            const json = await res.json();
+                            if ((json === null || json === void 0 ? void 0 : json.success) && (json === null || json === void 0 ? void 0 : (_json_data = json.data) === null || _json_data === void 0 ? void 0 : _json_data.profile)) {
+                                const p = json.data.profile;
+                                // Update avatar
+                                if (p.profilePicture) {
+                                    const apiImg = p.profilePicture;
+                                    const fullImg = apiImg.startsWith('http') ? apiImg : "".concat(baseUrl).concat(apiImg.startsWith('/') ? '' : '/').concat(apiImg);
+                                    setAvatarPreview(fullImg);
+                                    localStorage.setItem("profileImageUrl_".concat(currentUserId), fullImg);
+                                    // Update user state if missing image
+                                    // Update user state if missing image
+                                    setUser({
+                                        "JobseekerDashboard.useEffect.refreshProfile": (prev)=>{
+                                            var _p_contactDetails, _p_personalDetails, _p_personalDetails1, _p_personalDetails2, _p_contactDetails1, _p_contactDetails_address, _p_contactDetails2, _p_address;
+                                            return prev ? {
+                                                ...prev,
+                                                profileImage: fullImg,
+                                                // Sync missing fields from profile
+                                                phone: ((_p_contactDetails = p.contactDetails) === null || _p_contactDetails === void 0 ? void 0 : _p_contactDetails.phone) || p.phone || prev.phone,
+                                                gender: ((_p_personalDetails = p.personalDetails) === null || _p_personalDetails === void 0 ? void 0 : _p_personalDetails.gender) || p.gender || prev.gender,
+                                                dob: ((_p_personalDetails1 = p.personalDetails) === null || _p_personalDetails1 === void 0 ? void 0 : _p_personalDetails1.dateOfBirth) || p.dateOfBirth ? new Date(((_p_personalDetails2 = p.personalDetails) === null || _p_personalDetails2 === void 0 ? void 0 : _p_personalDetails2.dateOfBirth) || p.dateOfBirth).toISOString().split('T')[0] : prev.dob,
+                                                address: (((_p_contactDetails1 = p.contactDetails) === null || _p_contactDetails1 === void 0 ? void 0 : _p_contactDetails1.address) && typeof p.contactDetails.address === 'string' ? p.contactDetails.address : (_p_contactDetails2 = p.contactDetails) === null || _p_contactDetails2 === void 0 ? void 0 : (_p_contactDetails_address = _p_contactDetails2.address) === null || _p_contactDetails_address === void 0 ? void 0 : _p_contactDetails_address.street) || (typeof p.address === 'string' ? p.address : (_p_address = p.address) === null || _p_address === void 0 ? void 0 : _p_address.street) || prev.address,
+                                                summary: p.profileSummary || p.summary || prev.summary,
+                                                skills: p.skills && p.skills.length > 0 ? p.skills.map({
+                                                    "JobseekerDashboard.useEffect.refreshProfile": (s)=>s.skill || s.skillName || s
+                                                }["JobseekerDashboard.useEffect.refreshProfile"]) : p.keySkills && p.keySkills.length > 0 ? p.keySkills : prev.skills
+                                            } : prev;
+                                        }
+                                    }["JobseekerDashboard.useEffect.refreshProfile"]);
+                                } else {
+                                    // Update details even if no image change
+                                    setUser({
+                                        "JobseekerDashboard.useEffect.refreshProfile": (prev)=>{
+                                            var _p_contactDetails, _p_personalDetails, _p_personalDetails1, _p_personalDetails2, _p_contactDetails1, _p_contactDetails_address, _p_contactDetails2, _p_address;
+                                            return prev ? {
+                                                ...prev,
+                                                // Sync missing fields from profile
+                                                phone: ((_p_contactDetails = p.contactDetails) === null || _p_contactDetails === void 0 ? void 0 : _p_contactDetails.phone) || p.phone || prev.phone,
+                                                gender: ((_p_personalDetails = p.personalDetails) === null || _p_personalDetails === void 0 ? void 0 : _p_personalDetails.gender) || p.gender || prev.gender,
+                                                dob: ((_p_personalDetails1 = p.personalDetails) === null || _p_personalDetails1 === void 0 ? void 0 : _p_personalDetails1.dateOfBirth) || p.dateOfBirth ? new Date(((_p_personalDetails2 = p.personalDetails) === null || _p_personalDetails2 === void 0 ? void 0 : _p_personalDetails2.dateOfBirth) || p.dateOfBirth).toISOString().split('T')[0] : prev.dob,
+                                                address: (((_p_contactDetails1 = p.contactDetails) === null || _p_contactDetails1 === void 0 ? void 0 : _p_contactDetails1.address) && typeof p.contactDetails.address === 'string' ? p.contactDetails.address : (_p_contactDetails2 = p.contactDetails) === null || _p_contactDetails2 === void 0 ? void 0 : (_p_contactDetails_address = _p_contactDetails2.address) === null || _p_contactDetails_address === void 0 ? void 0 : _p_contactDetails_address.street) || (typeof p.address === 'string' ? p.address : (_p_address = p.address) === null || _p_address === void 0 ? void 0 : _p_address.street) || prev.address,
+                                                summary: p.profileSummary || p.summary || prev.summary,
+                                                skills: p.skills && p.skills.length > 0 ? p.skills.map({
+                                                    "JobseekerDashboard.useEffect.refreshProfile": (s)=>s.skill || s.skillName || s
+                                                }["JobseekerDashboard.useEffect.refreshProfile"]) : p.keySkills && p.keySkills.length > 0 ? p.keySkills : prev.skills
+                                            } : prev;
+                                        }
+                                    }["JobseekerDashboard.useEffect.refreshProfile"]);
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Profile refresh error', e);
+                    }
+                }
+            }["JobseekerDashboard.useEffect.refreshProfile"];
+            refreshProfile();
         }
     }["JobseekerDashboard.useEffect"], []);
     const handleUpdateInterviewStatus = async (id, newStatus)=>{
         try {
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const res = await fetch("".concat(baseUrl, "/api/interviews"), {
                 method: 'PATCH',
                 headers: {
@@ -519,7 +602,7 @@ function JobseekerDashboard() {
     const handleStartAssessment = async (assessmentId)=>{
         if (!user) return;
         try {
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const res = await fetch("".concat(baseUrl, "/api/assessments"), {
                 method: 'POST',
                 headers: {
@@ -543,7 +626,7 @@ function JobseekerDashboard() {
         let score = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
         if (!user) return;
         try {
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const res = await fetch("".concat(baseUrl, "/api/assessments"), {
                 method: 'POST',
                 headers: {
@@ -569,7 +652,7 @@ function JobseekerDashboard() {
     const handleRegisterEvent = async (eventId, registered)=>{
         if (!user) return;
         try {
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const res = await fetch("".concat(baseUrl, "/api/events"), {
                 method: 'POST',
                 headers: {
@@ -594,7 +677,7 @@ function JobseekerDashboard() {
     const handleParticipateCompetition = async (competitionId)=>{
         if (!user) return;
         try {
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const res = await fetch("".concat(baseUrl, "/api/competitions"), {
                 method: 'POST',
                 headers: {
@@ -629,7 +712,7 @@ function JobseekerDashboard() {
                     if (!user) return;
                     try {
                         const token = localStorage.getItem('token');
-                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
                         const apiUrl = baseUrl ? "".concat(baseUrl, "/api/applications") : '/api/applications';
                         const res = await fetch(apiUrl, {
                             headers: {
@@ -665,7 +748,8 @@ function JobseekerDashboard() {
             }["JobseekerDashboard.useEffect.fetchAppliedJobs"];
             fetchAppliedJobs();
             // Interviews, assessments, events, and competitions should come only from backend APIs
-            setInterviews([]);
+            // Fetch interviews (Job Seeker's own interviews)
+            // Interviews are fetched in the user-dependent effect below
             setAssessments([]);
             setEvents([]);
             setCompetitions([]);
@@ -692,8 +776,10 @@ function JobseekerDashboard() {
                     try {
                         const token = ("TURBOPACK compile-time truthy", 1) ? localStorage.getItem('token') : "TURBOPACK unreachable";
                         if (!token) return;
-                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
-                        const apiUrl = baseUrl ? "".concat(baseUrl, "/api/applications") : '/api/applications';
+                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                        // FIX: Add applicantId to query to ensure we fetch correctly
+                        const userId = user._id || user.id || user.email;
+                        const apiUrl = baseUrl ? "".concat(baseUrl, "/api/applications?applicantId=").concat(userId) : "/api/applications?applicantId=".concat(userId);
                         const res = await fetch(apiUrl, {
                             headers: {
                                 'Authorization': "Bearer ".concat(token)
@@ -718,8 +804,8 @@ function JobseekerDashboard() {
                                 }
                             }["JobseekerDashboard.useEffect.loadApplications.apps"]);
                             setAppliedJobs(apps);
-                            const userId = user._id || user.id || user.email || 'default';
-                            localStorage.setItem("appliedJobs_".concat(userId), JSON.stringify(apps));
+                            const currentUserId = user._id || user.id || user.email || 'default';
+                            localStorage.setItem("appliedJobs_".concat(currentUserId), JSON.stringify(apps));
                         }
                     } catch (_) {}
                 }
@@ -728,7 +814,7 @@ function JobseekerDashboard() {
             const loadEventsAndCompetitions = {
                 "JobseekerDashboard.useEffect.loadEventsAndCompetitions": async ()=>{
                     try {
-                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
                         const evRes = await fetch("".concat(baseUrl, "/api/events?userId=").concat(encodeURIComponent(user._id || user.id)), {
                             cache: 'no-store'
                         });
@@ -736,7 +822,7 @@ function JobseekerDashboard() {
                         if (isMounted && (evJson === null || evJson === void 0 ? void 0 : evJson.success) && Array.isArray(evJson.data)) setEvents(evJson.data);
                     } catch (_) {}
                     try {
-                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
                         const cmpRes = await fetch("".concat(baseUrl, "/api/competitions?userId=").concat(encodeURIComponent(user._id || user.id)), {
                             cache: 'no-store'
                         });
@@ -748,7 +834,7 @@ function JobseekerDashboard() {
             // Load profile data (only once)
             const loadProfileData = {
                 "JobseekerDashboard.useEffect.loadProfileData": async ()=>{
-                    const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                    const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
                     try {
                         setProfileLoading(true);
                         const getReq = await fetch("".concat(baseUrl, "/api/profile/get"), {
@@ -804,10 +890,48 @@ function JobseekerDashboard() {
                     }
                 }
             }["JobseekerDashboard.useEffect.loadProfileData"];
+            // Load interviews
+            const loadInterviews = {
+                "JobseekerDashboard.useEffect.loadInterviews": async ()=>{
+                    try {
+                        const token = localStorage.getItem('token');
+                        const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+                        const res = await fetch("".concat(baseUrl, "/api/interviews/my-interviews"), {
+                            headers: {
+                                'Authorization': "Bearer ".concat(token)
+                            }
+                        });
+                        const json = await res.json();
+                        if (isMounted && json.success) {
+                            setInterviews(json.data.map({
+                                "JobseekerDashboard.useEffect.loadInterviews": (i)=>{
+                                    var _i_jobId, _i_jobId1;
+                                    return {
+                                        id: i._id,
+                                        title: ((_i_jobId = i.jobId) === null || _i_jobId === void 0 ? void 0 : _i_jobId.title) || 'General Interview',
+                                        company: ((_i_jobId1 = i.jobId) === null || _i_jobId1 === void 0 ? void 0 : _i_jobId1.company) || '',
+                                        date: new Date(i.createdAt).toLocaleDateString(),
+                                        time: new Date(i.createdAt).toLocaleTimeString([], {
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        }),
+                                        status: i.status === 'pending' ? 'Pending' : i.status === 'completed' ? 'Completed' : i.status,
+                                        token: i.uniqueToken,
+                                        link: i.uniqueToken ? "/interview/".concat(i.uniqueToken) : '#'
+                                    };
+                                }
+                            }["JobseekerDashboard.useEffect.loadInterviews"]));
+                        }
+                    } catch (err) {
+                        console.error("Error fetching interviews:", err);
+                    }
+                }
+            }["JobseekerDashboard.useEffect.loadInterviews"];
             // Execute all loads once
             loadApplications();
             loadEventsAndCompetitions();
             loadProfileData();
+            loadInterviews();
             // Cleanup function
             return ({
                 "JobseekerDashboard.useEffect": ()=>{
@@ -850,7 +974,7 @@ function JobseekerDashboard() {
         try {
             setIsSubmittingApplication(true);
             const token = ("TURBOPACK compile-time truthy", 1) ? localStorage.getItem('token') : "TURBOPACK unreachable";
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const res = await fetch("".concat(baseUrl, "/api/applications"), {
                 method: 'POST',
                 headers: {
@@ -871,11 +995,16 @@ function JobseekerDashboard() {
                 var _json_data, _json_data1, _json_data2;
                 // ... (Success code unchanged) ...
                 const at = (json === null || json === void 0 ? void 0 : (_json_data = json.data) === null || _json_data === void 0 ? void 0 : _json_data.appliedDate) || new Date().toISOString();
+                const successApp = {
+                    _id: json.data._id,
+                    jobTitle: job.title,
+                    company: job.company,
+                    status: json.data.status || 'Applied',
+                    matchScore: json.data.matchScore,
+                    appliedDate: at
+                };
                 const applied = [
-                    {
-                        id: jobId,
-                        at
-                    },
+                    successApp,
                     ...appliedJobs
                 ];
                 setAppliedJobs(applied);
@@ -916,21 +1045,37 @@ function JobseekerDashboard() {
                 if (json === null || json === void 0 ? void 0 : (_json_data3 = json.data) === null || _json_data3 === void 0 ? void 0 : _json_data3.blocksApplication) {
                     const score = json.data.score;
                     const suggestions = json.data.suggestions || [];
+                    // Add rejected application to list immediately
+                    if (json.data.applicationId) {
+                        const rejectionApp = {
+                            _id: json.data.applicationId,
+                            jobTitle: job.title,
+                            company: job.company,
+                            status: 'Rejected',
+                            matchScore: score,
+                            appliedDate: new Date().toISOString()
+                        };
+                        setAppliedJobs((prev)=>[
+                                rejectionApp,
+                                ...prev
+                            ]);
+                    // Update localStorage too if needed, but simplistic is fine for now
+                    }
                     // REPLACE ALERT WITH MODAL
                     setMatchModalState({
                         show: true,
                         type: 'error',
                         score: score,
                         suggestions: suggestions,
-                        message: "Application Blocked: Match Score Too Low"
+                        message: "Match Score Too Low"
                     });
                 } else {
-                    alert('Failed to submit application: ' + (json.message || 'Unknown error'));
+                    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$toastify$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error('Failed to submit application: ' + (json.message || 'Unknown error'));
                 }
             }
         } catch (error) {
             console.error('Application submission error:', error);
-            alert('Failed to submit application. Please try again.');
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$toastify$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error('Failed to submit application. Please try again.');
         } finally{
             setIsSubmittingApplication(false);
             setApplyingJobId(null);
@@ -945,7 +1090,7 @@ function JobseekerDashboard() {
         try {
             var _jobData_data;
             // First, fetch the job details to check for custom questions
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             const jobRes = await fetch("".concat(baseUrl, "/api/jobs/").concat(jobId), {
                 cache: 'no-store'
             });
@@ -986,7 +1131,7 @@ function JobseekerDashboard() {
         if (!(currentJob === null || currentJob === void 0 ? void 0 : currentJob.customQuestions)) return;
         const currentQuestion = currentJob.customQuestions[currentQuestionIndex];
         if ((currentQuestion === null || currentQuestion === void 0 ? void 0 : currentQuestion.isRequired) && !((_questionAnswers_currentQuestion_id = questionAnswers[currentQuestion.id]) === null || _questionAnswers_currentQuestion_id === void 0 ? void 0 : _questionAnswers_currentQuestion_id.trim())) {
-            alert('Please answer this required question before proceeding.');
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$toastify$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].warning('Please answer this required question before proceeding.');
             return;
         }
         if (currentQuestionIndex < currentJob.customQuestions.length - 1) {
@@ -1041,14 +1186,19 @@ function JobseekerDashboard() {
             icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiHome"]
         },
         {
-            id: 'job-profiles',
+            id: 'find-jobs',
             label: 'Find Jobs',
-            icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiBriefcase"]
+            icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiSearch"]
         },
         {
             id: 'applied-jobs',
             label: 'Applied Jobs',
             icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCheck"]
+        },
+        {
+            id: 'saved-jobs',
+            label: 'Saved Jobs',
+            icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiBookmark"]
         },
         {
             id: 'my-profile',
@@ -1074,17 +1224,17 @@ function JobseekerDashboard() {
         {
             id: 'competitions',
             label: 'Competitions',
-            icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiBook"]
+            icon: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiAward"]
         }
     ];
     const handleNavigation = (item)=>{
         if (item.path) {
             router.push(item.path);
-            setIsMobileMenuOpen(false);
+            setIsSidebarOpen(false);
             return;
         }
         setActiveTab(item.id);
-        setIsMobileMenuOpen(false);
+        setIsSidebarOpen(false);
     };
     const toggleMobileMenu = ()=>{
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -1099,7 +1249,7 @@ function JobseekerDashboard() {
     };
     const handleLogout = ()=>{
         try {
-            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5000") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+            const baseUrl = (("TURBOPACK compile-time value", "http://localhost:5005") || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
             fetch("".concat(baseUrl, "/api/logout"), {
                 method: 'POST',
                 credentials: 'include'
@@ -1129,7 +1279,7 @@ function JobseekerDashboard() {
                         children: "Jobseeker Dashboard"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                        lineNumber: 791,
+                        lineNumber: 914,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meta", {
@@ -1137,13 +1287,13 @@ function JobseekerDashboard() {
                         content: "Jobseeker Dashboard - Find your dream job"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                        lineNumber: 792,
+                        lineNumber: 915,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                lineNumber: 790,
+                lineNumber: 913,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
@@ -1157,82 +1307,26 @@ function JobseekerDashboard() {
                                 className: "flex items-center",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "relative mr-3",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                onClick: ()=>setShowDesktopMenu((prev)=>!prev),
-                                                className: "p-2 rounded-lg hover:bg-gray-100 text-black",
-                                                "aria-label": "Open menu",
-                                                "aria-expanded": showDesktopMenu,
-                                                "aria-controls": "header-menu-dropdown",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMenu"], {
-                                                    className: "w-6 h-6"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 809,
-                                                    columnNumber: 19
-                                                }, this)
+                                        className: "mr-3",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: ()=>setIsSidebarOpen(true),
+                                            className: "p-2 rounded-lg hover:bg-gray-100 text-black transition-colors",
+                                            "aria-label": "Open menu",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMenu"], {
+                                                className: "w-6 h-6"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 802,
-                                                columnNumber: 17
-                                            }, this),
-                                            showDesktopMenu && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                                                id: "header-menu-dropdown",
-                                                className: "absolute left-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                    className: "py-2",
-                                                    children: navigationItems.map((item)=>{
-                                                        const IconComponent = item.icon;
-                                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                onClick: ()=>{
-                                                                    handleNavigation(item);
-                                                                    setShowDesktopMenu(false);
-                                                                },
-                                                                className: "w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50 ".concat(activeTab === item.id ? 'text-blue-700' : 'text-black'),
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IconComponent, {
-                                                                        className: "w-5 h-5"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 822,
-                                                                        columnNumber: 31
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "font-medium",
-                                                                        children: item.label
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 823,
-                                                                        columnNumber: 31
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 818,
-                                                                columnNumber: 29
-                                                            }, this)
-                                                        }, item.id, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 817,
-                                                            columnNumber: 27
-                                                        }, this);
-                                                    })
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 813,
-                                                    columnNumber: 21
-                                                }, this)
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 812,
+                                                lineNumber: 930,
                                                 columnNumber: 19
                                             }, this)
-                                        ]
-                                    }, void 0, true, {
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 925,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 801,
+                                        lineNumber: 924,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -1240,13 +1334,13 @@ function JobseekerDashboard() {
                                         children: "Career Portal"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 832,
+                                        lineNumber: 933,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 800,
+                                lineNumber: 923,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1263,7 +1357,7 @@ function JobseekerDashboard() {
                                                         className: "w-6 h-6"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 842,
+                                                        lineNumber: 943,
                                                         columnNumber: 19
                                                     }, this),
                                                     notifications.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1271,13 +1365,13 @@ function JobseekerDashboard() {
                                                         children: notifications.length
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 844,
+                                                        lineNumber: 945,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 838,
+                                                lineNumber: 939,
                                                 columnNumber: 17
                                             }, this),
                                             showNotifications && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1293,7 +1387,7 @@ function JobseekerDashboard() {
                                                                     children: "Notifications"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 853,
+                                                                    lineNumber: 954,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 notifications.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1302,18 +1396,18 @@ function JobseekerDashboard() {
                                                                     children: "Clear All"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 855,
+                                                                    lineNumber: 956,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 852,
+                                                            lineNumber: 953,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 851,
+                                                        lineNumber: 952,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1331,7 +1425,7 @@ function JobseekerDashboard() {
                                                                                     children: notification.title
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 865,
+                                                                                    lineNumber: 966,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1339,7 +1433,7 @@ function JobseekerDashboard() {
                                                                                     children: notification.message
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 866,
+                                                                                    lineNumber: 967,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1347,13 +1441,13 @@ function JobseekerDashboard() {
                                                                                     children: notification.timestamp
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 867,
+                                                                                    lineNumber: 968,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 864,
+                                                                            lineNumber: 965,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1363,23 +1457,23 @@ function JobseekerDashboard() {
                                                                                 className: "w-4 h-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 870,
+                                                                                lineNumber: 971,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 869,
+                                                                            lineNumber: 970,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 863,
+                                                                    lineNumber: 964,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, notification.id, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 862,
+                                                                lineNumber: 963,
                                                                 columnNumber: 27
                                                             }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "p-8 text-center",
@@ -1388,7 +1482,7 @@ function JobseekerDashboard() {
                                                                     className: "w-12 h-12 text-black mx-auto mb-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 877,
+                                                                    lineNumber: 978,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1396,30 +1490,30 @@ function JobseekerDashboard() {
                                                                     children: "No notifications yet"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 878,
+                                                                    lineNumber: 979,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 876,
+                                                            lineNumber: 977,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 859,
+                                                        lineNumber: 960,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 850,
+                                                lineNumber: 951,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 837,
+                                        lineNumber: 938,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1439,7 +1533,7 @@ function JobseekerDashboard() {
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 888,
+                                                        lineNumber: 989,
                                                         columnNumber: 21
                                                     }, this) : null,
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1447,13 +1541,13 @@ function JobseekerDashboard() {
                                                         children: ((user === null || user === void 0 ? void 0 : (_user_user_name = user.user_name) === null || _user_user_name === void 0 ? void 0 : _user_user_name[0]) || (user === null || user === void 0 ? void 0 : (_user_firstName = user.firstName) === null || _user_firstName === void 0 ? void 0 : _user_firstName[0]) || (user === null || user === void 0 ? void 0 : (_user_username = user.username) === null || _user_username === void 0 ? void 0 : _user_username[0]) || (user === null || user === void 0 ? void 0 : (_user_name = user.name) === null || _user_name === void 0 ? void 0 : _user_name[0]) || (user === null || user === void 0 ? void 0 : (_user_email = user.email) === null || _user_email === void 0 ? void 0 : _user_email[0]) || 'U').toUpperCase()
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 898,
+                                                        lineNumber: 999,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 886,
+                                                lineNumber: 987,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1461,13 +1555,13 @@ function JobseekerDashboard() {
                                                 children: "My Profile"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 911,
+                                                lineNumber: 1012,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 885,
+                                        lineNumber: 986,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1476,29 +1570,29 @@ function JobseekerDashboard() {
                                         children: "Logout"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 913,
+                                        lineNumber: 1014,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 836,
+                                lineNumber: 937,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                        lineNumber: 798,
+                        lineNumber: 921,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                    lineNumber: 797,
+                    lineNumber: 920,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                lineNumber: 796,
+                lineNumber: 919,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1506,494 +1600,424 @@ function JobseekerDashboard() {
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "flex flex-col lg:flex-row gap-8",
                     children: [
-                        isMobileMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40",
-                            onClick: ()=>setIsMobileMenuOpen(false),
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "fixed left-0 top-0 bottom-0 w-64 bg-white shadow-lg z-50",
-                                onClick: (e)=>e.stopPropagation(),
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "p-4 border-b",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex items-center justify-between",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                                    className: "text-lg font-semibold text-black",
-                                                    children: "Menu"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 928,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>setIsMobileMenuOpen(false),
-                                                    className: "p-2 rounded-lg text-black hover:text-gray-900 hover:bg-gray-100",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiX"], {
-                                                        className: "w-5 h-5"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 933,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 929,
-                                                    columnNumber: 21
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 927,
-                                            columnNumber: 19
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 926,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
-                                        className: "p-4",
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                            className: "space-y-2",
-                                            children: navigationItems.map((item)=>{
-                                                const IconComponent = item.icon;
-                                                return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        onClick: ()=>handleNavigation(item),
-                                                        className: "w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ".concat(activeTab === item.id ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'text-black hover:bg-gray-50'),
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IconComponent, {
-                                                                className: "w-5 h-5"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 950,
-                                                                columnNumber: 29
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "font-medium",
-                                                                children: item.label
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 951,
-                                                                columnNumber: 29
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 943,
-                                                        columnNumber: 27
-                                                    }, this)
-                                                }, item.id, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 942,
-                                                    columnNumber: 25
-                                                }, this);
-                                            })
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 938,
-                                            columnNumber: 19
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 937,
-                                        columnNumber: 17
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 924,
-                                columnNumber: 15
-                            }, this)
+                        isSidebarOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300",
+                            onClick: ()=>setIsSidebarOpen(false)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                            lineNumber: 923,
+                            lineNumber: 1028,
                             columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ".concat(isSidebarOpen ? 'translate-x-0' : '-translate-x-full'),
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex items-center justify-between p-4 border-b",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                            className: "text-xl font-bold text-gray-800",
+                                            children: "Menu"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1040,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: ()=>setIsSidebarOpen(false),
+                                            className: "p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-colors",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiX"], {
+                                                className: "w-5 h-5"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                lineNumber: 1045,
+                                                columnNumber: 17
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1041,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1039,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                                    className: "p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-64px)]",
+                                    children: navigationItems.map((item)=>{
+                                        const IconComponent = item.icon;
+                                        const isActive = activeTab === item.id;
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            onClick: ()=>handleNavigation(item),
+                                            className: "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ".concat(isActive ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'),
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IconComponent, {
+                                                    className: "w-5 h-5 ".concat(isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700')
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1062,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: item.label
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1063,
+                                                    columnNumber: 21
+                                                }, this),
+                                                isActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "ml-auto w-1.5 h-1.5 rounded-full bg-blue-600"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1065,
+                                                    columnNumber: 23
+                                                }, this)
+                                            ]
+                                        }, item.id, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1054,
+                                            columnNumber: 19
+                                        }, this);
+                                    })
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1049,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: handleLogout,
+                                        className: "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-colors",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiLogOut"], {
+                                                className: "w-5 h-5"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                lineNumber: 1078,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "font-medium",
+                                                children: "Sign Out"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                lineNumber: 1079,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                        lineNumber: 1074,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1073,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                            lineNumber: 1035,
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
                             className: "flex-1",
                             children: [
-                                activeTab === 'home' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                (activeTab === 'home' || activeTab === 'find-jobs') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "space-y-6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-white rounded-lg shadow-sm p-6",
+                                            className: "bg-white rounded-2xl shadow-sm border border-gray-100 p-6",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-center justify-between",
+                                                className: "flex flex-col md:flex-row items-center md:items-start gap-6",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center gap-4",
+                                                        className: "relative group shrink-0",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "relative w-20 h-20",
+                                                                className: "w-24 h-24 rounded-full p-1 bg-gradient-to-br from-blue-500 to-indigo-600",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "w-full h-full rounded-full bg-white p-0.5 relative overflow-hidden",
+                                                                    children: [
+                                                                        (user === null || user === void 0 ? void 0 : user.profileImage) || avatarPreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                                            src: (user === null || user === void 0 ? void 0 : user.profileImage) || avatarPreview,
+                                                                            alt: "Profile",
+                                                                            className: "w-full h-full object-cover rounded-full"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1097,
+                                                                            columnNumber: 29
+                                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "w-full h-full bg-gray-50 flex items-center justify-center text-2xl font-bold text-blue-600",
+                                                                            children: ((user === null || user === void 0 ? void 0 : (_user_firstName1 = user.firstName) === null || _user_firstName1 === void 0 ? void 0 : _user_firstName1[0]) || (user === null || user === void 0 ? void 0 : (_user_name1 = user.name) === null || _user_name1 === void 0 ? void 0 : _user_name1[0]) || 'U').toUpperCase()
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1099,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                            onClick: ()=>{
+                                                                                var _document_getElementById;
+                                                                                return (_document_getElementById = document.getElementById('dash-avatar-main')) === null || _document_getElementById === void 0 ? void 0 : _document_getElementById.click();
+                                                                            },
+                                                                            className: "absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-medium",
+                                                                            children: "Change"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1103,
+                                                                            columnNumber: 27
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1095,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1094,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                id: "dash-avatar-main",
+                                                                type: "file",
+                                                                className: "hidden",
+                                                                accept: "image/*",
+                                                                onChange: async (e)=>{
+                                                                    var _e_target_files;
+                                                                    const file = (_e_target_files = e.target.files) === null || _e_target_files === void 0 ? void 0 : _e_target_files[0];
+                                                                    if (file) {
+                                                                        const reader = new FileReader();
+                                                                        reader.onload = (ev)=>setAvatarPreview(ev.target.result);
+                                                                        reader.readAsDataURL(file);
+                                                                        await uploadAvatar(file);
+                                                                    }
+                                                                }
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1111,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "absolute -bottom-2 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white shadow-sm whitespace-nowrap",
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                                                        viewBox: "0 0 36 36",
-                                                                        className: "w-20 h-20",
+                                                                    Math.round(profileCompletion),
+                                                                    "% Ready"
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1120,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1093,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex-1 text-center md:text-left",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex flex-col md:flex-row md:items-center justify-between gap-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                                d: "M18 2.0845   a 15.9155 15.9155 0 0 1 0 31.831   a 15.9155 15.9155 0 0 1 0 -31.831",
-                                                                                fill: "none",
-                                                                                stroke: "#E5E7EB",
-                                                                                strokeWidth: "3"
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                                                className: "text-2xl font-bold text-gray-900",
+                                                                                children: (user === null || user === void 0 ? void 0 : user.firstName) || (user === null || user === void 0 ? void 0 : user.lastName) ? "".concat((user === null || user === void 0 ? void 0 : user.firstName) || '', " ").concat((user === null || user === void 0 ? void 0 : user.lastName) || '').trim() : (user === null || user === void 0 ? void 0 : user.name) || (user === null || user === void 0 ? void 0 : user.username) || 'Job Seeker'
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 973,
+                                                                                lineNumber: 1128,
                                                                                 columnNumber: 27
                                                                             }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                                                d: "M18 2.0845   a 15.9155 15.9155 0 0 1 0 31.831",
-                                                                                fill: "none",
-                                                                                stroke: "#2563EB",
-                                                                                strokeWidth: "3",
-                                                                                strokeDasharray: "".concat(Math.max(0, Math.min(100, profileCompletion)), ", 100")
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                className: "text-gray-500 font-medium",
+                                                                                children: (user === null || user === void 0 ? void 0 : user.profileTitle) || (user === null || user === void 0 ? void 0 : user.title) || 'Job Seeker'
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 976,
+                                                                                lineNumber: 1133,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex items-center justify-center md:justify-start gap-2 text-sm text-gray-400 mt-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMapPin"], {
+                                                                                        className: "w-3.5 h-3.5"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1135,
+                                                                                        columnNumber: 29
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        children: (user === null || user === void 0 ? void 0 : user.address) || (user === null || user === void 0 ? void 0 : user.location) || 'Location not set'
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1136,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1134,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 972,
+                                                                        lineNumber: 1127,
                                                                         columnNumber: 25
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                        type: "button",
-                                                                        onClick: ()=>{
-                                                                            var _document_getElementById;
-                                                                            return (_document_getElementById = document.getElementById('dash-avatar-input')) === null || _document_getElementById === void 0 ? void 0 : _document_getElementById.click();
-                                                                        },
-                                                                        className: "absolute inset-1 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden ring-2 ring-transparent hover:ring-blue-200 transition",
-                                                                        title: "Click to upload photo",
-                                                                        children: avatarPreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                                            src: avatarPreview,
-                                                                            alt: "Avatar",
-                                                                            className: "w-full h-full object-cover"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 987,
-                                                                            columnNumber: 29
-                                                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                            className: "text-black",
-                                                                            children: "User"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 989,
-                                                                            columnNumber: 29
-                                                                        }, this)
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                        href: "/JobseekerProfile",
+                                                                        className: "px-5 py-2.5 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors shadow-lg shadow-gray-200",
+                                                                        children: "Complete Profile"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 980,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                                        id: "dash-avatar-input",
-                                                                        type: "file",
-                                                                        accept: "image/*",
-                                                                        className: "hidden",
-                                                                        onChange: async (e)=>{
-                                                                            var _e_target_files;
-                                                                            const file = (_e_target_files = e.target.files) === null || _e_target_files === void 0 ? void 0 : _e_target_files[0];
-                                                                            if (!file) return;
-                                                                            const reader = new FileReader();
-                                                                            reader.onload = (ev)=>setAvatarPreview(ev.target.result);
-                                                                            reader.readAsDataURL(file);
-                                                                            try {
-                                                                                const r = await uploadAvatar(file);
-                                                                                if (r === null || r === void 0 ? void 0 : r.url) setAvatarPreview(r.url);
-                                                                                if ("TURBOPACK compile-time truthy", 1) window.dispatchEvent(new Event('focus'));
-                                                                            } catch (_) {
-                                                                                alert('Failed to upload photo. Please try again.');
-                                                                            }
-                                                                        }
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 992,
-                                                                        columnNumber: 25
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white text-blue-600 text-xs font-semibold px-1.5 py-0.5 rounded-full border",
-                                                                        children: profileLoading ? '...' : "".concat(Math.max(0, Math.min(100, profileCompletion)), "%")
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1012,
+                                                                        lineNumber: 1139,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 971,
+                                                                lineNumber: 1126,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6",
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "text-lg font-semibold text-black",
-                                                                        children: (user === null || user === void 0 ? void 0 : user.user_name) || [
-                                                                            user === null || user === void 0 ? void 0 : user.firstName,
-                                                                            user === null || user === void 0 ? void 0 : user.lastName
-                                                                        ].filter(Boolean).join(' ') || (user === null || user === void 0 ? void 0 : user.username) || (user === null || user === void 0 ? void 0 : user.name) || ((user === null || user === void 0 ? void 0 : user.email) ? user.email.split('@')[0] : 'User')
-                                                                    }, void 0, false, {
+                                                                        className: "p-3 bg-blue-50 rounded-xl border border-blue-100",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-2xl font-bold text-blue-600",
+                                                                                children: appliedJobs.length
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1146,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs font-semibold text-blue-400 uppercase tracking-wider",
+                                                                                children: "Applied"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1147,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1017,
+                                                                        lineNumber: 1145,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "text-sm text-black mt-1",
-                                                                        children: "Profile completion"
-                                                                    }, void 0, false, {
+                                                                        className: "p-3 bg-indigo-50 rounded-xl border border-indigo-100",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-2xl font-bold text-indigo-600",
+                                                                                children: savedJobs.length
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1150,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs font-semibold text-indigo-400 uppercase tracking-wider",
+                                                                                children: "Saved"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1151,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1020,
+                                                                        lineNumber: 1149,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "p-3 bg-purple-50 rounded-xl border border-purple-100",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-2xl font-bold text-purple-600",
+                                                                                children: appliedJobs.filter((job)=>[
+                                                                                        'interview',
+                                                                                        'interviewing',
+                                                                                        'scheduled'
+                                                                                    ].includes((job.status || '').toLowerCase())).length
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1154,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs font-semibold text-purple-400 uppercase tracking-wider",
+                                                                                children: "Interviews"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1157,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1153,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "p-3 bg-emerald-50 rounded-xl border border-emerald-100",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-2xl font-bold text-emerald-600",
+                                                                                children: appliedJobs.filter((job)=>[
+                                                                                        'offer',
+                                                                                        'offer_received',
+                                                                                        'hired'
+                                                                                    ].includes((job.status || '').toLowerCase())).length
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1160,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "text-xs font-semibold text-emerald-400 uppercase tracking-wider",
+                                                                                children: "Offers"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1163,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1159,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1016,
+                                                                lineNumber: 1144,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 970,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                        href: "/JobseekerProfile",
-                                                        className: "px-4 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700",
-                                                        children: "Complete profile"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1023,
+                                                        lineNumber: 1125,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 969,
+                                                lineNumber: 1092,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 968,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-white rounded-lg shadow-sm p-4",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "grid grid-cols-1 md:grid-cols-6 gap-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                            value: jobFilters.q,
-                                                            onChange: (e)=>setJobFilters((v)=>({
-                                                                        ...v,
-                                                                        q: e.target.value
-                                                                    })),
-                                                            className: "px-3 py-2 border rounded-lg text-gray-900",
-                                                            placeholder: "Search jobs"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1029,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                            value: jobFilters.location,
-                                                            onChange: (e)=>setJobFilters((v)=>({
-                                                                        ...v,
-                                                                        location: e.target.value
-                                                                    })),
-                                                            className: "px-3 py-2 border rounded-lg text-gray-900",
-                                                            placeholder: "Location"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1035,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                            value: jobFilters.jobType,
-                                                            onChange: (e)=>setJobFilters((v)=>({
-                                                                        ...v,
-                                                                        jobType: e.target.value
-                                                                    })),
-                                                            className: "px-3 py-2 border rounded-lg text-gray-900",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "",
-                                                                    children: "Any Type"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1046,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "Full-time",
-                                                                    children: "Full-time"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1047,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "Part-time",
-                                                                    children: "Part-time"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1048,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "Contract",
-                                                                    children: "Contract"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1049,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "Internship",
-                                                                    children: "Internship"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1050,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "Freelance",
-                                                                    children: "Freelance"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1051,
-                                                                    columnNumber: 23
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1041,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                            value: jobFilters.minSalary,
-                                                            onChange: (e)=>setJobFilters((v)=>({
-                                                                        ...v,
-                                                                        minSalary: e.target.value
-                                                                    })),
-                                                            type: "number",
-                                                            className: "px-3 py-2 border rounded-lg text-gray-900",
-                                                            placeholder: "Min Salary"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1053,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                            value: jobFilters.maxSalary,
-                                                            onChange: (e)=>setJobFilters((v)=>({
-                                                                        ...v,
-                                                                        maxSalary: e.target.value
-                                                                    })),
-                                                            type: "number",
-                                                            className: "px-3 py-2 border rounded-lg text-gray-900",
-                                                            placeholder: "Max Salary"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1060,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                            value: jobFilters.sort,
-                                                            onChange: (e)=>setJobFilters((v)=>({
-                                                                        ...v,
-                                                                        sort: e.target.value
-                                                                    })),
-                                                            className: "px-3 py-2 border rounded-lg text-gray-900",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "newest",
-                                                                    children: "Newest"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1072,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "relevance",
-                                                                    children: "Relevance"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1073,
-                                                                    columnNumber: 23
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                    value: "salary",
-                                                                    children: "Salary"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1074,
-                                                                    columnNumber: 23
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1067,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1028,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "mt-3 flex items-center gap-3",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                            onClick: ()=>{
-                                                                setJobsPage(1);
-                                                            },
-                                                            className: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700",
-                                                            children: "Apply"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1078,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                            onClick: ()=>setJobFilters({
-                                                                    q: '',
-                                                                    location: '',
-                                                                    jobType: '',
-                                                                    minSalary: '',
-                                                                    maxSalary: '',
-                                                                    sort: 'newest'
-                                                                }),
-                                                            className: "px-4 py-2 border rounded-lg text-gray-900 hover:bg-gray-50",
-                                                            children: "Clear"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1079,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        jobsLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            className: "text-sm text-gray-500",
-                                                            children: "Loading jobs..."
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1080,
-                                                            columnNumber: 37
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1077,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1027,
+                                            lineNumber: 1091,
                                             columnNumber: 17
                                         }, this),
                                         jobPosts.map((job)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2011,26 +2035,33 @@ function JobseekerDashboard() {
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                             className: "flex items-center space-x-2 mb-2",
                                                                             children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                new Date(job.deadline) < new Date() ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                    className: "inline-block bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full",
+                                                                                    children: "Expired"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1183,
+                                                                                    columnNumber: 31
+                                                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     className: "inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full",
                                                                                     children: "Open for applications"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 1093,
-                                                                                    columnNumber: 29
+                                                                                    lineNumber: 1187,
+                                                                                    columnNumber: 31
                                                                                 }, this),
                                                                                 job.featured && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     className: "inline-block bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full",
                                                                                     children: "Featured"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 1098,
+                                                                                    lineNumber: 1193,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1092,
+                                                                            lineNumber: 1181,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -2042,7 +2073,7 @@ function JobseekerDashboard() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1103,
+                                                                            lineNumber: 1198,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2055,20 +2086,20 @@ function JobseekerDashboard() {
                                                                                             className: "w-4 h-4"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                            lineNumber: 1108,
+                                                                                            lineNumber: 1203,
                                                                                             columnNumber: 31
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: job.location
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                            lineNumber: 1109,
+                                                                                            lineNumber: 1204,
                                                                                             columnNumber: 31
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 1107,
+                                                                                    lineNumber: 1202,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2078,20 +2109,20 @@ function JobseekerDashboard() {
                                                                                             className: "w-4 h-4"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                            lineNumber: 1112,
+                                                                                            lineNumber: 1207,
                                                                                             columnNumber: 31
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: job.jobType
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                            lineNumber: 1113,
+                                                                                            lineNumber: 1208,
                                                                                             columnNumber: 31
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 1111,
+                                                                                    lineNumber: 1206,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2101,24 +2132,24 @@ function JobseekerDashboard() {
                                                                                         children: job.salary
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1117,
+                                                                                        lineNumber: 1212,
                                                                                         columnNumber: 31
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                    lineNumber: 1115,
+                                                                                    lineNumber: 1210,
                                                                                     columnNumber: 29
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1106,
+                                                                            lineNumber: 1201,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1091,
+                                                                    lineNumber: 1180,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2130,27 +2161,27 @@ function JobseekerDashboard() {
                                                                             children: savedJobs.includes(job.id) ? 'Saved' : 'Save'
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1122,
+                                                                            lineNumber: 1217,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                             onClick: ()=>handleApplyJob(job.id),
-                                                                            disabled: appliedJobs.some((j)=>j.id === job.id) || applyingJobId === job.id,
-                                                                            className: "bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2 ".concat(appliedJobs.some((j)=>j.id === job.id) || applyingJobId === job.id ? 'opacity-60 cursor-not-allowed' : 'hover:bg-blue-700'),
+                                                                            disabled: appliedJobs.some((j)=>j.id === job.id) || applyingJobId === job.id || new Date(job.deadline) < new Date(),
+                                                                            className: "bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2 ".concat(appliedJobs.some((j)=>j.id === job.id) || applyingJobId === job.id || new Date(job.deadline) < new Date() ? 'opacity-60 cursor-not-allowed' : 'hover:bg-blue-700'),
                                                                             children: applyingJobId === job.id ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                                                 children: [
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                                         className: "w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1138,
+                                                                                        lineNumber: 1233,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                         children: "Applying..."
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1139,
+                                                                                        lineNumber: 1234,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 ]
@@ -2160,38 +2191,38 @@ function JobseekerDashboard() {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1143,
+                                                                                        lineNumber: 1238,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                        children: appliedJobs.some((j)=>j.id === job.id) ? 'Applied' : 'Apply Now'
+                                                                                        children: appliedJobs.some((j)=>j.id === job.id) ? 'Applied' : new Date(job.deadline) < new Date() ? 'Expired' : 'Apply Now'
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1144,
+                                                                                        lineNumber: 1239,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1128,
+                                                                            lineNumber: 1223,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1121,
+                                                                    lineNumber: 1216,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1090,
+                                                            lineNumber: 1179,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1089,
+                                                        lineNumber: 1178,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2202,7 +2233,7 @@ function JobseekerDashboard() {
                                                                 children: job.description
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1153,
+                                                                lineNumber: 1254,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2215,20 +2246,20 @@ function JobseekerDashboard() {
                                                                                 className: "w-5 h-5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1157,
+                                                                                lineNumber: 1258,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                 children: "Skills Required"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1158,
+                                                                                lineNumber: 1259,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1156,
+                                                                        lineNumber: 1257,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2240,31 +2271,31 @@ function JobseekerDashboard() {
                                                                                         className: "w-3 h-3"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1163,
+                                                                                        lineNumber: 1264,
                                                                                         columnNumber: 31
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                         children: skill
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1164,
+                                                                                        lineNumber: 1265,
                                                                                         columnNumber: 31
                                                                                     }, this)
                                                                                 ]
                                                                             }, index, true, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1162,
+                                                                                lineNumber: 1263,
                                                                                 columnNumber: 29
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1160,
+                                                                        lineNumber: 1261,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1155,
+                                                                lineNumber: 1256,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2277,7 +2308,7 @@ function JobseekerDashboard() {
                                                                                 className: "w-4 h-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1172,
+                                                                                lineNumber: 1273,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2286,7 +2317,7 @@ function JobseekerDashboard() {
                                                                                         children: "Experience:"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1173,
+                                                                                        lineNumber: 1274,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     " ",
@@ -2294,13 +2325,13 @@ function JobseekerDashboard() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1173,
+                                                                                lineNumber: 1274,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1171,
+                                                                        lineNumber: 1272,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2310,7 +2341,7 @@ function JobseekerDashboard() {
                                                                                 className: "w-4 h-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1176,
+                                                                                lineNumber: 1277,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2319,7 +2350,7 @@ function JobseekerDashboard() {
                                                                                         children: "Deadline:"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                        lineNumber: 1177,
+                                                                                        lineNumber: 1278,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     " ",
@@ -2327,31 +2358,31 @@ function JobseekerDashboard() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1177,
+                                                                                lineNumber: 1278,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1175,
+                                                                        lineNumber: 1276,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1170,
+                                                                lineNumber: 1271,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1152,
+                                                        lineNumber: 1253,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, job.id, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1084,
+                                                lineNumber: 1173,
                                                 columnNumber: 19
                                             }, this)),
                                         jobPosts.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2361,7 +2392,7 @@ function JobseekerDashboard() {
                                                     className: "w-12 h-12 text-gray-400 mx-auto mb-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1186,
+                                                    lineNumber: 1287,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2369,7 +2400,7 @@ function JobseekerDashboard() {
                                                     children: "No jobs available"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1187,
+                                                    lineNumber: 1288,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2377,13 +2408,13 @@ function JobseekerDashboard() {
                                                     children: "Check back later for new job opportunities"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1188,
+                                                    lineNumber: 1289,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1185,
+                                            lineNumber: 1286,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2399,7 +2430,7 @@ function JobseekerDashboard() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1194,
+                                                    lineNumber: 1295,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2412,7 +2443,7 @@ function JobseekerDashboard() {
                                                             children: "Previous"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1196,
+                                                            lineNumber: 1297,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2422,328 +2453,628 @@ function JobseekerDashboard() {
                                                             children: "Next"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1201,
+                                                            lineNumber: 1302,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1195,
+                                                    lineNumber: 1296,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1193,
+                                            lineNumber: 1294,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 967,
+                                    lineNumber: 1089,
                                     columnNumber: 15
                                 }, this),
-                                activeTab === 'job-profiles' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                activeTab === 'applied-jobs' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "space-y-6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-white rounded-lg shadow-sm border p-6",
+                                            className: "flex items-center justify-between",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                                    className: "text-2xl font-bold text-gray-900 mb-2",
-                                                    children: "Saved Jobs"
+                                                    className: "text-2xl font-bold text-gray-900",
+                                                    children: "Applied Jobs"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1214,
+                                                    lineNumber: 1315,
                                                     columnNumber: 19
                                                 }, this),
-                                                savedJobs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-gray-600",
-                                                    children: "No saved jobs yet."
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium",
+                                                    children: [
+                                                        appliedJobs.length,
+                                                        " Applications"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1316,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1314,
+                                            columnNumber: 17
+                                        }, this),
+                                        appliedJobs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCheck"], {
+                                                        className: "w-8 h-8 text-gray-400"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1322,
+                                                        columnNumber: 23
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1216,
+                                                    lineNumber: 1321,
                                                     columnNumber: 21
-                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "grid grid-cols-1 md:grid-cols-2 gap-4",
-                                                    children: jobPosts.filter((j)=>savedJobs.includes(j.id)).map((job)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "border rounded-lg p-4",
-                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex justify-between items-start",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                                                className: "font-semibold text-gray-900",
-                                                                                children: job.title
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1223,
-                                                                                columnNumber: 31
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                                className: "text-gray-600",
-                                                                                children: [
-                                                                                    job.company,
-                                                                                    " - ",
-                                                                                    job.location
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1224,
-                                                                                columnNumber: 31
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1222,
-                                                                        columnNumber: 29
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                        onClick: ()=>toggleSaveJob(job.id),
-                                                                        className: "text-blue-600 hover:text-blue-800",
-                                                                        children: "Unsave"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1226,
-                                                                        columnNumber: 29
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1221,
-                                                                columnNumber: 27
-                                                            }, this)
-                                                        }, job.id, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1220,
-                                                            columnNumber: 25
-                                                        }, this))
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold text-gray-900 mb-1",
+                                                    children: "No applications yet"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1218,
+                                                    lineNumber: 1324,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-gray-500 mb-6",
+                                                    children: "Start applying to jobs to track them here."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1325,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: ()=>setActiveTab('home'),
+                                                    className: "px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700",
+                                                    children: "Browse Jobs"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1326,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1213,
-                                            columnNumber: 17
-                                        }, this),
+                                            lineNumber: 1320,
+                                            columnNumber: 19
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "grid grid-cols-1 gap-4",
+                                            children: appliedJobs.map((app)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex flex-col md:flex-row md:items-center justify-between gap-4",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                        className: "text-lg font-bold text-gray-900",
+                                                                        children: app.jobTitle
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1334,
+                                                                        columnNumber: 29
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-gray-600 font-medium",
+                                                                        children: app.company
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1335,
+                                                                        columnNumber: 29
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center gap-3 mt-2 text-sm text-gray-500",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                className: "flex items-center gap-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCalendar"], {
+                                                                                        className: "w-4 h-4"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1337,
+                                                                                        columnNumber: 73
+                                                                                    }, this),
+                                                                                    " Applied: ",
+                                                                                    new Date(app.appliedDate).toLocaleDateString()
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1337,
+                                                                                columnNumber: 31
+                                                                            }, this),
+                                                                            app.matchScore > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                className: "flex items-center gap-1 text-emerald-600 font-medium",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCheck"], {
+                                                                                        className: "w-4 h-4"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1338,
+                                                                                        columnNumber: 125
+                                                                                    }, this),
+                                                                                    " ",
+                                                                                    app.matchScore,
+                                                                                    "% Match"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1338,
+                                                                                columnNumber: 54
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1336,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1333,
+                                                                columnNumber: 27
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "flex items-center gap-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "px-4 py-2 rounded-lg text-sm font-semibold capitalize\n                                ".concat(app.status === 'Applied' ? 'bg-blue-50 text-blue-700' : app.status === 'Rejected' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'),
+                                                                        children: app.status || 'Applied'
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1342,
+                                                                        columnNumber: 29
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                        className: "p-2 text-gray-400 hover:text-gray-600",
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiChevronRight"], {
+                                                                            className: "w-5 h-5"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1348,
+                                                                            columnNumber: 87
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1348,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1341,
+                                                                columnNumber: 27
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1332,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                }, app._id, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1331,
+                                                    columnNumber: 23
+                                                }, this))
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1329,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1313,
+                                    columnNumber: 15
+                                }, this),
+                                activeTab === 'saved-jobs' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-6",
+                                    children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-white rounded-lg shadow-sm border p-6",
+                                            className: "flex items-center justify-between",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                                    className: "text-2xl font-bold text-gray-900 mb-2",
-                                                    children: "Applied Jobs"
+                                                    className: "text-2xl font-bold text-gray-900",
+                                                    children: "Saved Jobs"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1235,
+                                                    lineNumber: 1361,
                                                     columnNumber: 19
                                                 }, this),
-                                                appliedJobs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-gray-600",
-                                                    children: "You haven't applied to any jobs yet."
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium",
+                                                    children: [
+                                                        savedJobs.length,
+                                                        " Saved"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1362,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1360,
+                                            columnNumber: 17
+                                        }, this),
+                                        savedJobs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiBookmark"], {
+                                                        className: "w-8 h-8 text-gray-400"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1368,
+                                                        columnNumber: 23
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1237,
+                                                    lineNumber: 1367,
                                                     columnNumber: 21
-                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "space-y-3",
-                                                    children: appliedJobs.map((app)=>{
-                                                        const job = jobPosts.find((j)=>j.id === app.id);
-                                                        if (!job) return null;
-                                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "border rounded-lg p-4 flex items-center justify-between",
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold text-gray-900 mb-1",
+                                                    children: "No saved jobs"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1370,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-gray-500 mb-6",
+                                                    children: "Save jobs you're interested in to view them later."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1371,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: ()=>setActiveTab('home'),
+                                                    className: "px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700",
+                                                    children: "Browse Jobs"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1372,
+                                                    columnNumber: 21
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1366,
+                                            columnNumber: 19
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "grid grid-cols-1 md:grid-cols-2 gap-4",
+                                            children: jobPosts.filter((j)=>savedJobs.includes(j.id)).map((job)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow relative group",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex justify-between items-start mb-4",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     children: [
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                                            className: "font-semibold text-gray-900",
+                                                                            className: "font-bold text-gray-900 line-clamp-1",
                                                                             children: job.title
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1246,
-                                                                            columnNumber: 31
+                                                                            lineNumber: 1380,
+                                                                            columnNumber: 29
                                                                         }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                            className: "text-gray-600",
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex items-center gap-2",
                                                                             children: [
-                                                                                job.company,
-                                                                                " - Applied on ",
-                                                                                new Date(app.at).toLocaleDateString()
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-gray-600 text-sm",
+                                                                                    children: job.company
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1382,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                new Date(job.deadline) < new Date() && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                    className: "text-[10px] font-bold bg-red-100 text-red-700 px-2 py-0.5 rounded-full",
+                                                                                    children: "Expired"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1384,
+                                                                                    columnNumber: 33
+                                                                                }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                            lineNumber: 1247,
-                                                                            columnNumber: 31
+                                                                            lineNumber: 1381,
+                                                                            columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1245,
-                                                                    columnNumber: 29
+                                                                    lineNumber: 1379,
+                                                                    columnNumber: 27
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full",
-                                                                    children: "Submitted"
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    onClick: ()=>toggleSaveJob(job.id),
+                                                                    className: "text-indigo-600 hover:text-indigo-800 p-2 bg-indigo-50 rounded-lg",
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiBookmark"], {
+                                                                        className: "w-5 h-5 fill-current"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1389,
+                                                                        columnNumber: 29
+                                                                    }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1249,
-                                                                    columnNumber: 29
+                                                                    lineNumber: 1388,
+                                                                    columnNumber: 27
                                                                 }, this)
                                                             ]
-                                                        }, app.id, true, {
+                                                        }, void 0, true, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1244,
-                                                            columnNumber: 27
-                                                        }, this);
-                                                    })
+                                                            lineNumber: 1378,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-2 text-sm text-gray-500 mb-4",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMapPin"], {
+                                                                    className: "w-4 h-4"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1393,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                " ",
+                                                                job.location
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1392,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: ()=>handleApplyJob(job.id),
+                                                            disabled: new Date(job.deadline) < new Date(),
+                                                            className: "w-full py-2.5 rounded-lg font-medium transition-colors ".concat(new Date(job.deadline) < new Date() ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-gray-900 text-white hover:bg-black'),
+                                                            children: new Date(job.deadline) < new Date() ? 'Expired' : 'Apply Now'
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1395,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, job.id, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1377,
+                                                    columnNumber: 23
+                                                }, this))
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1375,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1359,
+                                    columnNumber: 15
+                                }, this),
+                                activeTab === 'interviews' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-6",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center justify-between",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "text-2xl font-bold text-gray-900",
+                                                    children: "My Interviews"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1239,
+                                                    lineNumber: 1415,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm font-medium",
+                                                    children: [
+                                                        interviews.length,
+                                                        " Scheduled"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1416,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1414,
+                                            columnNumber: 17
+                                        }, this),
+                                        interviews.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "bg-white rounded-2xl p-12 text-center shadow-sm border border-gray-100",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCalendar"], {
+                                                        className: "w-8 h-8 text-gray-400"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1422,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1421,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-semibold text-gray-900 mb-1",
+                                                    children: "No interviews scheduled"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1424,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-gray-500 mb-6",
+                                                    children: "Applications that advance will have interviews appear here."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1425,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1234,
-                                            columnNumber: 17
+                                            lineNumber: 1420,
+                                            columnNumber: 19
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-4",
+                                            children: interviews.map((itv)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:shadow-md transition-shadow",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                    className: "text-lg font-bold text-gray-900",
+                                                                    children: itv.title
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1432,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-gray-600 font-medium",
+                                                                    children: itv.company
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1433,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-center gap-3 mt-2 text-sm text-gray-500",
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                        className: "flex items-center gap-1",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCalendar"], {
+                                                                                className: "w-4 h-4"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1435,
+                                                                                columnNumber: 71
+                                                                            }, this),
+                                                                            " Added: ",
+                                                                            itv.date,
+                                                                            " at ",
+                                                                            itv.time
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1435,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1434,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1431,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-4",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "px-4 py-2 rounded-lg text-sm font-semibold capitalize flex items-center gap-2\n                                ".concat(itv.status === 'Pending' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' : itv.status === 'Completed' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-gray-50 text-gray-700'),
+                                                                    children: [
+                                                                        itv.status === 'Pending' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "w-2 h-2 rounded-full bg-yellow-500 animate-pulse"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1444,
+                                                                            columnNumber: 58
+                                                                        }, this),
+                                                                        itv.status === 'Completed' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCheck"], {
+                                                                            className: "w-4 h-4"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1445,
+                                                                            columnNumber: 60
+                                                                        }, this),
+                                                                        itv.status
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1440,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                itv.status === 'Pending' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                    href: "/interview/".concat(itv.token),
+                                                                    className: "px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-200 flex items-center gap-2",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiVideo"], {
+                                                                            className: "w-4 h-4"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1454,
+                                                                            columnNumber: 31
+                                                                        }, this),
+                                                                        " Start Interview"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1450,
+                                                                    columnNumber: 29
+                                                                }, this),
+                                                                itv.status === 'Completed' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    disabled: true,
+                                                                    className: "px-6 py-2.5 bg-gray-100 text-gray-400 font-bold rounded-xl cursor-not-allowed",
+                                                                    children: "Submitted"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1459,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1439,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, itv.id, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1430,
+                                                    columnNumber: 23
+                                                }, this))
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1428,
+                                            columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1212,
-                                    columnNumber: 15
-                                }, this),
-                                activeTab === 'interviews' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "space-y-4",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "bg-white rounded-lg shadow-sm border p-6",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                                className: "text-2xl font-bold text-gray-900 mb-2",
-                                                children: "Upcoming Interviews"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1262,
-                                                columnNumber: 19
-                                            }, this),
-                                            interviews.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-gray-600",
-                                                children: "No interviews scheduled."
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1264,
-                                                columnNumber: 21
-                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-3",
-                                                children: interviews.map((itv)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "border rounded-lg p-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "flex items-center justify-between",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                                                className: "font-semibold text-gray-900",
-                                                                                children: itv.title
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1271,
-                                                                                columnNumber: 31
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                                className: "text-gray-600",
-                                                                                children: [
-                                                                                    itv.date,
-                                                                                    " - ",
-                                                                                    itv.time
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                                lineNumber: 1272,
-                                                                                columnNumber: 31
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1270,
-                                                                        columnNumber: 29
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                        className: "text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full",
-                                                                        children: itv.status
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1274,
-                                                                        columnNumber: 29
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1269,
-                                                                columnNumber: 27
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "mt-3 flex items-center gap-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                        onClick: ()=>handleUpdateInterviewStatus(itv.id, 'Completed'),
-                                                                        className: "px-3 py-2 text-sm border rounded-lg hover:bg-gray-50",
-                                                                        children: "Mark as Done"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1277,
-                                                                        columnNumber: 29
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                        onClick: ()=>handleUpdateInterviewStatus(itv.id, 'Cancelled'),
-                                                                        className: "px-3 py-2 text-sm border rounded-lg hover:bg-gray-50",
-                                                                        children: "Cancel"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1278,
-                                                                        columnNumber: 29
-                                                                    }, this),
-                                                                    itv.link && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                                        href: itv.link,
-                                                                        target: "_blank",
-                                                                        rel: "noopener noreferrer",
-                                                                        className: "px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700",
-                                                                        children: "Join"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1280,
-                                                                        columnNumber: 31
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1276,
-                                                                columnNumber: 27
-                                                            }, this)
-                                                        ]
-                                                    }, itv.id, true, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1268,
-                                                        columnNumber: 25
-                                                    }, this))
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1266,
-                                                columnNumber: 21
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1261,
-                                        columnNumber: 17
-                                    }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1260,
+                                    lineNumber: 1413,
                                     columnNumber: 15
                                 }, this),
                                 activeTab === 'assessments' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2756,8 +3087,8 @@ function JobseekerDashboard() {
                                                 children: "Assessments"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1294,
-                                                columnNumber: 19
+                                                lineNumber: 1477,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "space-y-3",
@@ -2771,8 +3102,8 @@ function JobseekerDashboard() {
                                                                         children: asmt.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1299,
-                                                                        columnNumber: 27
+                                                                        lineNumber: 1482,
+                                                                        columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                         className: "text-gray-600",
@@ -2783,60 +3114,60 @@ function JobseekerDashboard() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1300,
-                                                                        columnNumber: 27
+                                                                        lineNumber: 1483,
+                                                                        columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1298,
-                                                                columnNumber: 25
+                                                                lineNumber: 1481,
+                                                                columnNumber: 27
                                                             }, this),
                                                             asmt.status === 'Completed' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 className: "px-4 py-2 border rounded-lg hover:bg-gray-50",
                                                                 children: "Review"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1303,
-                                                                columnNumber: 27
+                                                                lineNumber: 1486,
+                                                                columnNumber: 29
                                                             }, this) : asmt.status === 'In Progress' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 onClick: ()=>handleSubmitAssessment(asmt.id, 85),
                                                                 className: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700",
                                                                 children: "Submit"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1305,
-                                                                columnNumber: 27
+                                                                lineNumber: 1488,
+                                                                columnNumber: 29
                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 onClick: ()=>handleStartAssessment(asmt.id),
                                                                 className: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700",
                                                                 children: "Start"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1307,
-                                                                columnNumber: 27
+                                                                lineNumber: 1490,
+                                                                columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, asmt.id, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1297,
-                                                        columnNumber: 23
+                                                        lineNumber: 1480,
+                                                        columnNumber: 25
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1295,
-                                                columnNumber: 19
+                                                lineNumber: 1478,
+                                                columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1293,
-                                        columnNumber: 17
+                                        lineNumber: 1476,
+                                        columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1292,
-                                    columnNumber: 15
+                                    lineNumber: 1475,
+                                    columnNumber: 17
                                 }, this),
                                 activeTab === 'events' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "space-y-4",
@@ -2848,16 +3179,16 @@ function JobseekerDashboard() {
                                                 children: "Events"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1319,
-                                                columnNumber: 19
+                                                lineNumber: 1504,
+                                                columnNumber: 21
                                             }, this),
                                             events.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-gray-600",
                                                 children: "No events scheduled for you at the moment."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1321,
-                                                columnNumber: 21
+                                                lineNumber: 1506,
+                                                columnNumber: 23
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "space-y-3",
                                                 children: events.map((evt)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2870,8 +3201,8 @@ function JobseekerDashboard() {
                                                                         children: evt.name || evt.title
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1327,
-                                                                        columnNumber: 29
+                                                                        lineNumber: 1512,
+                                                                        columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                         className: "text-gray-600",
@@ -2882,14 +3213,14 @@ function JobseekerDashboard() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1328,
-                                                                        columnNumber: 29
+                                                                        lineNumber: 1513,
+                                                                        columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1326,
-                                                                columnNumber: 27
+                                                                lineNumber: 1511,
+                                                                columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 className: "px-4 py-2 rounded-lg border ".concat(evt.registered ? 'bg-blue-50 text-blue-700 border-blue-200' : 'hover:bg-gray-50'),
@@ -2897,30 +3228,30 @@ function JobseekerDashboard() {
                                                                 children: evt.registered ? 'Unregister' : 'Register'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1330,
-                                                                columnNumber: 27
+                                                                lineNumber: 1515,
+                                                                columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, evt.id, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1325,
-                                                        columnNumber: 25
+                                                        lineNumber: 1510,
+                                                        columnNumber: 27
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1323,
-                                                columnNumber: 21
+                                                lineNumber: 1508,
+                                                columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1318,
-                                        columnNumber: 17
+                                        lineNumber: 1503,
+                                        columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1317,
-                                    columnNumber: 15
+                                    lineNumber: 1502,
+                                    columnNumber: 17
                                 }, this),
                                 activeTab === 'competitions' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "space-y-4",
@@ -2932,16 +3263,16 @@ function JobseekerDashboard() {
                                                 children: "Competitions"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1347,
-                                                columnNumber: 19
+                                                lineNumber: 1534,
+                                                columnNumber: 21
                                             }, this),
                                             competitions.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-gray-600",
                                                 children: "No active competitions."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1349,
-                                                columnNumber: 21
+                                                lineNumber: 1536,
+                                                columnNumber: 23
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "space-y-3",
                                                 children: competitions.map((cmp)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2954,8 +3285,8 @@ function JobseekerDashboard() {
                                                                         children: cmp.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1355,
-                                                                        columnNumber: 29
+                                                                        lineNumber: 1542,
+                                                                        columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                         className: "text-gray-600",
@@ -2967,14 +3298,14 @@ function JobseekerDashboard() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1356,
-                                                                        columnNumber: 29
+                                                                        lineNumber: 1543,
+                                                                        columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1354,
-                                                                columnNumber: 27
+                                                                lineNumber: 1541,
+                                                                columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 onClick: ()=>handleParticipateCompetition(cmp._id || cmp.id),
@@ -2983,30 +3314,30 @@ function JobseekerDashboard() {
                                                                 children: cmp.participated ? 'Participated' : 'Participate'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1358,
-                                                                columnNumber: 27
+                                                                lineNumber: 1545,
+                                                                columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, cmp.id, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1353,
-                                                        columnNumber: 25
+                                                        lineNumber: 1540,
+                                                        columnNumber: 27
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1351,
-                                                columnNumber: 21
+                                                lineNumber: 1538,
+                                                columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1346,
-                                        columnNumber: 17
+                                        lineNumber: 1533,
+                                        columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1345,
-                                    columnNumber: 15
+                                    lineNumber: 1532,
+                                    columnNumber: 17
                                 }, this),
                                 activeTab === 'home' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "bg-gradient-to-r from-blue-600 to-purple-700 rounded-lg shadow-lg text-white p-4 md:p-8 mt-8",
@@ -3024,30 +3355,30 @@ function JobseekerDashboard() {
                                                                 children: "New"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1380,
-                                                                columnNumber: 23
+                                                                lineNumber: 1569,
+                                                                columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                                                 className: "text-xl md:text-2xl font-bold",
                                                                 children: "Launchpad is now LIVE"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1383,
-                                                                columnNumber: 23
+                                                                lineNumber: 1572,
+                                                                columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1379,
-                                                        columnNumber: 21
+                                                        lineNumber: 1568,
+                                                        columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                                         className: "text-lg md:text-xl font-semibold mb-4",
                                                         children: "Upskill, Practice & Crack a Job"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1385,
-                                                        columnNumber: 21
+                                                        lineNumber: 1574,
+                                                        columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6",
@@ -3060,22 +3391,22 @@ function JobseekerDashboard() {
                                                                         children: launchpadStats.opportunities
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1391,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 1580,
+                                                                        columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "text-sm opacity-90",
                                                                         children: "Job Opportunities"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1392,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 1581,
+                                                                        columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1390,
-                                                                columnNumber: 23
+                                                                lineNumber: 1579,
+                                                                columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0",
@@ -3085,22 +3416,22 @@ function JobseekerDashboard() {
                                                                         children: launchpadStats.tests
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1395,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 1584,
+                                                                        columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "text-sm opacity-90",
                                                                         children: "Practice Tests"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1396,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 1585,
+                                                                        columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1394,
-                                                                columnNumber: 23
+                                                                lineNumber: 1583,
+                                                                columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "text-center p-2 bg-white/10 rounded-lg sm:bg-transparent sm:p-0",
@@ -3110,28 +3441,28 @@ function JobseekerDashboard() {
                                                                         children: launchpadStats.courses
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1399,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 1588,
+                                                                        columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "text-sm opacity-90",
                                                                         children: "Free Certificate Course"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1400,
-                                                                        columnNumber: 25
+                                                                        lineNumber: 1589,
+                                                                        columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1398,
-                                                                columnNumber: 23
+                                                                lineNumber: 1587,
+                                                                columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1389,
-                                                        columnNumber: 21
+                                                        lineNumber: 1578,
+                                                        columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "mb-4",
@@ -3141,22 +3472,22 @@ function JobseekerDashboard() {
                                                                 children: "All for Free"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1405,
-                                                                columnNumber: 23
+                                                                lineNumber: 1594,
+                                                                columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                 className: "opacity-90",
                                                                 children: "and let your career take flight"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1406,
-                                                                columnNumber: 23
+                                                                lineNumber: 1595,
+                                                                columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1404,
-                                                        columnNumber: 21
+                                                        lineNumber: 1593,
+                                                        columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                         className: "w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2",
@@ -3165,27 +3496,27 @@ function JobseekerDashboard() {
                                                                 className: "w-5 h-5"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1410,
-                                                                columnNumber: 23
+                                                                lineNumber: 1599,
+                                                                columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 children: "Visit Launchpad Now"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1411,
-                                                                columnNumber: 23
+                                                                lineNumber: 1600,
+                                                                columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1409,
-                                                        columnNumber: 21
+                                                        lineNumber: 1598,
+                                                        columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1378,
-                                                columnNumber: 19
+                                                lineNumber: 1567,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "lg:w-2/5 flex justify-center w-full",
@@ -3200,64 +3531,64 @@ function JobseekerDashboard() {
                                                                     className: "w-10 h-10 text-white"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1419,
-                                                                    columnNumber: 27
+                                                                    lineNumber: 1608,
+                                                                    columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1418,
-                                                                columnNumber: 25
+                                                                lineNumber: 1607,
+                                                                columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                 className: "font-semibold",
                                                                 children: "Start Your Journey Today!"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1421,
-                                                                columnNumber: 25
+                                                                lineNumber: 1610,
+                                                                columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1417,
-                                                        columnNumber: 23
+                                                        lineNumber: 1606,
+                                                        columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1416,
-                                                    columnNumber: 21
+                                                    lineNumber: 1605,
+                                                    columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1415,
-                                                columnNumber: 19
+                                                lineNumber: 1604,
+                                                columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1377,
-                                        columnNumber: 17
+                                        lineNumber: 1566,
+                                        columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1376,
-                                    columnNumber: 15
+                                    lineNumber: 1565,
+                                    columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                            lineNumber: 965,
+                            lineNumber: 1085,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                    lineNumber: 920,
+                    lineNumber: 1022,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                lineNumber: 919,
+                lineNumber: 1020,
                 columnNumber: 7
             }, this),
             showQuestionModal && currentJob && currentJob.customQuestions && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3281,8 +3612,8 @@ function JobseekerDashboard() {
                                                 children: "Job Application"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1445,
-                                                columnNumber: 19
+                                                lineNumber: 1636,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-sm text-gray-600 mt-1",
@@ -3293,8 +3624,8 @@ function JobseekerDashboard() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1446,
-                                                columnNumber: 19
+                                                lineNumber: 1637,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "mt-4 flex items-center",
@@ -3311,8 +3642,8 @@ function JobseekerDashboard() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1451,
-                                                            columnNumber: 23
+                                                            lineNumber: 1642,
+                                                            columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "ml-4 w-32 bg-gray-200 rounded-full h-1.5",
@@ -3323,30 +3654,30 @@ function JobseekerDashboard() {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1455,
-                                                                columnNumber: 25
+                                                                lineNumber: 1646,
+                                                                columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1454,
-                                                            columnNumber: 23
+                                                            lineNumber: 1645,
+                                                            columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1450,
-                                                    columnNumber: 21
+                                                    lineNumber: 1641,
+                                                    columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1449,
-                                                columnNumber: 19
+                                                lineNumber: 1640,
+                                                columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1444,
-                                        columnNumber: 17
+                                        lineNumber: 1635,
+                                        columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: handleCloseQuestionModal,
@@ -3356,19 +3687,19 @@ function JobseekerDashboard() {
                                             className: "w-5 h-5"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1468,
-                                            columnNumber: 19
+                                            lineNumber: 1659,
+                                            columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1463,
-                                        columnNumber: 17
+                                        lineNumber: 1654,
+                                        columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 1443,
-                                columnNumber: 15
+                                lineNumber: 1634,
+                                columnNumber: 17
                             }, this),
                             currentJob.customQuestions && currentJob.customQuestions[currentQuestionIndex] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-6",
@@ -3385,14 +3716,14 @@ function JobseekerDashboard() {
                                                         children: "*"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1478,
-                                                        columnNumber: 25
+                                                        lineNumber: 1669,
+                                                        columnNumber: 27
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1475,
-                                                columnNumber: 21
+                                                lineNumber: 1666,
+                                                columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
                                                 value: questionAnswers[currentJob.customQuestions[currentQuestionIndex].id] || '',
@@ -3406,14 +3737,14 @@ function JobseekerDashboard() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1481,
-                                                columnNumber: 21
+                                                lineNumber: 1672,
+                                                columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1474,
-                                        columnNumber: 19
+                                        lineNumber: 1665,
+                                        columnNumber: 21
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex flex-col sm:flex-row justify-between items-center pt-2 gap-4",
@@ -3424,8 +3755,8 @@ function JobseekerDashboard() {
                                                 children: "Skip this question"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1496,
-                                                columnNumber: 23
+                                                lineNumber: 1687,
+                                                columnNumber: 25
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "w-full sm:w-auto flex-1 flex justify-end",
@@ -3437,8 +3768,8 @@ function JobseekerDashboard() {
                                                         className: "w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1514,
-                                                        columnNumber: 27
+                                                        lineNumber: 1705,
+                                                        columnNumber: 29
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "flex items-center",
                                                         children: currentQuestionIndex === currentJob.customQuestions.length - 1 ? 'Submit Application' : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3457,663 +3788,972 @@ function JobseekerDashboard() {
                                                                         d: "M14 5l7 7m0 0l-7 7m7-7H3"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                        lineNumber: 1523,
-                                                                        columnNumber: 35
+                                                                        lineNumber: 1714,
+                                                                        columnNumber: 37
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1522,
-                                                                    columnNumber: 33
+                                                                    lineNumber: 1713,
+                                                                    columnNumber: 35
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1520,
-                                                            columnNumber: 31
+                                                            lineNumber: 1711,
+                                                            columnNumber: 33
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1516,
-                                                        columnNumber: 27
+                                                        lineNumber: 1707,
+                                                        columnNumber: 29
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1505,
-                                                    columnNumber: 23
+                                                    lineNumber: 1696,
+                                                    columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1504,
-                                                columnNumber: 21
+                                                lineNumber: 1695,
+                                                columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1494,
+                                        lineNumber: 1685,
+                                        columnNumber: 21
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                lineNumber: 1664,
+                                columnNumber: 19
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                        lineNumber: 1633,
+                        columnNumber: 15
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                    lineNumber: 1626,
+                    columnNumber: 13
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                lineNumber: 1625,
+                columnNumber: 11
+            }, this),
+            showProfilePanel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity",
+                        onClick: closeProfilePanel
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                        lineNumber: 1736,
+                        columnNumber: 13
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "fixed right-0 top-0 bottom-0 z-50 w-full sm:w-[480px] bg-white shadow-2xl border-l border-gray-100 transform transition-transform duration-300",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: "text-xl font-bold text-gray-900 tracking-tight",
+                                        children: "My Profile"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                        lineNumber: 1739,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        onClick: closeProfilePanel,
+                                        className: "p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-200",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiX"], {
+                                            className: "w-5 h-5"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1744,
+                                            columnNumber: 19
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                        lineNumber: 1740,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                lineNumber: 1738,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "overflow-y-auto h-[calc(100vh-80px)]",
+                                children: profileEditMode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(JobSeekerProfileForm, {
+                                    user: user
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1750,
+                                    columnNumber: 19
+                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "p-6 space-y-8",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex flex-col items-center text-center",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "relative mb-4 group",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-24 h-24 rounded-full p-1 bg-white border-2 border-blue-100 shadow-sm mx-auto overflow-hidden",
+                                                        children: [
+                                                            (user === null || user === void 0 ? void 0 : user.profileImage) || avatarPreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                                src: (user === null || user === void 0 ? void 0 : user.profileImage) || avatarPreview,
+                                                                alt: "Profile",
+                                                                className: "w-full h-full rounded-full object-cover",
+                                                                onError: (e)=>{
+                                                                    e.target.style.display = 'none';
+                                                                    e.target.nextSibling.style.display = 'flex';
+                                                                }
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1758,
+                                                                columnNumber: 29
+                                                            }, this) : null,
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "w-full h-full rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center ".concat((user === null || user === void 0 ? void 0 : user.profileImage) || avatarPreview ? 'hidden' : 'flex'),
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "text-3xl font-bold text-blue-600",
+                                                                    children: (user === null || user === void 0 ? void 0 : (_user_firstName2 = user.firstName) === null || _user_firstName2 === void 0 ? void 0 : (_user_firstName_ = _user_firstName2[0]) === null || _user_firstName_ === void 0 ? void 0 : _user_firstName_.toUpperCase()) || (user === null || user === void 0 ? void 0 : (_user_username1 = user.username) === null || _user_username1 === void 0 ? void 0 : (_user_username_ = _user_username1[0]) === null || _user_username_ === void 0 ? void 0 : _user_username_.toUpperCase()) || 'U'
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1769,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1768,
+                                                                columnNumber: 27
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1756,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1755,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                                    className: "text-2xl font-bold text-gray-900 mb-1",
+                                                    children: (user === null || user === void 0 ? void 0 : user.username) || (user === null || user === void 0 ? void 0 : user.firstName) || 'User'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1776,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-base text-gray-500 font-medium mb-1",
+                                                    children: "Job Seeker"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1779,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center justify-center gap-2 text-gray-500 text-sm mb-5",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMail"], {
+                                                            className: "w-4 h-4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1781,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            children: user === null || user === void 0 ? void 0 : user.email
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1782,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1780,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: ()=>router.push('/JobseekerProfile'),
+                                                    className: "inline-flex items-center justify-center px-6 py-2.5 border border-blue-600 text-blue-600 font-semibold text-sm rounded-full hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all w-full sm:w-auto",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "mr-2",
+                                                            children: "View & Update Profile"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1789,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiUser"], {
+                                                            className: "w-4 h-4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1790,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1785,
+                                                    columnNumber: 23
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1754,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "grid grid-cols-1 gap-6",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-gray-50 p-5 rounded-2xl border border-gray-100",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                            className: "text-xs font-bold text-gray-400 uppercase tracking-wider mb-4",
+                                                            children: "Contact Information"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1797,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-4",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-start gap-4",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "p-2.5 bg-white rounded-xl shadow-sm text-blue-600 shrink-0",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiPhone"], {
+                                                                                className: "w-5 h-5"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1801,
+                                                                                columnNumber: 31
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1800,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex-1 min-w-0",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-sm font-medium text-gray-400 mb-0.5",
+                                                                                    children: "Phone"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1804,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-base font-semibold text-gray-900 truncate",
+                                                                                    children: (user === null || user === void 0 ? void 0 : user.phone) || /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "text-gray-400 italic font-normal",
+                                                                                        children: "Not provided"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1805,
+                                                                                        columnNumber: 109
+                                                                                    }, this)
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1805,
+                                                                                    columnNumber: 31
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1803,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1799,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-start gap-4",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "p-2.5 bg-white rounded-xl shadow-sm text-purple-600 shrink-0",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMapPin"], {
+                                                                                className: "w-5 h-5"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1811,
+                                                                                columnNumber: 31
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1810,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex-1 min-w-0",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-sm font-medium text-gray-400 mb-0.5",
+                                                                                    children: "Location"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1814,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-base font-semibold text-gray-900 break-words",
+                                                                                    children: (user === null || user === void 0 ? void 0 : user.address) || /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "text-gray-400 italic font-normal",
+                                                                                        children: "Not provided"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1815,
+                                                                                        columnNumber: 114
+                                                                                    }, this)
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1815,
+                                                                                    columnNumber: 31
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1813,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1809,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1798,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1796,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-gray-50 p-5 rounded-2xl border border-gray-100",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                            className: "text-xs font-bold text-gray-400 uppercase tracking-wider mb-4",
+                                                            children: "Personal Details"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1822,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-4",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-start gap-4",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "p-2.5 bg-white rounded-xl shadow-sm text-pink-600 shrink-0",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCalendar"], {
+                                                                                className: "w-5 h-5"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1826,
+                                                                                columnNumber: 31
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1825,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex-1 min-w-0",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-sm font-medium text-gray-400 mb-0.5",
+                                                                                    children: "Date of Birth"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1829,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-base font-semibold text-gray-900",
+                                                                                    children: (user === null || user === void 0 ? void 0 : user.dob) ? String(user.dob).split('T')[0] : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "text-gray-400 italic font-normal",
+                                                                                        children: "Not provided"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1830,
+                                                                                        columnNumber: 130
+                                                                                    }, this)
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1830,
+                                                                                    columnNumber: 31
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1828,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1824,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-start gap-4",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "p-2.5 bg-white rounded-xl shadow-sm text-teal-600 shrink-0",
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiUser"], {
+                                                                                className: "w-5 h-5"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1836,
+                                                                                columnNumber: 31
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1835,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex-1 min-w-0",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-sm font-medium text-gray-400 mb-0.5",
+                                                                                    children: "Gender"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1839,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                    className: "text-base font-semibold text-gray-900",
+                                                                                    children: (user === null || user === void 0 ? void 0 : user.gender) || /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "text-gray-400 italic font-normal",
+                                                                                        children: "Not provided"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1840,
+                                                                                        columnNumber: 101
+                                                                                    }, this)
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1840,
+                                                                                    columnNumber: 31
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                            lineNumber: 1838,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1834,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1823,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1821,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "bg-gray-50 p-5 rounded-2xl border border-gray-100",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                            className: "text-xs font-bold text-gray-400 uppercase tracking-wider mb-4",
+                                                            children: "Professional"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1848,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-4",
+                                                            children: (user === null || user === void 0 ? void 0 : user.summary) && user.summary !== 'Not provided' || (user === null || user === void 0 ? void 0 : user.skills) && user.skills.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                                children: [
+                                                                    (user === null || user === void 0 ? void 0 : user.summary) && user.summary !== 'Not provided' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-start gap-4",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "p-2.5 bg-white rounded-xl shadow-sm text-orange-600 shrink-0",
+                                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiFileText"], {
+                                                                                    className: "w-5 h-5"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1855,
+                                                                                    columnNumber: 37
+                                                                                }, this)
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1854,
+                                                                                columnNumber: 35
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex-1 min-w-0",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                        className: "text-sm font-medium text-gray-400 mb-0.5",
+                                                                                        children: "Summary"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1858,
+                                                                                        columnNumber: 37
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                        className: "text-sm font-medium text-gray-700 leading-relaxed line-clamp-4",
+                                                                                        children: user.summary
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1859,
+                                                                                        columnNumber: 37
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1857,
+                                                                                columnNumber: 35
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1853,
+                                                                        columnNumber: 33
+                                                                    }, this),
+                                                                    (user === null || user === void 0 ? void 0 : user.skills) && user.skills.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-start gap-4",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "p-2.5 bg-white rounded-xl shadow-sm text-indigo-600 shrink-0",
+                                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCpu"], {
+                                                                                    className: "w-5 h-5"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                    lineNumber: 1867,
+                                                                                    columnNumber: 37
+                                                                                }, this)
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1866,
+                                                                                columnNumber: 35
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex-1 min-w-0",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                        className: "text-sm font-medium text-gray-400 mb-0.5",
+                                                                                        children: "Skills"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1870,
+                                                                                        columnNumber: 37
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        className: "flex flex-wrap gap-2 mt-1",
+                                                                                        children: user.skills.map((skill, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                className: "px-2.5 py-1 bg-white rounded-md text-xs font-semibold text-gray-700 border border-gray-200 shadow-sm",
+                                                                                                children: skill
+                                                                                            }, i, false, {
+                                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                                lineNumber: 1873,
+                                                                                                columnNumber: 41
+                                                                                            }, this))
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                        lineNumber: 1871,
+                                                                                        columnNumber: 37
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                                lineNumber: 1869,
+                                                                                columnNumber: 35
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1865,
+                                                                        columnNumber: 33
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "text-gray-400 italic font-normal text-sm block text-center py-2",
+                                                                children: "Add professional details to your profile to see them here."
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1881,
+                                                                columnNumber: 29
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1849,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1847,
+                                                    columnNumber: 23
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1795,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pt-4 border-t border-gray-100 space-y-3",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 rounded-xl border border-gray-100 transition-colors group",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-3",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "p-2 bg-gray-100 text-gray-600 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all",
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiSettings"], {
+                                                                        className: "w-5 h-5"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1892,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1891,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "font-semibold text-gray-700",
+                                                                    children: "Settings"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1894,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1890,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiChevronRight"], {
+                                                            className: "w-4 h-4 text-gray-400 group-hover:text-gray-600"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1896,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1889,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "w-full flex items-center justify-between p-4 bg-white hover:bg-gray-50 rounded-xl border border-gray-100 transition-colors group",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-3",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "p-2 bg-gray-100 text-gray-600 rounded-lg group-hover:bg-white group-hover:shadow-sm transition-all",
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiHelpCircle"], {
+                                                                        className: "w-5 h-5"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                        lineNumber: 1902,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1901,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "font-semibold text-gray-700",
+                                                                    children: "Help & FAQs"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1904,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1900,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiChevronRight"], {
+                                                            className: "w-4 h-4 text-gray-400 group-hover:text-gray-600"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1906,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1899,
+                                                    columnNumber: 23
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: handleLogout,
+                                                    className: "w-full flex items-center justify-between p-4 bg-red-50 hover:bg-red-100 rounded-xl border border-red-100 transition-colors group mt-2",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "flex items-center gap-3",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "p-2 bg-white text-red-500 rounded-lg shadow-sm",
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiLogOut"], {
+                                                                    className: "w-5 h-5"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                    lineNumber: 1915,
+                                                                    columnNumber: 29
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1914,
+                                                                columnNumber: 27
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "font-semibold text-red-600",
+                                                                children: "Log Out"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                                lineNumber: 1917,
+                                                                columnNumber: 27
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                        lineNumber: 1913,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                    lineNumber: 1909,
+                                                    columnNumber: 23
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1888,
+                                            columnNumber: 21
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                    lineNumber: 1752,
+                                    columnNumber: 19
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                lineNumber: 1748,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                        lineNumber: 1737,
+                        columnNumber: 13
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                lineNumber: 1735,
+                columnNumber: 11
+            }, this),
+            matchModalState.show && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "bg-white rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 border border-gray-100",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "h-28 flex flex-col justify-start pt-4 items-center ".concat(matchModalState.type === 'success' ? 'bg-gradient-to-br from-green-400 to-green-600' : 'bg-gradient-to-br from-red-500 to-pink-600'),
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "text-white text-center",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "mb-1",
+                                        children: matchModalState.type === 'success' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md",
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCheck"], {
+                                                className: "w-5 h-5 text-white"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                lineNumber: 1940,
+                                                columnNumber: 25
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                            lineNumber: 1939,
+                                            columnNumber: 23
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                        lineNumber: 1937,
+                                        columnNumber: 19
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        className: "text-lg font-bold text-white tracking-wide",
+                                        children: matchModalState.type === 'success' ? 'Application Sent' : 'Application'
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                        lineNumber: 1944,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 1473,
+                                lineNumber: 1936,
                                 columnNumber: 17
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                        lineNumber: 1442,
-                        columnNumber: 13
-                    }, this)
-                }, void 0, false, {
-                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                    lineNumber: 1435,
-                    columnNumber: 11
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                lineNumber: 1434,
-                columnNumber: 9
-            }, this),
-            showProfilePanel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "fixed inset-0 bg-black/40 z-40",
-                        onClick: closeProfilePanel
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                        lineNumber: 1542,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "fixed right-0 top-0 bottom-0 z-50 w-full sm:w-96 bg-white shadow-2xl border-l border-gray-200",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center justify-between p-4 border-b",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                        className: "text-lg font-semibold text-gray-900",
-                                        children: "My Profile"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1545,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: closeProfilePanel,
-                                        className: "text-gray-500 hover:text-gray-700",
-                                        children: "×"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1546,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 1544,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "overflow-y-auto p-4",
-                                style: {
-                                    height: 'calc(100vh - 56px)'
-                                },
-                                children: profileEditMode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(JobSeekerProfileForm, {
-                                    user: user
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1552,
-                                    columnNumber: 17
-                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "mb-4 p-4 bg-gray-50 rounded shadow",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-center mb-2",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mr-4",
-                                                        children: (user === null || user === void 0 ? void 0 : (_user_firstName1 = user.firstName) === null || _user_firstName1 === void 0 ? void 0 : (_user_firstName_ = _user_firstName1[0]) === null || _user_firstName_ === void 0 ? void 0 : _user_firstName_.toUpperCase()) || (user === null || user === void 0 ? void 0 : (_user_username1 = user.username) === null || _user_username1 === void 0 ? void 0 : (_user_username_ = _user_username1[0]) === null || _user_username_ === void 0 ? void 0 : _user_username_.toUpperCase()) || (user === null || user === void 0 ? void 0 : (_user_email1 = user.email) === null || _user_email1 === void 0 ? void 0 : (_user_email_ = _user_email1[0]) === null || _user_email_ === void 0 ? void 0 : _user_email_.toUpperCase()) || 'U'
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1558,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "font-bold text-lg text-black",
-                                                                children: (user === null || user === void 0 ? void 0 : user.username) || (user === null || user === void 0 ? void 0 : user.firstName) || 'User'
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1562,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-sm text-gray-600",
-                                                                children: "Jobseeker"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1563,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-sm text-gray-600",
-                                                                children: user === null || user === void 0 ? void 0 : user.email
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1564,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                className: "text-blue-600 underline text-xs mt-1",
-                                                                onClick: ()=>router.push('/JobseekerProfile'),
-                                                                children: "View & Update Profile"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1565,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1561,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1557,
-                                                columnNumber: 21
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1556,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "mb-4 p-4 bg-white rounded shadow",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "font-semibold mb-2 text-gray-900",
-                                                    children: "Profile Information"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1576,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "grid grid-cols-2 gap-2 text-sm",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
-                                                                    children: "Phone"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1578,
-                                                                    columnNumber: 28
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1578,
-                                                                    columnNumber: 70
-                                                                }, this),
-                                                                (user === null || user === void 0 ? void 0 : user.phone) || 'Not provided'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1578,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
-                                                                    children: "Date of Birth"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1579,
-                                                                    columnNumber: 28
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1579,
-                                                                    columnNumber: 78
-                                                                }, this),
-                                                                (user === null || user === void 0 ? void 0 : user.dob) || 'Not provided'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1579,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
-                                                                    children: "Gender"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1580,
-                                                                    columnNumber: 28
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1580,
-                                                                    columnNumber: 71
-                                                                }, this),
-                                                                (user === null || user === void 0 ? void 0 : user.gender) || 'Not provided'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1580,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
-                                                                    children: "Address"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1581,
-                                                                    columnNumber: 28
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1581,
-                                                                    columnNumber: 72
-                                                                }, this),
-                                                                (user === null || user === void 0 ? void 0 : user.address) || 'Not provided'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1581,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
-                                                                    children: "Summary"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1582,
-                                                                    columnNumber: 28
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1582,
-                                                                    columnNumber: 72
-                                                                }, this),
-                                                                (user === null || user === void 0 ? void 0 : user.summary) || 'Not provided'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1582,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    className: "font-medium",
-                                                                    children: "Skills"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1583,
-                                                                    columnNumber: 28
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1583,
-                                                                    columnNumber: 71
-                                                                }, this),
-                                                                (user === null || user === void 0 ? void 0 : (_user_skills = user.skills) === null || _user_skills === void 0 ? void 0 : _user_skills.join(', ')) || 'Not provided'
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1583,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1577,
-                                                    columnNumber: 21
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1575,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "mb-4 bg-white rounded shadow divide-y",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    type: "button",
-                                                    className: "w-full flex items-center justify-between px-4 py-3 text-sm text-gray-900 hover:bg-gray-50",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            className: "flex items-center gap-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiSettings"], {
-                                                                    className: "w-4 h-4 text-gray-500"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1594,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    children: "Settings"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1595,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1593,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            className: "text-gray-400",
-                                                            children: "›"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1597,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1589,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    type: "button",
-                                                    className: "w-full flex items-center justify-between px-4 py-3 text-sm text-gray-900 hover:bg-gray-50",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            className: "flex items-center gap-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiHelpCircle"], {
-                                                                    className: "w-4 h-4 text-gray-500"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1604,
-                                                                    columnNumber: 25
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    children: "FAQs"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                    lineNumber: 1605,
-                                                                    columnNumber: 25
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1603,
-                                                            columnNumber: 23
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            className: "text-gray-400",
-                                                            children: "›"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                            lineNumber: 1607,
-                                                            columnNumber: 23
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1599,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    type: "button",
-                                                    onClick: handleLogout,
-                                                    className: "w-full flex items-center justify-between px-4 py-3 text-sm text-red-600 hover:bg-red-50",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "flex items-center gap-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiLogOut"], {
-                                                                className: "w-4 h-4"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1615,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                children: "Logout"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1616,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1614,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1609,
-                                                    columnNumber: 21
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1588,
-                                            columnNumber: 19
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1554,
-                                    columnNumber: 17
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 1550,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                        lineNumber: 1543,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                lineNumber: 1541,
-                columnNumber: 9
-            }, this),
-            matchModalState.show && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all scale-100 border border-gray-100",
-                    children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "h-32 flex items-center justify-center ".concat(matchModalState.type === 'success' ? 'bg-gradient-to-br from-green-400 to-green-600' : 'bg-gradient-to-br from-red-500 to-pink-600'),
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "text-white text-center",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "mb-2",
-                                        children: matchModalState.type === 'success' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiCheck"], {
-                                                className: "w-8 h-8 text-white"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1638,
-                                                columnNumber: 23
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1637,
-                                            columnNumber: 21
-                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md",
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiX"], {
-                                                className: "w-8 h-8 text-white"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1642,
-                                                columnNumber: 23
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1641,
-                                            columnNumber: 21
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1635,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                        className: "text-xl font-bold text-white tracking-wide",
-                                        children: matchModalState.type === 'success' ? 'Application Sent' : 'Application Blocked'
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                        lineNumber: 1646,
-                                        columnNumber: 17
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                lineNumber: 1634,
-                                columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                            lineNumber: 1633,
-                            columnNumber: 13
+                            lineNumber: 1935,
+                            columnNumber: 15
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "p-8",
+                            className: "p-5",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex flex-col items-center -mt-16 mb-4",
+                                    className: "flex flex-col items-center -mt-12 mb-3",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "relative w-24 h-24 bg-white rounded-full p-2 shadow-lg flex items-center justify-center",
+                                            className: "relative w-20 h-20 bg-white rounded-full p-1.5 shadow-lg flex items-center justify-center",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "w-full h-full rounded-full border-4 flex items-center justify-center ".concat(matchModalState.type === 'success' ? 'border-green-500 text-green-600' : 'border-red-500 text-red-600'),
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                    className: "text-2xl font-bold",
+                                                    className: "text-xl font-bold",
                                                     children: [
                                                         matchModalState.score,
                                                         "%"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1658,
-                                                    columnNumber: 21
+                                                    lineNumber: 1956,
+                                                    columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                lineNumber: 1657,
-                                                columnNumber: 19
+                                                lineNumber: 1955,
+                                                columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1656,
-                                            columnNumber: 17
+                                            lineNumber: 1954,
+                                            columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "text-xs text-gray-400 font-medium uppercase mt-2 tracking-wider",
+                                            className: "text-[10px] text-gray-400 font-medium uppercase mt-1 tracking-wider",
                                             children: "Match Score"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1661,
-                                            columnNumber: 17
+                                            lineNumber: 1959,
+                                            columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1654,
-                                    columnNumber: 15
+                                    lineNumber: 1952,
+                                    columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-center text-gray-700 font-medium mb-6",
+                                    className: "text-center text-gray-700 font-medium mb-4 text-sm",
                                     children: matchModalState.message
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1664,
-                                    columnNumber: 15
+                                    lineNumber: 1962,
+                                    columnNumber: 17
                                 }, this),
                                 matchModalState.suggestions && matchModalState.suggestions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "bg-orange-50 rounded-xl p-4 mb-6 border border-orange-100",
+                                    className: "bg-orange-50 rounded-xl p-3 mb-4 border border-orange-100",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                            className: "text-sm font-bold text-orange-800 mb-3 flex items-center gap-2",
+                                            className: "text-xs font-bold text-orange-800 mb-2 flex items-center gap-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     className: "w-1.5 h-1.5 rounded-full bg-orange-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1671,
-                                                    columnNumber: 21
+                                                    lineNumber: 1969,
+                                                    columnNumber: 23
                                                 }, this),
                                                 "Improvement Suggestions"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1670,
-                                            columnNumber: 19
+                                            lineNumber: 1968,
+                                            columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                            className: "space-y-2",
-                                            children: [
-                                                matchModalState.suggestions.slice(0, 3).map((s, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                        className: "text-sm text-gray-700 flex items-start gap-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                className: "mt-1.5 w-1 h-1 rounded-full bg-gray-400 shrink-0"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                                lineNumber: 1677,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            s
-                                                        ]
-                                                    }, i, true, {
-                                                        fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                        lineNumber: 1676,
-                                                        columnNumber: 23
-                                                    }, this)),
-                                                matchModalState.suggestions.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                    className: "text-xs text-gray-500 italic pl-3",
+                                            className: "space-y-1.5 max-h-32 overflow-y-auto pr-2",
+                                            children: matchModalState.suggestions.map((s, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                    className: "text-xs text-gray-700 flex items-start gap-2",
                                                     children: [
-                                                        "+ ",
-                                                        matchModalState.suggestions.length - 3,
-                                                        " more suggestions..."
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "mt-1 w-1 h-1 rounded-full bg-gray-400 shrink-0"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
+                                                            lineNumber: 1975,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        s
                                                     ]
-                                                }, void 0, true, {
+                                                }, i, true, {
                                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                                    lineNumber: 1682,
-                                                    columnNumber: 23
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                                    lineNumber: 1974,
+                                                    columnNumber: 25
+                                                }, this))
+                                        }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1674,
-                                            columnNumber: 19
+                                            lineNumber: 1972,
+                                            columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1669,
-                                    columnNumber: 17
+                                    lineNumber: 1967,
+                                    columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "flex gap-3",
@@ -4127,16 +4767,7 @@ function JobseekerDashboard() {
                                             children: "Close"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1691,
-                                            columnNumber: 17
-                                        }, this),
-                                        matchModalState.type === 'error' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "/JobseekerProfile",
-                                            className: "flex-1 px-4 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors text-center shadow-lg hover:shadow-xl",
-                                            children: "Update Profile"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1698,
+                                            lineNumber: 1984,
                                             columnNumber: 19
                                         }, this),
                                         matchModalState.type === 'success' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4148,40 +4779,40 @@ function JobseekerDashboard() {
                                             children: "Done"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                            lineNumber: 1703,
-                                            columnNumber: 19
+                                            lineNumber: 1991,
+                                            columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                                    lineNumber: 1690,
-                                    columnNumber: 15
+                                    lineNumber: 1983,
+                                    columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                            lineNumber: 1653,
-                            columnNumber: 13
+                            lineNumber: 1951,
+                            columnNumber: 15
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                    lineNumber: 1630,
-                    columnNumber: 11
+                    lineNumber: 1932,
+                    columnNumber: 13
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-                lineNumber: 1629,
-                columnNumber: 9
+                lineNumber: 1931,
+                columnNumber: 11
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(components)/jobseeker-dashboard/page.jsx",
-        lineNumber: 789,
+        lineNumber: 912,
         columnNumber: 5
     }, this);
 }
-_s(JobseekerDashboard, "/hQbkgoNh7+pWskv2SFBaKzRvc8=", false, function() {
+_s(JobseekerDashboard, "crbc3lYHKjOHdhMifbNJTOfHZOw=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];

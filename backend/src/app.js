@@ -11,6 +11,8 @@ import interviewRoutes from './routes/interviewRoutes.js';
 import assessmentRoutes from './routes/assessmentRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import competitionRoutes from './routes/competitionRoutes.js';
+import connectionRoutes from './routes/connectionRoutes.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
 import { sendError } from './utils/responseHandler.js';
 
 const app = express();
@@ -28,7 +30,7 @@ app.use(cors(corsOptions));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 5000, // Relaxed for development
   message: {
     success: false,
     message: 'Too many requests from this IP. Please try again later.'
@@ -54,9 +56,11 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/interviews', interviewRoutes);
+app.use('/api/connections', connectionRoutes);
 app.use('/api/assessments', assessmentRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/competitions', competitionRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Serve uploaded files (e.g. resumes) statically
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
@@ -67,15 +71,15 @@ app.use('/*splat', (req, res) => {
 
 app.use((error, req, res, next) => {
   console.error('Global error:', error);
-  
+
   if (error.name === 'MongoError' || error.name === 'MongooseError') {
     return sendError(res, 'Database connection error', null, 503);
   }
-  
+
   if (error.type === 'entity.parse.failed') {
     return sendError(res, 'Invalid JSON format', null, 400);
   }
-  
+
   sendError(res, 'Internal server error', null, 500);
 });
 

@@ -13,6 +13,7 @@ const applicationSchema = new mongoose.Schema({
   ],
   matchScore: { type: Number, default: 0 },
   appliedDate: { type: Date, default: Date.now },
+  isSaved: { type: Boolean, default: false },
 }, { timestamps: true });
 
 export default mongoose.models.Application || mongoose.model('Application', applicationSchema);

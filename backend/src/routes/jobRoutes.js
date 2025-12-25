@@ -23,11 +23,15 @@ router.get('/', async (req, res) => {
     const numericPage = Math.max(1, parseInt(page, 10) || 1);
     const numericLimit = Math.max(1, Math.min(100, parseInt(limit, 10) || 10));
 
-    const query = { status: 'Active' };
+    const query = {};
 
     if (recruiterId) {
       // recruiterId is stored as a simple string on Job documents
       query.recruiterId = String(recruiterId);
+    } else {
+      // For public listing (Job Seekers), show all Active jobs (ignore deadline)
+      query.status = 'Active';
+      // query.deadline = { $gte: new Date() }; 
     }
 
     if (q) {
@@ -95,6 +99,13 @@ router.post('/', async (req, res) => {
   try {
     const payload = req.body || {};
 
+    let deadline = undefined;
+    if (payload.deadline) {
+      deadline = new Date(payload.deadline);
+      // Set to end of the day so it doesn't expire immediately if "today" is picked
+      deadline.setHours(23, 59, 59, 999);
+    }
+
     const job = await Job.create({
       title: payload.title,
       company: payload.company,
@@ -106,18 +117,78 @@ router.post('/', async (req, res) => {
       salary: payload.salary,
       minSalary: payload.minSalary,
       maxSalary: payload.maxSalary,
-      deadline: payload.deadline,
+      deadline: deadline,
       postedDate: payload.postedDate,
       urgent: !!payload.urgent,
       featured: !!payload.featured,
-      customQuestions: Array.isArray(payload.customQuestions) ? payload.customQuestions : [],
+      customQuestions: Array.isArray(payload.customQuestions) ? payload.customQuestions.filter(q => q.question) : [],
       recruiterId: payload.recruiterId || null,
       status: payload.status || 'Active',
     });
 
     return sendSuccess(res, 'Job created successfully', job, 201);
   } catch (error) {
+    console.error('Create Job Error:', error);
     return sendError(res, 'Failed to create job', error.message || error, 500);
+  }
+});
+
+// PUT /api/jobs/:id - update existing job
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body;
+
+    let deadline = undefined;
+    if (payload.deadline) {
+      deadline = new Date(payload.deadline);
+      deadline.setHours(23, 59, 59, 999);
+    }
+
+    const updatedData = {
+      title: payload.title,
+      company: payload.company,
+      description: payload.description,
+      skillsRequired: payload.skillsRequired || [],
+      experience: payload.experience,
+      location: payload.location,
+      jobType: payload.jobType,
+      salary: payload.salary,
+      minSalary: payload.minSalary,
+      maxSalary: payload.maxSalary,
+      deadline: deadline || payload.deadline, // keep old if not sent? ideally frontend sends it
+      status: payload.status,
+      // merged customQuestions logic if needed, simplify for now
+    };
+
+    // Remove undefined keys
+    Object.keys(updatedData).forEach(key => updatedData[key] === undefined && delete updatedData[key]);
+
+    const job = await Job.findByIdAndUpdate(id, updatedData, { new: true });
+    if (!job) return sendError(res, 'Job not found', null, 404);
+
+    return sendSuccess(res, 'Job updated successfully', job);
+  } catch (error) {
+    return sendError(res, 'Failed to update job', error.message || error, 500);
+  }
+});
+
+// PATCH /api/jobs/:id/status - update status only (Close/Open)
+router.patch('/:id/status', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body; // Active, Closed, Draft
+
+    if (!['Active', 'Closed', 'Draft'].includes(status)) {
+      return sendError(res, 'Invalid status', null, 400);
+    }
+
+    const job = await Job.findByIdAndUpdate(id, { status }, { new: true });
+    if (!job) return sendError(res, 'Job not found', null, 404);
+
+    return sendSuccess(res, 'Job status updated', job);
+  } catch (error) {
+    return sendError(res, 'Failed to update job status', error.message || error, 500);
   }
 });
 

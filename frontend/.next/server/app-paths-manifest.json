@@ -1,14 +1,7 @@
 {
-<<<<<<< HEAD
   "/(components)/JobseekerProfile/page": "app/(components)/JobseekerProfile/page.js",
   "/(components)/Login/page": "app/(components)/Login/page.js",
-  "/(components)/Signup/page": "app/(components)/Signup/page.js",
   "/(components)/jobseeker-dashboard/page": "app/(components)/jobseeker-dashboard/page.js",
   "/(components)/recruiter-dashboard/page": "app/(components)/recruiter-dashboard/page.js",
-=======
-  "/(components)/ResumeMatcher/page": "app/(components)/ResumeMatcher/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
->>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js"
 }

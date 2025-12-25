@@ -1,24 +1,20 @@
 import express from 'express';
-<<<<<<< HEAD
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-=======
->>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
 import {
   updateJobSeekerProfile,
   updateRecruiterProfile,
   updateAdminProfile,
   getDetailedProfile,
-<<<<<<< HEAD
   deleteProfile,
   getProfileByUser,
   checkProfileCompletion,
   uploadResume,
-  uploadPhoto
-=======
-  deleteProfile
->>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
+  uploadPhoto,
+  removeResume,
+  removePhoto,
+  getSuggestions
 } from '../controllers/profileController.js';
 import {
   validateJobSeekerProfile,
@@ -30,7 +26,6 @@ import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-<<<<<<< HEAD
 // Multer setup for resume uploads
 const resumesDir = path.join(process.cwd(), 'uploads', 'resumes');
 if (!fs.existsSync(resumesDir)) {
@@ -78,6 +73,7 @@ const uploadPhotoMulter = multer({
 // Public endpoints used by the frontend dashboard (body: { userId, userType })
 router.post('/get', getProfileByUser);
 router.post('/check-completion', checkProfileCompletion);
+router.get('/suggestions', authenticateToken, getSuggestions);
 
 // Authenticated, token-based detailed profile
 router.get('/detailed', authenticateToken, getDetailedProfile);
@@ -88,38 +84,36 @@ router.post('/upload-resume', authenticateToken, uploadResumeMulter.single('file
 // Profile photo upload for jobseekers
 router.post('/upload-photo', authenticateToken, uploadPhotoMulter.single('file'), uploadPhoto);
 
+// Profile photo removal
+router.delete('/remove-photo', authenticateToken, removePhoto);
+
+// Resume removal for jobseekers
+router.delete('/remove-resume', authenticateToken, removeResume);
+
 // Jobseeker profile update (primary endpoint)
-=======
-router.get('/detailed', authenticateToken, getDetailedProfile);
-
->>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
-router.put('/jobseeker', 
-  authenticateToken, 
-  validateJobSeekerProfile,
-  checkValidation,
-  updateJobSeekerProfile
-);
-
-<<<<<<< HEAD
-// Backward-compatible alias used by some frontend code
-router.put('/update', 
+router.put('/jobseeker',
   authenticateToken,
   validateJobSeekerProfile,
   checkValidation,
   updateJobSeekerProfile
 );
 
-=======
->>>>>>> 1d515772df2bf46dad576739463e10ba458e3cae
-router.put('/recruiter', 
-  authenticateToken, 
+// Backward-compatible alias used by some frontend code
+router.put('/update',
+  authenticateToken,
+  validateJobSeekerProfile,
+  checkValidation,
+  updateJobSeekerProfile
+);
+router.put('/recruiter',
+  authenticateToken,
   validateRecruiterProfile,
   checkValidation,
   updateRecruiterProfile
 );
 
-router.put('/admin', 
-  authenticateToken, 
+router.put('/admin',
+  authenticateToken,
   validateAdminProfile,
   checkValidation,
   updateAdminProfile

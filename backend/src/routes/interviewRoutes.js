@@ -1,62 +1,72 @@
 import express from 'express';
-import Interview from '../models/Interview.js';
-import { sendSuccess, sendError } from '../utils/responseHandler.js';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+import { scheduleInterview, getInterviewByToken, submitInterview } from '../controllers/interviewController.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// GET /api/interviews?userId=...
-router.get('/', async (req, res) => {
-  try {
-    const { userId } = req.query;
-    if (!userId) return sendSuccess(res, 'Interviews fetched successfully', [], 200);
+// Multer Setup
+const uploadDir = path.join(process.cwd(), 'uploads', 'interviews');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
-    const interviews = await Interview.find({ userId }).sort({ date: 1, time: 1 });
-    const data = interviews.map(i => ({
-      id: i._id,
-      _id: i._id,
-      title: i.title,
-      date: i.date,
-      time: i.time,
-      link: i.link,
-      status: i.status
-    }));
-
-    return sendSuccess(res, 'Interviews fetched successfully', data, 200);
-  } catch (error) {
-    console.error('Interviews fetch error:', error);
-    return sendError(res, 'Failed to fetch interviews', error.message || error, 500);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname) || '.webm'; // Default to webm if missing
+    cb(null, `interview-${uniqueSuffix}${ext}`);
   }
 });
 
-// PATCH /api/interviews { id, status }
-router.patch('/', async (req, res) => {
+const upload = multer({ storage });
+
+// Routes
+router.get('/my-interviews', authenticateToken, async (req, res) => {
   try {
-    const { id, status } = req.body || {};
-    if (!id || !status) return sendError(res, 'id and status are required', null, 400);
-
-    const interview = await Interview.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
-    );
-
-    if (!interview) return sendError(res, 'Interview not found', null, 404);
-
-    const data = {
-      id: interview._id,
-      _id: interview._id,
-      title: interview.title,
-      date: interview.date,
-      time: interview.time,
-      link: interview.link,
-      status: interview.status
-    };
-
-    return sendSuccess(res, 'Interview status updated', data, 200);
+    const { default: Interview } = await import('../models/Interview.js');
+    const interviews = await Interview.find({ candidateId: req.user.userId })
+      .populate('jobId', 'title company')
+      .sort({ createdAt: -1 });
+    res.json({ success: true, data: interviews });
   } catch (error) {
-    console.error('Interview update error:', error);
-    return sendError(res, 'Failed to update interview', error.message || error, 500);
+    res.status(500).json({ success: false, message: error.message });
   }
 });
+
+router.get('/recruiter', authenticateToken, async (req, res) => {
+  try {
+    // Find jobs posted by this recruiter
+    // We need to import Job model or assume interview controller handles it.
+    // Let's implement logic here or in controller. implementing here for speed as controller file not open.
+    // Need to dynamically import models or relying on controller is better.
+    // Actually, let's stick to modifying the controller? No, I can't see controller file easily without opening it.
+    // I'll implement inline here using mongoose models if I can import them.
+    // Importing Job and Interview models.
+    const { default: Job } = await import('../models/Job.js');
+    const { default: Interview } = await import('../models/Interview.js');
+
+    const jobs = await Job.find({ recruiterId: req.user.userId }).select('_id');
+    const jobIds = jobs.map(j => j._id);
+
+    const interviews = await Interview.find({ jobId: { $in: jobIds } })
+      .populate('candidateId', 'firstName lastName email')
+      .populate('jobId', 'title')
+      .sort({ createdAt: -1 });
+
+    res.json({ success: true, data: interviews });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.post('/schedule', authenticateToken, scheduleInterview);
+router.get('/:token', getInterviewByToken);
+router.post('/submit', upload.single('recording'), submitInterview);
 
 export default router;

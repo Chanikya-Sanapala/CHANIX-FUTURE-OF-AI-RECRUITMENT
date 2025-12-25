@@ -1,0 +1,6 @@
+Interview Transcript
+=====================
+
+Q1: Explain the concept of virtual environments in Python.
+A1: (Unrecognized Speech)
+

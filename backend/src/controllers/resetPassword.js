@@ -19,7 +19,7 @@ const generateResetToken = (user) => {
 // app.use(cors());
 // Request password reset route
 // router.post('/request-password-reset',
-    export const resetPassword = async (req, res) => {
+export const resetPassword = async (req, res) => {
   try {
 
     const { email } = req.body
@@ -31,16 +31,16 @@ const generateResetToken = (user) => {
 
 
     const transporter = nodemailer.createTransport({
-                host: process.env.HOST,
-                service: process.env.SERVICE,
-                port: process.env.PORT_EMAIL,
-                secure: true,
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS
-                }
-            });
-    
+      host: process.env.HOST,
+      service: process.env.SERVICE,
+      port: process.env.PORT_EMAIL,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
     // Send reset email <a href="${resetLink}">here</a> And 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
@@ -58,8 +58,8 @@ const generateResetToken = (user) => {
 }
 
 // router.post('/reset-password'
-    export const changePassword = async (req, res) => {
- 
+export const changePassword = async (req, res) => {
+
   const { token, newPassword } = req.body
   if (!token) return res.status(400).json({ message: 'Token is required' })
 
@@ -79,7 +79,7 @@ const generateResetToken = (user) => {
 }
 
 
-    export const updatePassword = async (req, res) => {
+export const updatePassword = async (req, res) => {
   const { userId, token, password } = req.body;
 
   if (!userId || !token || !password) {
@@ -93,25 +93,34 @@ const generateResetToken = (user) => {
       // resetPasswordToken: token,
       // resetPasswordExpires: { $gt: Date.now() }, // token is not expired
     });
-    
+
 
     if (!user) {
       return res.status(400).json({ success: false, message: "Invalid or expired token." });
     }
 
-    // Hash new password
+    // Hash new password manually since we are using updateOne (bypassing pre-save hook)
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Update password and remove reset token
-    user.password = hashedPassword;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-    await user.save();
-    console.log(user)
+    // Use updateOne to bypass generic document validation (e.g., missing firstName)
+    await User.updateOne(
+      { _id: userId },
+      {
+        $set: {
+          password: hashedPassword
+        },
+        $unset: {
+          resetPasswordToken: 1,
+          resetPasswordExpires: 1
+        }
+      }
+    );
+
+    console.log("Password updated for user:", userId);
     res.json({ success: true, message: "Password updated successfully!" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: "Server error." });
+    console.error("Reset Password Error:", err);
+    res.status(500).json({ success: false, message: err.message || "Server error." });
   }
 }

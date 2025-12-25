@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Administrator/Desktop/Smart-Engine/frontend/src/app/%28components%29/Resume/page.js"],"sourcesContent":["\"use client\";\r\n\r\nimport axios from \"axios\";\r\nimport { useState } from \"react\";\r\n\r\nexport default function Matcher() {\r\n  const [response, setResponse] = useState(\"\");\r\n\r\n  const runMatch = async () => {\r\n    const res = await axios.post(\"http://localhost/5000/api/match\", {\r\n      jdFile: \"job_posting.txt\",\r\n      resumeFile: \"Job Decriptions.pdf\"\r\n    });\r\n\r\n    setResponse(res.data.result);\r\n  };\r\n\r\n  return (\r\n    <div>\r\n      <button onClick={runMatch}>Run Resume Match</button>\r\n\r\n      <pre style={{ whiteSpace: \"pre-wrap\" }}>{response}</pre>\r\n    </div>\r\n  );\r\n}\r\n\r\n"],"names":[],"mappings":";;;;;AAEA;AACA;;;AAHA;;;AAKe,SAAS;;IACtB,MAAM,CAAC,UAAU,YAAY,GAAG,IAAA,mNAAQ,EAAC;IAEzC,MAAM,WAAW;QACf,MAAM,MAAM,MAAM,6LAAK,CAAC,IAAI,CAAC,mCAAmC;YAC9D,QAAQ;YACR,YAAY;QACd;QAEA,YAAY,IAAI,IAAI,CAAC,MAAM;IAC7B;IAEA,qBACE,uOAAC;;0BACC,uOAAC;gBAAO,SAAS;0BAAU;;;;;;0BAE3B,uOAAC;gBAAI,OAAO;oBAAE,YAAY;gBAAW;0BAAI;;;;;;;;;;;;AAG/C;GAnBwB;KAAA","debugId":null}}]
-}

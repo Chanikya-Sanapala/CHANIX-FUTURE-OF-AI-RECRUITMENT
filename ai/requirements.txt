@@ -10,9 +10,10 @@ pywin32; platform_system == "Windows"
 pydantic
 # flask
 # openai
-# gTTS
-# SpeechRecognition
+gTTS
+SpeechRecognition
 pyaudio
-# opencv-python
-# python-dotenv
+opencv-python
+python-dotenv
 # pydub
+ffmpeg-python

@@ -1,1037 +1,1074 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FiMenu, FiX, FiPieChart, FiUser, FiPlusSquare, FiFileText, FiLogOut, FiUsers } from 'react-icons/fi';
+
+const baseAuthUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+console.log("RecruiterDashboard baseAuthUrl:", baseAuthUrl);
 
 export default function RecruiterDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showJobForm, setShowJobForm] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu state
   const [jobPosts, setJobPosts] = useState([]);
+  const [interviews, setInterviews] = useState([]);
   const [applications, setApplications] = useState([]);
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [jobApplications, setJobApplications] = useState([]);
-  const [isApplicationsModalOpen, setIsApplicationsModalOpen] = useState(false);
-  const [isLoadingApplications, setIsLoadingApplications] = useState(false);
-  const [applicationsError, setApplicationsError] = useState('');
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile Sidebar State
 
+  // ... (Keep existing Job Management State)
   const [newJob, setNewJob] = useState({
-    title: '',
-    company: '',
-    description: '',
-    skillsRequired: [],
-    experience: '',
-    location: '',
-    salary: '',
-    jobType: 'Full-time',
-    deadline: '',
-    customQuestions: [
-      { id: 'q1', question: '', isRequired: false },
-      { id: 'q2', question: '', isRequired: false },
-      { id: 'q3', question: '', isRequired: false }
-    ]
+    title: '', company: '', description: '', skillsRequired: [],
+    experience: '', location: '', salary: '', jobType: 'Full-time', deadline: '', customQuestions: []
   });
-  const [currentSkill, setCurrentSkill] = useState('');
-  const router = useRouter();
-  const baseAuthUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '')
-    .trim()
-    .replace(/[;\s]+$/, '')
-    .replace(/\/$/, '');
+  const [editingJob, setEditingJob] = useState(null);
 
-  const handleLogout = () => {
-    try {
-      fetch(`${baseAuthUrl}/api/logout`, { method: 'POST' }).finally(() => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        localStorage.removeItem('userType');
-        router.push('/');
-      });
-    } catch (_) {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      localStorage.removeItem('userType');
-      router.push('/');
-    }
-  };
+  // ... (Keep existing Filter/Sort State)
+  const [appFilter, setAppFilter] = useState('All');
+  const [appSort, setAppSort] = useState('date-desc');
+  const [selectedApplication, setSelectedApplication] = useState(null);
+  const [showCandidateModal, setShowCandidateModal] = useState(false);
 
-  const handleUpdateApplicationStatus = async (applicationId, newStatus) => {
-    try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-      if (!token) {
-        alert('Please login to update applications');
-        return;
-      }
+  // ... (Keep existing Profile State)
+  const [profile, setProfile] = useState(null);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    firstName: '', lastName: '', phone: '', position: '', bio: '',
+    linkedin: '', companyName: '', companyWebsite: '',
+    companyIndustry: '', companyDescription: '', companyLocation: '', companySize: '1-10'
+  });
+  // ... (Keep existing Dashboard Features State)
+  const [statsData, setStatsData] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [activityStats, setActivityStats] = useState({ labels: [], data: [], totalMinutes: 0, range: 'week' });
+  const [networkRequests, setNetworkRequests] = useState([]);
+  const [myConnections, setMyConnections] = useState([]);
 
-      const response = await fetch(`${baseAuthUrl}/api/applications/${applicationId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ status: newStatus })
-      });
+  // ... (Keep existing useEffects and fetch logic)
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || `Failed to update application (status ${response.status})`);
-      }
-
-      setJobApplications(prev => prev.map(app =>
-        (app._id === applicationId)
-          ? { ...app, status: newStatus }
-          : app
-      ));
-
-      alert(`Application marked as ${newStatus}`);
-    } catch (error) {
-      console.error('Error updating application status:', error);
-      alert('Failed to update application status. Please try again.');
-    }
-  };
-
-  const handleViewApplications = async (job) => {
-    try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-      if (!token) {
-        alert('Please login to view applications');
-        return;
-      }
-
-      setSelectedJob(job);
-      setIsApplicationsModalOpen(true);
-      setIsLoadingApplications(true);
-      setApplicationsError('');
-
-      const response = await fetch(`${baseAuthUrl}/api/applications?jobId=${job._id || job.id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success && Array.isArray(result.data)) {
-        const apps = result.data;
-
-        // Enrich with jobseeker profile data (name, email, phone, resume) from profile/get
-        const applicantIds = Array.from(new Set(
-          apps
-            .map(a => {
-              const raw = a.applicant;
-              if (!raw) return null;
-              if (typeof raw === 'string') return raw;
-              return raw._id || raw.id || raw.userId || null;
-            })
-            .filter(Boolean)
-        ));
-
-        const profilesById = {};
-        await Promise.all(applicantIds.map(async (id) => {
-          try {
-            const res = await fetch(`${baseAuthUrl}/api/profile/get`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ userId: id, userType: 'jobseeker' })
-            });
-            const json = await res.json().catch(() => ({}));
-            if (res.ok && json?.success && json.data) {
-              profilesById[String(id)] = json.data;
-            }
-          } catch (_) { }
-        }));
-
-        const enriched = apps.map(app => {
-          const rawApplicant = app.applicant;
-          const applicant = typeof rawApplicant === 'string' ? { userId: rawApplicant } : (rawApplicant || {});
-          const id = applicant._id || applicant.id || applicant.userId;
-          const profileData = id ? profilesById[String(id)] : null;
-
-          if (!profileData) return app;
-
-          const userInfo = profileData.user || {};
-          const profileInfo = profileData.profile || {};
-
-          return {
-            ...app,
-            applicant: {
-              ...applicant,
-              username: userInfo.username || app.applicant?.username || (userInfo.email ? userInfo.email.split('@')[0] : undefined),
-              fullName:
-                app.applicant?.fullName ||
-                userInfo.fullName ||
-                [userInfo.firstName, userInfo.lastName].filter(Boolean).join(' ') ||
-                profileInfo.fullName ||
-                [profileInfo.firstName, profileInfo.lastName].filter(Boolean).join(' '),
-              firstName: app.applicant?.firstName || userInfo.firstName || profileInfo.firstName,
-              lastName: app.applicant?.lastName || userInfo.lastName || profileInfo.lastName,
-              email: app.applicant?.email || userInfo.email,
-              phone:
-                app.applicant?.phone ||
-                profileInfo.phone ||
-                (profileInfo.address ? profileInfo.address.phone : undefined),
-              resume: profileInfo.resume || app.applicant?.resume || null,
-            }
-          };
+    const recordTime = async () => {
+      try {
+        await fetch(`${baseAuthUrl}/api/analytics/activity/record`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
         });
+        fetchActivityStats('week');
+      } catch (e) { console.error("Time tracking error", e); }
+    };
 
-        setJobApplications(enriched);
-      } else {
-        setApplicationsError(result.message || 'Failed to load applications');
+    const interval = setInterval(recordTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchActivityStats = async (range = 'week') => {
+    // ... (Keep logic)
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${baseAuthUrl}/api/analytics/activity/stats?range=${range}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setActivityStats(data.data);
       }
+    } catch (e) { console.error("Activity stats fetch error", e); }
+  };
+
+  const fetchRecruiterData = async (userId) => {
+    if (!userId) return;
+    const token = localStorage.getItem('token');
+    try {
+      fetchActivityStats('week');
+
+      // Fetch Jobs
+      const jobsRes = await fetch(`${baseAuthUrl}/api/jobs?recruiterId=${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const jobsData = await jobsRes.json();
+      if (jobsData.success) {
+        setJobPosts(jobsData.data.reverse());
+      }
+
+      // Fetch Applications
+      const appsRes = await fetch(`${baseAuthUrl}/api/applications`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const appsData = await appsRes.json();
+      if (appsData.success && Array.isArray(appsData.data)) {
+        setApplications(appsData.data);
+      }
+
+      // Fetch Interviews
+      try {
+        const intRes = await fetch(`${baseAuthUrl}/api/interviews/recruiter`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const intData = await intRes.json();
+        if (intData.success) setInterviews(intData.data);
+      } catch (e) { console.error("Interview fetch error", e); }
+
+      // Fetch Analytics
+      try {
+        const anaRes = await fetch(`${baseAuthUrl}/api/analytics/recruiter/stats`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const anaData = await anaRes.json();
+        if (anaData.success) setStatsData(anaData.data);
+      } catch (e) { console.error("Analytics fetch error", e); }
+
+      // Fetch Suggestions
+      try {
+        const suggRes = await fetch(`${baseAuthUrl}/api/profile/suggestions`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const suggData = await suggRes.json();
+        if (suggData.success) setSuggestions(suggData.data);
+      } catch (e) { console.error("Suggestions fetch error", e); }
+
+      // Fetch Profile
+      try {
+        const profileRes = await fetch(`${baseAuthUrl}/api/profile/get`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ userId: userId, userType: 'recruiter' })
+        });
+        const pData = await profileRes.json();
+        if (pData.success && pData.data) {
+          const p = pData.data.profile || {};
+          const u = pData.data.user || {};
+          setProfile(pData.data);
+          setProfileForm({
+            firstName: u.firstName || '', lastName: u.lastName || '',
+            phone: p.phone || '', position: p.position || '', bio: p.bio || '',
+            linkedin: p.socialProfiles?.linkedin || '',
+            companyName: p.company?.name || '',
+            companyWebsite: p.company?.website || '',
+            companyIndustry: p.company?.industry || '',
+            companyDescription: p.company?.description || '',
+            companyLocation: p.company?.address || '',
+            companySize: p.company?.size || '1-10'
+          });
+        }
+      } catch (e) { console.error("Profile fetch error", e); }
+
+      // Fetch Network Data (Requests & Connections)
+      try {
+        const reqRes = await fetch(`${baseAuthUrl}/api/connections/requests`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const reqData = await reqRes.json();
+        if (Array.isArray(reqData)) setNetworkRequests(reqData);
+
+        const connRes = await fetch(`${baseAuthUrl}/api/connections/my-connections`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const connData = await connRes.json();
+        if (Array.isArray(connData)) setMyConnections(connData);
+      } catch (e) { console.error("Network fetch error", e); }
+
     } catch (error) {
-      console.error('Error fetching applications:', error);
-      setApplicationsError('Failed to load applications. Please try again.');
+      console.error("Data fetch error:", error);
     } finally {
-      setIsLoadingApplications(false);
-    }
-  };
-
-  // Function to fetch recruiter's jobs
-  const fetchRecruiterJobs = async (userId) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token || !userId) return;
-
-      const response = await fetch(`${baseAuthUrl}/api/jobs?recruiterId=${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
-        setJobPosts(result.data);
-      }
-    } catch (error) {
-      console.error('Error fetching jobs:', error);
-    }
-  };
-
-  const fetchRecruiterApplications = async () => {
-    try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-      if (!token) return;
-
-      const response = await fetch(`${baseAuthUrl}/api/applications`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success && Array.isArray(result.data)) {
-        const apps = result.data;
-
-        // Enrich with jobseeker profile data (name, email, phone) from profile/get
-        const applicantIds = Array.from(new Set(
-          apps
-            .map(a => {
-              const raw = a.applicant;
-              if (!raw) return null;
-              if (typeof raw === 'string') return raw;
-              return raw._id || raw.id || raw.userId || null;
-            })
-            .filter(Boolean)
-        ));
-
-        const profilesById = {};
-        await Promise.all(applicantIds.map(async (id) => {
-          try {
-            const res = await fetch(`${baseAuthUrl}/api/profile/get`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ userId: id, userType: 'jobseeker' })
-            });
-            const json = await res.json().catch(() => ({}));
-            if (res.ok && json?.success && json.data) {
-              profilesById[String(id)] = json.data;
-            }
-          } catch (_) { }
-        }));
-
-        const enrichedApps = apps.map(app => {
-          const rawApplicant = app.applicant;
-          const applicant = typeof rawApplicant === 'string' ? { userId: rawApplicant } : (rawApplicant || {});
-          const id = applicant._id || applicant.id || applicant.userId;
-          const profileData = id ? profilesById[String(id)] : null;
-
-          if (!profileData) return app;
-
-          const userInfo = profileData.user || {};
-          const profileInfo = profileData.profile || {};
-
-          return {
-            ...app,
-            applicant: {
-              ...app.applicant,
-              username: userInfo.username || app.applicant?.username || (userInfo.email ? userInfo.email.split('@')[0] : undefined),
-              fullName:
-                app.applicant?.fullName ||
-                userInfo.fullName ||
-                [userInfo.firstName, userInfo.lastName].filter(Boolean).join(' ') ||
-                profileInfo.fullName ||
-                [profileInfo.firstName, profileInfo.lastName].filter(Boolean).join(' '),
-              firstName: app.applicant?.firstName || userInfo.firstName || profileInfo.firstName,
-              lastName: app.applicant?.lastName || userInfo.lastName || profileInfo.lastName,
-              email: app.applicant?.email || userInfo.email,
-              phone:
-                app.applicant?.phone ||
-                profileInfo.phone ||
-                (profileInfo.address ? profileInfo.address.phone : undefined),
-              resume: profileInfo.resume || app.applicant?.resume || null,
-            }
-          };
-        });
-
-        setApplications(enrichedApps);
-      }
-    } catch (error) {
-      console.error('Error fetching recruiter applications:', error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
+    if (!token || !userData) {
+      router.push('/login');
+    } else {
+      const u = JSON.parse(userData);
+      setUser(u);
+      fetchRecruiterData(u._id || u.id);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push('/');
+  };
+
+  // ... (Keep existing Profile/Job handler functions)
+  const handleConnect = async (userId, userName) => {
+    const token = localStorage.getItem('token');
     try {
-      const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-      const u = params ? params.get('u') : null;
-      if (u) {
-        try {
-          const decoded = JSON.parse(atob(decodeURIComponent(u)));
-          if (decoded?.user) localStorage.setItem('user', JSON.stringify(decoded.user));
-          if (decoded?.token) localStorage.setItem('token', decoded.token);
-          if (decoded?.userType) localStorage.setItem('userType', decoded.userType);
-          setUser(decoded?.user || null);
-          if (typeof window !== 'undefined') {
-            const url = new URL(window.location.href);
-            url.searchParams.delete('u');
-            window.history.replaceState({}, '', url.toString());
-          }
-        } catch (_) { }
+      const res = await fetch(`${baseAuthUrl}/api/connections/request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ recipientId: userId })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`Connection request sent to ${userName}!`);
+        // Remove user from suggestions list
+        setSuggestions(suggestions.filter(s => s._id !== userId));
+      } else {
+        alert(data.message || 'Failed to send request');
       }
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const userData = JSON.parse(storedUser);
-        setUser(userData);
-        // Fetch recruiter's jobs
-        fetchRecruiterJobs(userData._id || userData.id);
-        // Fetch recruiter's applications
-        fetchRecruiterApplications();
-      }
-    } catch (_) { }
-  }, [router]);
-
-  const navigationItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-    { id: 'post-job', label: 'Post New Job', icon: '➕' },
-    { id: 'applications', label: 'Applications', icon: '📝' },
-    { id: 'profile', label: 'Profile', icon: '👤' }
-  ];
-
-  const handleAddSkill = () => {
-    if (currentSkill.trim() && !newJob.skillsRequired.includes(currentSkill.trim())) {
-      setNewJob(prev => ({
-        ...prev,
-        skillsRequired: [...prev.skillsRequired, currentSkill.trim()]
-      }));
-      setCurrentSkill('');
+    } catch (err) {
+      console.error('Connection request error:', err);
+      alert('Error sending connection request');
     }
   };
 
-  const handleRemoveSkill = (skillToRemove) => {
-    setNewJob(prev => ({
-      ...prev,
-      skillsRequired: prev.skillsRequired.filter(skill => skill !== skillToRemove)
-    }));
-  };
-
-  const handleQuestionChange = (questionId, field, value) => {
-    setNewJob(prev => ({
-      ...prev,
-      customQuestions: prev.customQuestions.map(q =>
-        q.id === questionId ? { ...q, [field]: value } : q
-      )
-    }));
-  };
-
-  const handlePostJob = async (e) => {
-    e.preventDefault();
-
+  const handleRespondToRequest = async (connectionId, status) => {
+    const token = localStorage.getItem('token');
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Please login to post jobs');
-        return;
-      }
+      const res = await fetch(`${baseAuthUrl}/api/connections/${connectionId}/respond`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ status })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`Connection ${status}!`);
+        // Refresh network data
+        const reqRes = await fetch(`${baseAuthUrl}/api/connections/requests`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const reqData = await reqRes.json();
+        if (Array.isArray(reqData)) setNetworkRequests(reqData);
 
-      const recruiterId = user?._id || user?.id || user?.userId || null;
+        const connRes = await fetch(`${baseAuthUrl}/api/connections/my-connections`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const connData = await connRes.json();
+        if (Array.isArray(connData)) setMyConnections(connData);
+      } else {
+        alert(data.message || 'Failed to update request');
+      }
+    } catch (err) {
+      console.error('Respond request error:', err);
+      alert('Error updating request');
+    }
+  };
+
+  const handleProfileUpdate = async (e) => {
+    // ... keep implementation
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    try {
+      // ... payload ...
       const payload = {
-        ...newJob,
-        recruiterId,
+        firstName: profileForm.firstName, lastName: profileForm.lastName,
+        phone: profileForm.phone, position: profileForm.position, bio: profileForm.bio,
+        socialProfiles: { linkedin: profileForm.linkedin },
+        company: {
+          name: profileForm.companyName, website: profileForm.companyWebsite,
+          industry: profileForm.companyIndustry, description: profileForm.companyDescription,
+          address: profileForm.companyLocation,
+          size: profileForm.companySize || '1-10'
+        }
       };
 
-      const response = await fetch(`${baseAuthUrl}/api/jobs`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+      const res = await fetch(`${baseAuthUrl}/api/profile/recruiter`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload)
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // Add to local state
-        setJobPosts(prev => [result.data, ...prev]);
-
-        // Reset form
-        setNewJob({
-          title: '',
-          company: '',
-          description: '',
-          skillsRequired: [],
-          experience: '',
-          location: '',
-          salary: '',
-          jobType: 'Full-time',
-          deadline: '',
-          customQuestions: [
-            { id: 'q1', question: '', isRequired: false },
-            { id: 'q2', question: '', isRequired: false },
-            { id: 'q3', question: '', isRequired: false }
-          ]
-        });
-        setShowJobForm(false);
-
-        alert('Job posted successfully!');
+      const data = await res.json();
+      if (data.success) {
+        alert('Profile updated successfully!');
+        setIsEditingProfile(false);
+        fetchRecruiterData(user._id || user.id);
       } else {
-        alert(result.message || 'Failed to post job');
+        alert(data.message || 'Update failed');
       }
-    } catch (error) {
-      console.error('Error posting job:', error);
-      alert('Failed to post job. Please try again.');
-    }
+    } catch (err) { alert('Error updating profile'); }
+  };
+  // ... keep handlePostJob ...
+  const handlePostJob = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    try {
+      const payload = { ...newJob, recruiterId: user._id || user.id };
+      const res = await fetch(`${baseAuthUrl}/api/jobs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (result.success) {
+        setJobPosts([result.data, ...jobPosts]);
+        setShowJobForm(false);
+        setNewJob({
+          title: '', company: '', description: '', skillsRequired: [],
+          experience: '', location: '', salary: '', jobType: 'Full-time', deadline: '', customQuestions: []
+        });
+        alert('Job Posted Successfully!');
+      } else { alert(result.message); }
+    } catch (err) { console.error(err); alert('Error posting job: ' + err.message); }
+  };
+  // ... keep handleUpdateJob ...
+  const handleUpdateJob = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    try {
+      if (!editingJob?._id) return;
+      const payload = {
+        title: newJob.title, company: newJob.company, description: newJob.description,
+        location: newJob.location, salary: newJob.salary, jobType: newJob.jobType, deadline: newJob.deadline
+      };
+      const res = await fetch(`${baseAuthUrl}/api/jobs/${editingJob._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (result.success) {
+        setJobPosts(jobPosts.map(j => j._id === editingJob._id ? result.data : j));
+        setShowJobForm(false);
+        setEditingJob(null);
+        setNewJob({
+          title: '', company: '', description: '', skillsRequired: [],
+          experience: '', location: '', salary: '', jobType: 'Full-time', deadline: '', customQuestions: []
+        });
+        alert('Job Updated Successfully!');
+      } else { alert(result.message); }
+    } catch (err) { alert('Error updating job: ' + err.message); }
   };
 
-  const handleNavigation = (item) => {
-    if (item.id === 'post-job') {
-      setShowJobForm(true);
-    } else if (item.id === 'profile') {
-      router.push('/RecruiterProfile');
-    } else {
-      setActiveTab(item.id);
-      setShowJobForm(false);
-    }
+  // ... helper functions
+  const startEditJob = (job) => {
+    setEditingJob(job);
+    setNewJob({
+      title: job.title || '', company: job.company || '', description: job.description || '',
+      skillsRequired: job.skillsRequired || [], experience: job.experience || '',
+      location: job.location || '', salary: job.salary || '', jobType: job.jobType || 'Full-time',
+      deadline: job.deadline ? new Date(job.deadline).toISOString().split('T')[0] : '',
+      customQuestions: job.customQuestions || []
+    });
+    setShowJobForm(true);
   };
+
+  const handleCloseJob = async (jobId) => {
+    if (!confirm('Are you sure you want to close this job?')) return;
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${baseAuthUrl}/api/jobs/${jobId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ status: 'Closed' })
+      });
+      const result = await res.json();
+      if (result.success) {
+        setJobPosts(jobPosts.map(j => (j._id === jobId || j.id === jobId) ? { ...j, status: 'Closed' } : j));
+      }
+    } catch (err) { console.error(err); }
+  };
+
+  const handleScheduleInterview = async (candidateId, jobId) => {
+    if (!candidateId || !jobId) return alert('Missing candidate or job info');
+    if (!confirm('Schedule AI Interview for this candidate?')) return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${baseAuthUrl}/api/interviews/schedule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ candidateId, jobId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Interview Scheduled!\nLink: ${data.data.link}\n(Link also sent to candidate email)`);
+      } else { alert(data.message || 'Failed to schedule'); }
+    } catch (err) { console.error(err); alert('Error scheduling interview'); }
+  };
+
+  const filteredApplications = applications.filter(app => {
+    if (appFilter === 'All') return true;
+    return (app.status || 'Pending') === appFilter;
+  }).sort((a, b) => {
+    if (appSort === 'date-desc') return new Date(b.createdAt) - new Date(a.createdAt);
+    if (appSort === 'match-desc') return (b.matchScore || 0) - (a.matchScore || 0);
+    return 0;
+  });
+
+  const handleViewCandidate = (app) => {
+    setSelectedApplication(app);
+    setShowCandidateModal(true);
+  };
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50" style={{ background: '#f9fafb', minHeight: '100vh' }}>
+    <div className="min-h-screen bg-gray-50 flex font-sans text-gray-800">
       <Head>
-        <title>Recruiter Dashboard</title>
-        <meta name="description" content="Recruiter Dashboard - Manage job posts and applications" />
+        <title>Recruiter Dashboard | Smart Engine</title>
       </Head>
 
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              {/* Mobile Menu Toggle */}
-              <button
-                className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 mr-2"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                <span className="sr-only">Open main menu</span>
-                {isMobileMenuOpen ? (
-                  /* Close Icon */
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  /* Menu Icon */
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
-              </button>
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900">Recruiter Portal</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-700">
-                {(() => {
-                  const name = [user?.firstName, user?.lastName].filter(Boolean).join(' ')
-                    || user?.username
-                    || (user?.email ? user.email.split('@')[0] : '')
-                    || 'Recruiter';
-                  const email = user?.email ? ` (${user.email})` : '';
-                  return `Welcome, ${name}${email}!`;
-                })()}
-              </span>
-              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                {(
-                  user?.firstName?.[0] ||
-                  user?.username?.[0] ||
-                  user?.email?.[0] ||
-                  'R'
-                ).toUpperCase()}
-              </div>
-              <button
-                onClick={handleLogout}
-                className="ml-2 px-3 py-2 text-sm border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+
+      {/* Sidebar */}
+      <aside className={`fixed md:sticky top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col z-50 transition-transform duration-300 transform 
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-blue-50/50">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SmartRecruit</h1>
+          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-500">
+            <FiX className="w-6 h-6" />
+          </button>
         </div>
-      </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar Navigation */}
-          <div className={`
-              fixed inset-0 z-40 lg:static lg:z-auto lg:block
-              ${isMobileMenuOpen ? 'block' : 'hidden'}
-            `}>
-            {/* Mobile overlay */}
-            <div
-              className="fixed inset-0 bg-gray-600 bg-opacity-75 lg:hidden"
-              onClick={() => setIsMobileMenuOpen(false)}
-            ></div>
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+          <button
+            onClick={() => { setActiveTab('dashboard'); setShowJobForm(false); setIsSidebarOpen(false); }}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200
+                  ${activeTab === 'dashboard' && !showJobForm ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
+                `}
+          >
+            <FiPieChart className="w-5 h-5" />
+            <span className="font-medium">Dashboard</span>
+          </button>
 
-            <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg lg:static lg:shadow-sm lg:block overflow-y-auto">
-              {/* Mobile Header in Sidebar */}
-              <div className="flex items-center justify-between px-4 py-3 border-b lg:hidden">
-                <span className="text-xl font-bold text-gray-900">Menu</span>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 -mr-2 text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
+          <button
+            onClick={() => { setActiveTab('applications'); setShowJobForm(false); setIsSidebarOpen(false); }}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200
+                  ${activeTab === 'applications' && !showJobForm ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
+                `}
+          >
+            <FiFileText className="w-5 h-5" />
+            <span className="font-medium">Applications</span>
+          </button>
 
-              <nav className="p-4">
-                <ul className="space-y-2">
-                  {navigationItems.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        onClick={() => {
-                          handleNavigation(item);
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${(activeTab === item.id || (item.id === 'post-job' && showJobForm))
-                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                          : 'text-gray-700 hover:bg-gray-50'
-                          }`}
-                      >
-                        <span className="text-lg">{item.icon}</span>
-                        <span className="font-medium">{item.label}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </aside>
+          <button
+            onClick={() => { setActiveTab('profile'); setShowJobForm(false); setIsSidebarOpen(false); }}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200
+                  ${activeTab === 'profile' ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
+                `}
+          >
+            <FiUser className="w-5 h-5" />
+            <span className="font-medium">My Profile</span>
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('network'); setShowJobForm(false); setIsSidebarOpen(false); }}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200
+                  ${activeTab === 'network' ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
+                `}
+          >
+            <FiUsers className="w-5 h-5" />
+            <span className="font-medium">My Network</span>
+            {networkRequests.length > 0 && <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{networkRequests.length}</span>}
+          </button>
+
+          <div className="pt-4 mt-4 border-t border-gray-100">
+            <button
+              onClick={() => { setShowJobForm(true); setIsSidebarOpen(false); }}
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg`}
+            >
+              <FiPlusSquare className="w-5 h-5" />
+              <span className="font-medium">Post a Job</span>
+            </button>
           </div>
 
-          {/* Main Content */}
-          <main className="flex-1">
-            {showJobForm ? (
-              /* Job Posting Form */
-              <div className="bg-white rounded-lg shadow-sm border p-6">
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Post New Job</h2>
-                  <p className="text-gray-600 mt-1">Fill in the details to create a new job posting</p>
+          <div className="pt-6 mt-4 border-t border-gray-100">
+            <h3 className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">You might know</h3>
+            <div className="space-y-3 px-2">
+              {suggestions.slice(0, 3).map((sug, i) => (
+                <div key={i} className="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 group">
+                  <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden shrink-0">
+                    {sug.profilePicture ? (
+                      <img src={sug.profilePicture} alt={sug.firstName} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs font-bold text-gray-500">{sug.firstName?.[0]}</div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-gray-900 truncate">{sug.firstName} {sug.lastName}</p>
+                    <p className="text-[10px] text-gray-500 truncate">{sug.headline || 'Recruiter'}</p>
+                  </div>
+                  <button className="opacity-0 group-hover:opacity-100 text-blue-600 hover:text-blue-800 transition"
+                    onClick={() => handleConnect(sug._id, sug.firstName)}
+                    title="Connect">
+                    <FiPlusSquare className="w-4 h-4" />
+                  </button>
                 </div>
+              ))}
+              {suggestions.length === 0 && <p className="px-2 text-xs text-gray-400 font-style: italic">No suggestions.</p>}
 
-                <form onSubmit={handlePostJob} className="space-y-6">
+              <button className="w-full text-xs text-blue-600 font-medium py-2 hover:bg-blue-50 rounded text-center mt-1">
+                View All Connections
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <div className="p-4 border-t border-gray-100 bg-gray-50/50">
+          <button onClick={handleLogout} className="flex items-center space-x-3 text-red-600 px-4 py-2 hover:bg-red-50 rounded-lg w-full transition font-medium">
+            <FiLogOut className="w-5 h-5" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto w-full md:ml-0">
+        {/* Header */}
+        <header className="bg-white px-6 py-4 shadow-sm flex justify-between items-center sticky top-0 z-10 border-b border-gray-100">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 -ml-2 rounded-lg text-gray-600 hover:bg-gray-100 md:hidden"
+            >
+              <FiMenu className="w-6 h-6" />
+            </button>
+            <h2 className="text-xl font-bold text-gray-800 hidden sm:block">
+              {showJobForm ? 'Post New Job' : activeTab === 'applications' ? 'Applications' : activeTab === 'profile' ? 'My Profile' : activeTab === 'network' ? 'My Network' : 'Dashboard Overview'}
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-bold text-gray-900">{user?.firstName} {user?.lastName}</p>
+              <p className="text-xs text-gray-500">Recruiter</p>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">
+              {user?.firstName?.[0]}
+            </div>
+          </div>
+        </header>
+
+        <div className="p-8 max-w-[1600px] mx-auto">
+          {/* Main Content Area */}
+          <div className="space-y-8">
+            {showJobForm ? (
+              <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <h3 className="text-lg font-bold mb-6">{editingJob ? 'Edit Job Posting' : 'Create Job Posting'}</h3>
+                <form onSubmit={editingJob ? handleUpdateJob : handlePostJob} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Job Title *</label>
-                      <input
-                        type="text"
-                        required
-                        value={newJob.title}
-                        onChange={(e) => setNewJob(prev => ({ ...prev, title: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., Frontend Developer"
-                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                      <input required type="text" value={newJob.title} onChange={e => setNewJob({ ...newJob, title: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. Senior React Developer" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Company *</label>
-                      <input
-                        type="text"
-                        required
-                        value={newJob.company}
-                        onChange={(e) => setNewJob(prev => ({ ...prev, company: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Your company name"
-                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                      <input required type="text" value={newJob.company} onChange={e => setNewJob({ ...newJob, company: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
                     </div>
                   </div>
-
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Job Description *</label>
-                    <textarea
-                      required
-                      value={newJob.description}
-                      onChange={(e) => setNewJob(prev => ({ ...prev, description: e.target.value }))}
-                      rows="4"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Describe the job responsibilities and requirements..."
-                    />
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Job Description</label>
+                    <textarea required value={newJob.description} onChange={e => setNewJob({ ...newJob, description: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" rows="5"></textarea>
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Skills Required *</label>
-                    <div className="flex gap-2 mb-3">
-                      <input
-                        type="text"
-                        value={currentSkill}
-                        onChange={(e) => setCurrentSkill(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSkill())}
-                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Add a skill (e.g., React)"
-                      />
-                      <button
-                        type="button"
-                        onClick={handleAddSkill}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                      >
-                        Add
-                      </button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {newJob.skillsRequired.map((skill, index) => (
-                        <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
-                          {skill}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveSkill(skill)}
-                            className="ml-2 text-blue-600 hover:text-blue-800"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Experience Required</label>
-                      <input
-                        type="text"
-                        value={newJob.experience}
-                        onChange={(e) => setNewJob(prev => ({ ...prev, experience: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., 2-4 years"
-                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                      <input required type="text" value={newJob.location} onChange={e => setNewJob({ ...newJob, location: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. New York, Remote" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                      <input
-                        type="text"
-                        value={newJob.location}
-                        onChange={(e) => setNewJob(prev => ({ ...prev, location: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., Remote, New York, NY"
-                      />
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
+                      <input type="text" value={newJob.salary} onChange={e => setNewJob({ ...newJob, salary: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="e.g. $100k - $120k" />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Salary Range</label>
-                      <input
-                        type="text"
-                        value={newJob.salary}
-                        onChange={(e) => setNewJob(prev => ({ ...prev, salary: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="e.g., $70,000 - $90,000"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Job Type</label>
-                      <select
-                        value={newJob.jobType}
-                        onChange={(e) => setNewJob(prev => ({ ...prev, jobType: e.target.value }))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      >
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                      <select value={newJob.jobType} onChange={e => setNewJob({ ...newJob, jobType: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" style={{ backgroundColor: 'white' }}>
                         <option value="Full-time">Full-time</option>
                         <option value="Part-time">Part-time</option>
                         <option value="Contract">Contract</option>
                         <option value="Internship">Internship</option>
-                        <option value="Remote">Remote</option>
                       </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Application Deadline</label>
+                      <input type="date" required value={newJob.deadline} min={new Date().toISOString().split('T')[0]} onChange={e => setNewJob({ ...newJob, deadline: e.target.value })} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+                      <p className="text-xs text-gray-500 mt-1">Applications will close after this date.</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-3 pt-4">
+                    <button type="button" onClick={() => { setShowJobForm(false); setEditingJob(null); }} className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
+                    <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 shadow-sm">{editingJob ? 'Update Job' : 'Post Job'}</button>
+                  </div>
+                </form>
+              </div>
+            ) : activeTab === 'profile' ? (
+              <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-xl font-bold text-gray-900">My Profile</h3>
+                  <button onClick={() => setIsEditingProfile(!isEditingProfile)} className="text-blue-600 font-medium hover:underline">
+                    {isEditingProfile ? 'Cancel' : 'Edit'}
+                  </button>
+                </div>
+                {isEditingProfile ? (
+                  <form onSubmit={handleProfileUpdate} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <input type="text" value={profileForm.firstName} onChange={e => setProfileForm({ ...profileForm, firstName: e.target.value })} className="border p-2 rounded" placeholder="First Name" />
+                      <input type="text" value={profileForm.lastName} onChange={e => setProfileForm({ ...profileForm, lastName: e.target.value })} className="border p-2 rounded" placeholder="Last Name" />
+                      <input type="text" value={profileForm.phone} onChange={e => setProfileForm({ ...profileForm, phone: e.target.value })} className="border p-2 rounded" placeholder="Phone" />
+                      <input type="text" value={profileForm.position} onChange={e => setProfileForm({ ...profileForm, position: e.target.value })} className="border p-2 rounded" placeholder="Position" />
+                    </div>
+                    <textarea value={profileForm.bio} onChange={e => setProfileForm({ ...profileForm, bio: e.target.value })} className="w-full border p-2 rounded" rows="3" placeholder="Bio"></textarea>
+                    <h4 className="font-bold border-t pt-4">Company Details</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <input type="text" value={profileForm.companyName} onChange={e => setProfileForm({ ...profileForm, companyName: e.target.value })} className="border p-2 rounded" placeholder="Company Name" />
+                      <input type="text" value={profileForm.companyWebsite} onChange={e => setProfileForm({ ...profileForm, companyWebsite: e.target.value })} className="border p-2 rounded" placeholder="Website" />
+
+                      <input type="text" value={profileForm.companyIndustry} onChange={e => setProfileForm({ ...profileForm, companyIndustry: e.target.value })} className="border p-2 rounded" placeholder="Industry (e.g. IT, Healthcare)" />
+                      <input type="text" value={profileForm.companyLocation} onChange={e => setProfileForm({ ...profileForm, companyLocation: e.target.value })} className="border p-2 rounded" placeholder="Location" />
+                      <select value={profileForm.companySize} onChange={e => setProfileForm({ ...profileForm, companySize: e.target.value })} className="border p-2 rounded">
+                        <option value="1-10">1-10 Employees</option>
+                        <option value="11-50">11-50 Employees</option>
+                        <option value="51-200">51-200 Employees</option>
+                        <option value="201-500">201-500 Employees</option>
+                        <option value="501-1000">501-1000 Employees</option>
+                        <option value="1000+">1000+ Employees</option>
+                      </select>
+                    </div>
+                    <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded">Save</button>
+                  </form>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-2xl font-bold text-blue-600">{user?.firstName?.[0]}</div>
+                      <div>
+                        <h2 className="text-2xl font-bold">{user?.firstName} {user?.lastName}</h2>
+                        <p className="text-gray-600">{profile?.profile?.position || 'Recruiter'}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <p><strong>Email:</strong> {user?.email}</p>
+                      <p><strong>Phone:</strong> {profile?.profile?.phone || 'N/A'}</p>
+                      <p><strong>Company:</strong> {profile?.profile?.company?.name || 'N/A'}</p>
+                      <p><strong>Location:</strong> {profile?.profile?.company?.address || 'N/A'}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : activeTab === 'network' ? (
+              <div className="space-y-8">
+                {/* Incoming Requests */}
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    Incoming Requests
+                    {networkRequests.length > 0 && <span className="text-sm bg-red-100 text-red-600 px-2 py-0.5 rounded-full">{networkRequests.length}</span>}
+                  </h3>
+                  {networkRequests.length === 0 ? (
+                    <p className="text-gray-500 italic">No pending connection requests.</p>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {networkRequests.map((req, i) => (
+                        <div key={i} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                          <div className="w-20 h-20 bg-gray-200 rounded-full mb-4 overflow-hidden">
+                            {req.requester?.profilePicture ? (
+                              <img src={req.requester.profilePicture} alt={req.requester.firstName} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-gray-400">{req.requester?.firstName?.[0]}</div>
+                            )}
+                          </div>
+                          <h4 className="font-bold text-gray-900">{req.requester?.firstName} {req.requester?.lastName}</h4>
+                          <p className="text-sm text-gray-500 mb-4">{req.requester?.headline || 'Recruiter'}</p>
+                          <div className="flex gap-2 w-full">
+                            <button onClick={() => handleRespondToRequest(req._id, 'accepted')} className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Accept</button>
+                            <button onClick={() => handleRespondToRequest(req._id, 'rejected')} className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-200">Reject</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* My Connections */}
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">My Connections</h3>
+                  {myConnections.filter(c => c.status === 'accepted').length === 0 ? (
+                    <p className="text-gray-500 italic">No connections yet. Go to Dashboard to find people!</p>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {myConnections.filter(c => c.status === 'accepted').map((conn, i) => (
+                        // Note: myConnections return structure is { connectionId, otherUserId, status, isRequester }. 
+                        // We might need to fetch user details for these. Ideally the backend 'my-connections' endpoint should populate user details.
+                        // Let's check backend implementation.. 
+                        // Ah, backend 'getMyConnections' currently only returns IDs. We need to update backend or fetch user details here.
+                        // For now, let's display ID to confirm it works, then I'll fix backend to populate.
+                        <div key={i} className="bg-white p-4 rounded-lg border border-gray-100 flex items-center gap-4">
+                          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold">
+                            <FiUser />
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm">User ID: {conn.otherUserId}</p>
+                            <p className="text-xs text-green-600">Connected</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : activeTab === 'applications' ? (
+              <div className="space-y-4">
+                {/* Filter and Sort Bar */}
+                <div className="flex flex-wrap gap-4 items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                  <div className="flex gap-4 items-center">
+                    <select value={appFilter} onChange={e => setAppFilter(e.target.value)} className="border rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="All">All Status</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Shortlisted">Shortlisted</option>
+                      <option value="Rejected">Rejected</option>
+                    </select>
+                    <select value={appSort} onChange={e => setAppSort(e.target.value)} className="border rounded-lg px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="date-desc">Newest First</option>
+                      <option value="match-desc">Highest Match Score</option>
+                    </select>
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Showing {filteredApplications.length} applications
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                  <table className="w-full text-left">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                      <tr>
+                        <th className="px-6 py-4 font-semibold text-gray-600">Candidate</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600">Job Title</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600">Match</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600">Status</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600">Date</th>
+                        <th className="px-6 py-4 font-semibold text-gray-600">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {filteredApplications.length === 0 ? (
+                        <tr><td colSpan="6" className="px-6 py-8 text-center text-gray-500">No applications found.</td></tr>
+                      ) : (
+                        filteredApplications.map((app, idx) => (
+                          <tr key={idx} className="hover:bg-gray-50">
+                            <td className="px-6 py-4">
+                              <button onClick={() => handleViewCandidate(app)} className="font-medium text-blue-600 hover:underline text-left">
+                                {app.applicant?.fullName || 'Unknown'}
+                              </button>
+                            </td>
+                            <td className="px-6 py-4 text-gray-600">{app.job?.title || 'Job Name'}</td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 rounded text-xs font-bold ${(app.matchScore || 0) >= 80 ? 'bg-green-100 text-green-700' :
+                                (app.matchScore || 0) >= 50 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                                }`}>
+                                {app.matchScore || 0}%
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">{app.status || 'Pending'}</td>
+                            <td className="px-6 py-4 text-gray-500 text-sm">{new Date(app.createdAt).toLocaleDateString()}</td>
+                            <td className="px-6 py-4 flex gap-2">
+                              <button
+                                onClick={() => handleViewCandidate(app)}
+                                className="text-gray-600 hover:bg-gray-100 px-3 py-1 rounded text-sm transition border border-gray-200"
+                              >
+                                View
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : (
+              // Default Dashboard (Enhanced V2)
+              <div className="flex flex-col lg:flex-row gap-8">
+                {/* Main Column (Stats & Matches) */}
+                <div className="flex-1 space-y-8">
+                  {/* Stats Row */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Card 1: Active Jobs (Hotlist) */}
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <span className="text-sm font-medium text-gray-400">Total</span>
+                      </div>
+                      <h3 className="text-gray-500 font-medium mb-1">My Hotlist (Jobs)</h3>
+                      <div className="flex items-end gap-2">
+                        <h2 className="text-3xl font-bold text-gray-900">{jobPosts.length}</h2>
+                        <span className="text-blue-600 text-sm font-medium mb-1 cursor-pointer hover:underline" onClick={() => setActiveTab('applications')}>View Details ›</span>
+                      </div>
+                    </div>
+
+                    {/* Card 2: Submissions (Applications) */}
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <span className="text-sm font-medium text-gray-400">Total</span>
+                      </div>
+                      <h3 className="text-gray-500 font-medium mb-1">My Submissions</h3>
+                      <div className="flex items-end gap-2">
+                        <h2 className="text-3xl font-bold text-gray-900">{applications.length}</h2>
+                        <span className="text-purple-600 text-sm font-medium mb-1 cursor-pointer hover:underline" onClick={() => setActiveTab('applications')}>View Details ›</span>
+                      </div>
+                    </div>
+
+                    {/* Card 3: Time Spent - Redesigned Activity Hub */}
+                    <div className="bg-white p-0 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition overflow-hidden">
+                      {/* Header */}
+                      <div className="px-6 py-4 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+                        <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                          <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                          Time Activity
+                        </h3>
+                        <div className="flex bg-gray-100 rounded-lg p-0.5">
+                          {['week', 'month', 'year'].map((range) => (
+                            <button
+                              key={range}
+                              onClick={() => fetchActivityStats(range)}
+                              className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${activityStats.range === range ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                            >
+                              {range.charAt(0).toUpperCase() + range.slice(1)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="p-6">
+                        <div className="flex flex-col sm:flex-row gap-8 items-center">
+                          {/* Left: Radial Progress */}
+                          <div className="relative w-32 h-32 flex-shrink-0">
+                            <svg className="w-full h-full transform -rotate-90">
+                              {/* Background Circle */}
+                              <circle
+                                cx="64"
+                                cy="64"
+                                r="56"
+                                className="stroke-gray-100"
+                                strokeWidth="8"
+                                fill="none"
+                              />
+                              {/* Progress Circle */}
+                              <circle
+                                cx="64"
+                                cy="64"
+                                r="56"
+                                className="stroke-blue-500 transition-all duration-1000 ease-out"
+                                strokeWidth="8"
+                                strokeLinecap="round"
+                                strokeDasharray={2 * Math.PI * 56}
+                                strokeDashoffset={2 * Math.PI * 56 * (1 - Math.min((activityStats.totalMinutes / (activityStats.range === 'week' ? 2400 : 9600)), 1))}
+                                fill="none"
+                              />
+                            </svg>
+                            <div className="absolute inset-0 flex flex-col items-center justify-center">
+                              <span className="text-2xl font-bold text-gray-900">{Math.floor(activityStats.totalMinutes / 60)}h</span>
+                              <span className="text-xs text-gray-500">{activityStats.totalMinutes % 60}m</span>
+                            </div>
+                          </div>
+
+                          {/* Right: Stats Grid */}
+                          <div className="flex-1 w-full">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="bg-blue-50/50 p-3 rounded-lg">
+                                <p className="text-xs text-blue-600 font-medium mb-1">Daily Average</p>
+                                <p className="text-lg font-bold text-gray-800">
+                                  {Math.round(activityStats.totalMinutes / (activityStats.data.filter(d => d > 0).length || 1) / 60 * 10) / 10}h
+                                </p>
+                              </div>
+                              <div className="bg-purple-50/50 p-3 rounded-lg">
+                                <p className="text-xs text-purple-600 font-medium mb-1">Most Active</p>
+                                <p className="text-lg font-bold text-gray-800">
+                                  {/* Find index of max value, map to label */}
+                                  {activityStats.data.length > 0
+                                    ? activityStats.labels[activityStats.data.indexOf(Math.max(...activityStats.data))]?.slice(0, 3) || 'N/A'
+                                    : '--'}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Mini Bar Chart */}
+                            <div className="mt-4 h-12 flex items-end gap-1 justify-between">
+                              {activityStats.data.length > 0 ? activityStats.data.slice(-7).map((val, i) => {
+                                const max = Math.max(...activityStats.data, 1);
+                                const height = (val / max) * 100;
+                                return (
+                                  <div key={i} className="flex-1 flex flex-col items-center gap-1 group relative">
+                                    <div className="w-full bg-blue-100 rounded-t-sm h-full relative overflow-hidden">
+                                      <div
+                                        className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-500 to-cyan-400 transition-all duration-500"
+                                        style={{ height: `${Math.max(height, 5)}%` }}
+                                      ></div>
+                                    </div>
+                                    {/* Tooltip */}
+                                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap z-10">
+                                      {Math.floor(val / 60)}h {val % 60}m
+                                    </div>
+                                  </div>
+                                );
+                              }) : (
+                                <div className="w-full text-center text-xs text-gray-400 self-center">No activity yet</div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Custom Questions Section */}
-                  <div className="border-t pt-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Application Questions</h3>
-                    <p className="text-sm text-gray-600 mb-6">Add up to 3 custom questions for job applicants. You can mark questions as mandatory or optional.</p>
+                  {/* Job Match Center - AI Driven */}
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div className="flex justify-between items-center mb-6">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-xl font-bold text-gray-900">Job Match Center</h3>
+                        <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded font-bold uppercase tracking-wide">AI Driven</span>
+                      </div>
+                      <button className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1" onClick={() => setActiveTab('applications')}>
+                        View Hotlist <span>›</span>
+                      </button>
+                    </div>
 
-                    <div className="space-y-4">
-                      {newJob.customQuestions.map((question, index) => (
-                        <div key={question.id} className="bg-gray-50 p-4 rounded-lg">
-                          <div className="flex items-center justify-between mb-3">
-                            <label className="block text-sm font-medium text-gray-700">
-                              Question {index + 1}
-                            </label>
-                            <div className="flex items-center">
-                              <input
-                                type="checkbox"
-                                id={`required-${question.id}`}
-                                checked={question.isRequired}
-                                onChange={(e) => handleQuestionChange(question.id, 'isRequired', e.target.checked)}
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                              />
-                              <label htmlFor={`required-${question.id}`} className="ml-2 text-sm text-gray-700">
-                                Mandatory
-                              </label>
+                    {/* Match Cards Container */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Top Matched Candidates */}
+                      {applications
+                        .filter(app => (app.matchScore || 0) >= 70)
+                        .slice(0, 4)
+                        .map((app, i) => (
+                          <div key={i} className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition cursor-pointer" onClick={() => handleViewCandidate(app)}>
+                            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg mr-4 shrink-0">
+                              {app.applicant?.fullName?.[0] || 'A'}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-bold text-gray-900 truncate">{app.applicant?.fullName || 'Candidate'}</h4>
+                              <p className="text-sm text-gray-500 truncate">{app.job?.title || 'Unknown Job'}</p>
+                            </div>
+                            <div className="flex flex-col items-end gap-2 ml-4">
+                              <span className={`px-2 py-0.5 rounded text-xs font-bold text-white
+                              ${(app.matchScore || 0) >= 50 ? 'bg-green-500' : 'bg-red-500'}
+                            `}>
+                                {(app.matchScore || 0) >= 85 ? 'Excellent Fit' : (app.matchScore || 0) >= 50 ? 'Good Fit' : 'Nutural'}
+                              </span>
+                              <button className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded hover:bg-blue-100 font-medium">View</button>
                             </div>
                           </div>
-                          <textarea
-                            value={question.question}
-                            onChange={(e) => handleQuestionChange(question.id, 'question', e.target.value)}
-                            placeholder={`Enter your question here... (e.g., "Why are you interested in this position?")`}
-                            rows="2"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                          />
-                          {question.isRequired && (
-                            <p className="text-xs text-red-600 mt-1">* This question is mandatory for applicants</p>
-                          )}
+                        ))
+                      }
+                      {applications.filter(app => (app.matchScore || 0) >= 70).length === 0 && (
+                        <div className="col-span-2 text-center py-8 text-gray-500 italic">
+                          No high-match candidates found yet. Post more jobs or wait for applicants!
                         </div>
-                      ))}
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Recent Jobs List (Preserved) */}
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-4">Your Active Job Postings</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {jobPosts.length === 0 ? (
+                        <div className="text-gray-500 italic">No jobs posted yet.</div>
+                      ) : (
+                        jobPosts.slice(0, 4).map((job, i) => (
+                          <div key={i} className={`bg-white p-6 rounded-xl shadow-sm border border-gray-100 ${job.status === 'Closed' ? 'opacity-75' : ''}`}>
+                            <div className="flex justify-between items-start mb-2">
+                              <h4 className="font-bold text-gray-900 text-lg">{job.title}</h4>
+                              <span className={`px-2 py-1 rounded text-xs font-medium ${job.status === 'Closed' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}>
+                                {job.status}
+                              </span>
+                            </div>
+                            <p className="text-gray-500 text-sm mb-4">{job.company} • {job.location}</p>
+                            <div className="flex gap-2 border-t pt-4">
+                              <button onClick={() => startEditJob(job)} className="flex-1 px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded hover:bg-blue-100 font-medium">Edit</button>
+                              {job.status !== 'Closed' && (
+                                <button onClick={() => handleCloseJob(job._id || job.id)} className="flex-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 font-medium">Close</button>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* Candidate Detail Modal */}
+        {
+          showCandidateModal && selectedApplication && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+              <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div className="p-6 border-b sticky top-0 bg-white z-10 flex justify-between items-center">
+                  <h3 className="text-xl font-bold text-gray-900">Candidate Details</h3>
+                  <button onClick={() => setShowCandidateModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+                <div className="p-6 space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-2xl font-bold text-blue-600">
+                      {selectedApplication.applicant?.fullName?.[0] || 'U'}
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold">{selectedApplication.applicant?.fullName}</h2>
+                      <p className="text-gray-600">{selectedApplication.applicant?.email}</p>
+                      <p className="text-gray-500 text-sm mt-1 flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                        {selectedApplication.applicant?.phone || 'No phone provided'}
+                      </p>
+                    </div>
+                    <div className="ml-auto text-right">
+                      <div className="text-sm text-gray-500">Match Score</div>
+                      <div className="text-2xl font-bold text-blue-600">{selectedApplication.matchScore || 0}%</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+                    <div>
+                      <span className="block text-xs font-semibold text-gray-500 uppercase">Applying For</span>
+                      <span className="font-medium">{selectedApplication.job?.title}</span>
+                    </div>
+                    <div>
+                      <span className="block text-xs font-semibold text-gray-500 uppercase">Status</span>
+                      <span className="font-medium">{selectedApplication.status}</span>
+                    </div>
+                    <div>
+                      <span className="block text-xs font-semibold text-gray-500 uppercase">Experience</span>
+                      <span className="font-medium">{selectedApplication.applicant?.experience || 'N/A'}</span>
+                    </div>
+                    <div>
+                      <span className="block text-xs font-semibold text-gray-500 uppercase">Skills</span>
+                      <span className="font-medium">{selectedApplication.applicant?.skills || 'N/A'}</span>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Application Deadline</label>
-                    <input
-                      type="date"
-                      required
-                      value={newJob.deadline}
-                      onChange={(e) => setNewJob(prev => ({ ...prev, deadline: e.target.value }))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
+                    <h4 className="font-bold text-gray-900 mb-2">Resume</h4>
+                    {selectedApplication.applicant?.resume?.filePath ? (
+                      <a
+                        href={selectedApplication.applicant.resume.filePath}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-blue-600 hover:underline font-medium"
+                      >
+                        📄 View Resume
+                      </a>
+                    ) : (
+                      <p className="text-gray-500 italic">No resume uploaded.</p>
+                    )}
                   </div>
 
-                  <div className="flex gap-4 pt-6 border-t flex-col-reverse sm:flex-row sm:justify-end">
+                  <div className="flex gap-4 pt-4 border-t">
                     <button
-                      type="button"
-                      onClick={() => setShowJobForm(false)}
-                      className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+                      className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 py-2 rounded-lg font-medium"
+                      onClick={() => setShowCandidateModal(false)}
                     >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
-                    >
-                      Post Job
-                    </button>
-                  </div>
-                </form>
-              </div>
-            ) : activeTab === 'applications' ? (
-              /* Applications Tab */
-              <div className="space-y-6">
-
-                {!selectedJob ? (
-                  // Level 1: List of Jobs with Application Counts
-                  <>
-                    <div className="bg-white rounded-lg shadow-sm border p-6">
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">Applications by Job</h2>
-                      <p className="text-gray-600">Select a job to view its applicants.</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {jobPosts.map((job, idx) => {
-                        const jobId = job._id || job.id;
-                        const count = applications.filter(a => {
-                          const appJobId = a.job?._id || a.job || '';
-                          return String(appJobId) === String(jobId);
-                        }).length;
-                        return (
-                          <button
-                            key={jobId || idx}
-                            onClick={() => setSelectedJob(job)}
-                            className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow text-left"
-                          >
-                            <h3 className="font-bold text-lg text-gray-900 mb-2">{job.title}</h3>
-                            <p className="text-gray-500 text-sm mb-4">{job.company}</p>
-                            <div className="flex justify-between items-center">
-                              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                                {count} Applicants
-                              </span>
-                              <span className="text-blue-600">View &rarr;</span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                      {jobPosts.length === 0 && (
-                        <div className="col-span-full text-center p-8 bg-white border rounded-lg text-gray-500">
-                          No jobs posted yet.
-                        </div>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  // Level 2: List of Applicants for Selected Job
-                  <>
-                    <div className="bg-white rounded-lg shadow-sm border p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                      <div>
-                        <button onClick={() => setSelectedJob(null)} className="text-gray-500 hover:text-gray-900 mb-2 flex items-center gap-1 text-sm">
-                          &larr; Back to Jobs
-                        </button>
-                        <h2 className="text-2xl font-bold text-gray-900">
-                          {selectedJob.title} <span className="text-gray-500 font-normal text-lg">({selectedJob.company})</span>
-                        </h2>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      {applications
-                        .filter(a => {
-                          const jobId = selectedJob._id || selectedJob.id;
-                          const appJobId = a.job?._id || a.job || '';
-                          return String(appJobId) === String(jobId);
-                        })
-                        .map((application, index) => {
-                          const applicant = application.applicant || {};
-                          const skills = applicant.skills || [];
-                          const resume = applicant.resume || null;
-                          let resumeUrl = '';
-                          if (resume && resume.filePath) {
-                            resumeUrl = resume.filePath.startsWith('http')
-                              ? resume.filePath
-                              : `${baseAuthUrl}${resume.filePath}`;
-                          }
-                          const matchScore = application.matchScore || 0;
-
-                          // Score Color Logic
-                          let scoreColor = 'text-red-500';
-                          let ringColor = 'text-red-200';
-                          if (matchScore >= 75) { scoreColor = 'text-green-600'; ringColor = 'text-green-200'; }
-                          else if (matchScore >= 50) { scoreColor = 'text-yellow-600'; ringColor = 'text-yellow-200'; }
-
-                          // SVGs for Circular Progress
-                          const radius = 18;
-                          const circumference = 2 * Math.PI * radius;
-                          const offset = circumference - (matchScore / 100) * circumference;
-
-                          const appKey = application._id || application.id || `app-${index}`;
-                          const rawFullName = applicant.fullName || [applicant.firstName, applicant.lastName].filter(Boolean).join(' ');
-                          const hasFullName = rawFullName && !rawFullName.toLowerCase().includes('undefined') && rawFullName.trim().length > 0;
-
-                          // Display Logic: User preferences seems to be Username -> Full Name -> Email Prefix
-                          // But typically Full Name is better. However, user specifically asked for "actual user_name" 
-                          // to not be the email prefix. 
-                          // Let's use Username if available, else Full Name, else Email.
-                          const displayName = applicant.username || (hasFullName ? rawFullName.trim() : (applicant.email || 'Unknown'));
-
-                          return (
-                            <div key={appKey} className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
-                              <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-                                {/* Score Column */}
-                                <div className="flex flex-col items-center justify-center shrink-0 w-24">
-                                  <div className="relative w-16 h-16">
-                                    <svg className="w-full h-full transform -rotate-90">
-                                      <circle
-                                        cx="32" cy="32" r={radius}
-                                        stroke="currentColor" strokeWidth="4" fill="transparent"
-                                        className={ringColor}
-                                      />
-                                      <circle
-                                        cx="32" cy="32" r={radius}
-                                        stroke="currentColor" strokeWidth="4" fill="transparent"
-                                        strokeDasharray={circumference}
-                                        strokeDashoffset={offset}
-                                        strokeLinecap="round"
-                                        className={scoreColor}
-                                      />
-                                    </svg>
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                      <span className={`text-sm font-bold ${scoreColor}`}>{Math.round(matchScore)}%</span>
-                                    </div>
-                                  </div>
-                                  <span className="text-xs text-gray-500 font-medium mt-1">Match Score</span>
-                                </div>
-
-                                {/* Info Column */}
-                                <div className="flex-1">
-                                  <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-                                    <div>
-                                      <h3 className="text-lg font-bold text-gray-900">{displayName}</h3>
-                                      <div className="text-sm text-gray-600 space-y-1 mt-1">
-                                        <p className="flex items-center gap-2">
-                                          ✉️ {applicant.email || 'No email'}
-                                        </p>
-                                        {applicant.phone && (
-                                          <p className="flex items-center gap-2">
-                                            📞 {applicant.phone}
-                                          </p>
-                                        )}
-                                      </div>
-
-                                      {skills.length > 0 && (
-                                        <div className="flex flex-wrap gap-2 mt-3">
-                                          {skills.map((skill, i) => (
-                                            <span key={i} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs border">
-                                              {skill}
-                                            </span>
-                                          ))}
-                                        </div>
-                                      )}
-                                    </div>
-
-                                    <div className="mt-4 md:mt-0 flex flex-col items-end gap-2">
-                                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${application.status === 'Interview' ? 'bg-yellow-100 text-yellow-800' :
-                                        application.status === 'Hired' ? 'bg-green-100 text-green-800' :
-                                          application.status === 'Rejected' ? 'bg-red-100 text-red-800' :
-                                            'bg-blue-100 text-blue-800'
-                                        }`}>
-                                        {application.status}
-                                      </span>
-                                      <span className="text-xs text-gray-400">
-                                        Applied: {application.appliedDate ? new Date(application.appliedDate).toLocaleDateString() : 'N/A'}
-                                      </span>
-                                    </div>
-                                  </div>
-
-                                  <div className="mt-4 pt-4 border-t flex flex-col sm:flex-row gap-4 sm:items-center">
-                                    {resumeUrl ? (
-                                      <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-1">
-                                        📄 View Resume
-                                      </a>
-                                    ) : (
-                                      <span className="text-sm text-gray-400 flex items-center gap-1">📄 No Resume</span>
-                                    )}
-
-                                    <select
-                                      className="w-full sm:w-auto text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                      value={application.status}
-                                      onChange={(e) => handleUpdateApplicationStatus(application._id, e.target.value)}
-                                    >
-                                      <option value="Applied">Active</option>
-                                      <option value="Interview">Interview</option>
-                                      <option value="Hired">Hired</option>
-                                      <option value="Rejected">Rejected</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-
-                      {applications.filter(a => {
-                        const jobId = selectedJob._id || selectedJob.id;
-                        const appJobId = a.job?._id || a.job || '';
-                        return String(appJobId) === String(jobId);
-                      }).length === 0 && (
-                          <div className="text-center p-12 bg-white border border-dashed rounded-lg">
-                            <p className="text-gray-500 text-lg">No applications for this job yet.</p>
-                          </div>
-                        )}
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              /* Dashboard Tab - Job Posts */
-              <div className="space-y-6">
-                <div className="bg-white rounded-lg shadow-sm border p-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-1">Your Job Posts</h2>
-                      <p className="text-gray-600">Manage your active job postings</p>
-                    </div>
-                    <button
-                      onClick={() => setShowJobForm(true)}
-                      className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium whitespace-nowrap"
-                    >
-                      + Post New Job
+                      Close
                     </button>
                   </div>
                 </div>
-
-                {jobPosts.map((job) => (
-                  <div key={job._id || job.id} className="bg-white rounded-lg shadow-sm border">
-                    <div className="p-6 border-b">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="text-xl font-semibold text-gray-900">{job.title}</h3>
-                          <p className="text-gray-600 mt-1">{job.company} • {job.location} • {job.jobType}</p>
-                          <p className="text-gray-700 mt-2">{job.description}</p>
-
-                          <div className="flex flex-wrap gap-2 mt-3">
-                            {job.skillsRequired?.map((skill, index) => (
-                              <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-
-                          <div className="flex flex-wrap gap-4 mt-4 text-sm text-gray-600">
-                            <span>💰 {job.salary}</span>
-                            <span>⏳ {job.experience}</span>
-                            <span>📅 Apply by: {new Date(job.deadline).toLocaleDateString()}</span>
-                            <span>👥 {job.applicants} applicants</span>
-                          </div>
-                        </div>
-                        <div className="text-right flex flex-col items-end gap-3">
-                          <span className={`text-sm font-medium px-3 py-1 rounded-full ${job.status === 'Active' ? 'bg-green-100 text-green-800' :
-                            job.status === 'Draft' ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-gray-100 text-gray-800'
-                            }`}>
-                            {job.status}
-                          </span>
-                          <p className="text-sm text-gray-500">
-                            Posted: {new Date(job.createdAt || job.postedDate).toLocaleDateString()}
-                          </p>
-                          <button
-                            onClick={() => {
-                              setSelectedJob(job);
-                              setActiveTab('applications');
-                            }}
-                            className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center gap-1"
-                          >
-                            View Applicants &rarr;
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
-            )}
-          </main>
-        </div>
-      </div>
-    </div>
+            </div>
+          )
+        }
+      </main >
+    </div >
   );
 }

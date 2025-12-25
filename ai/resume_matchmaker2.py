@@ -12,26 +12,14 @@ Usage:
 
 import sys, argparse, re, io, os
 import datetime as dt
+
+# Force UTF-8 for Windows console output to prevent UnicodeEncodeError with emojis
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
 from typing import Set, Tuple, List, Dict
 
 from booking import make_ics  # ensure booking.py is in the same folder
-
-# ---- Outlook sender (Windows + Outlook desktop) ----
-def send_outlook_email(to_emails, subject, body, attachment_path=None):
-    """
-    Sends an email via Outlook Desktop (Windows). Requires: pip install pywin32
-    """
-    import win32com.client as win32
-    outlook = win32.Dispatch("Outlook.Application")
-    mail = outlook.CreateItem(0)  # 0 = MailItem
-    if isinstance(to_emails, str):
-        to_emails = [to_emails]
-    mail.To = "; ".join(to_emails)
-    mail.Subject = subject
-    mail.Body = body
-    if attachment_path and os.path.isfile(attachment_path):
-        mail.Attachments.Add(attachment_path)
-    mail.Send()   # use .Display() if you want to review before sending
 
 # ---- optional deps (graceful fallbacks) ----
 try:
@@ -53,6 +41,80 @@ except Exception:
 from rapidfuzz import fuzz, process
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+# ---- Email Logic (Gmail) ----
+def load_env_vars():
+    """
+    Loads .env file from ../backend/.env
+    """
+    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'backend', '.env')
+    d = {}
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip() and not line.startswith("#"):
+                    parts = line.strip().split("=", 1)
+                    if len(parts) == 2:
+                        d[parts[0].strip()] = parts[1].strip()
+    return d
+
+def extract_email(text: str) -> str:
+    """
+    Simple regex to find the first email address in the text.
+    """
+    match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', text)
+    return match.group(0) if match else None
+
+def send_gmail_email(to_email, subject, body, attachment_path=None, env_vars=None):
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.base import MIMEBase
+    from email import encoders
+
+    if not env_vars:
+        print("⚠️  No environment variables provided for email.")
+        return
+
+    sender_email = env_vars.get("EMAIL_USER")
+    sender_password = env_vars.get("EMAIL_PASS")
+    host = env_vars.get("HOST", "smtp.gmail.com")
+    port = int(env_vars.get("PORT_EMAIL", 587))
+
+    if not sender_email or not sender_password:
+        print("⚠️  Missing email credentials in .env")
+        return
+
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
+
+    if attachment_path and os.path.isfile(attachment_path):
+        try:
+            with open(attachment_path, "rb") as attachment:
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(attachment.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename= {os.path.basename(attachment_path)}",
+            )
+            msg.attach(part)
+        except Exception as e:
+            print(f"⚠️  Could not attach file: {e}")
+
+    try:
+        server = smtplib.SMTP(host, port)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, to_email, msg.as_string())
+        server.quit()
+        print(f"📧 Gmail sent successfully to {to_email}")
+    except Exception as e:
+        print(f"❌ Failed to send Gmail: {e}")
+
 
 # ---------------- File readers ----------------
 def read_txt(path: str) -> str:
@@ -321,6 +383,7 @@ def main():
     ap.add_argument("--interactive","-i", action="store_true", help="Paste JD and Resume text interactively")
     ap.add_argument("--topk", type=int, default=35, help="JD top-K terms to consider (default 35)")
     ap.add_argument("--fuzzy", type=int, default=85, help="Fuzzy threshold 0–100 (default 85)")
+    ap.add_argument("--email", type=str, help="Candidate email address for notifications")
     args = ap.parse_args()
 
     if args.interactive:
@@ -377,40 +440,29 @@ def main():
     for i, tip in enumerate(suggestions(result), 1):
         print(f"{i}. {tip}")
 
-    # --- Interview booking logic (INSIDE main) ---
+    # --- Email Notification Logic ---
+    env_vars = load_env_vars()
+    resume_email = extract_email(resume_text)
+    
+    # Priority: 1. CLI --email (from backend), 2. Resume extraction, 3. Testing fallback
+    recipient_email = args.email if args.email else resume_email
+
+    if not recipient_email and "EMAIL_USER" in env_vars:
+         # Fallback for testing if resume has no email
+         recipient_email = env_vars["EMAIL_USER"]
+         print(f"⚠️  No email found in resume. Sending to self ({recipient_email}) for testing.")
+
     THRESHOLD = 75.0
     candidate_name = os.path.splitext(os.path.basename(args.resume))[0] if args.resume else "Candidate"
-    start_time = dt.datetime.now() + dt.timedelta(hours=2)
-    MEETING_LINK = "https://meet.google.com/your-meet-link"  # put your fixed Meet/Teams link here
-
-    if result["score"] >= THRESHOLD:
-        ics_path = make_ics(
-            invite_dir="invites",
-            candidate_name=candidate_name,
-            start_dt=start_time,
-            duration_min=30,
-            meeting_link=MEETING_LINK,
-            title="Initial Interview"
-        )
-        print(f"\n✅ Interview booked for {candidate_name} (ICS saved at {ics_path})")
-        subject = f"Interview: {candidate_name} — {start_time.strftime('%Y-%m-%d %H:%M')}"
-        body = (
-            f"Hi,\n\nInterview booked for {candidate_name}.\n"
-            f"Join link: {MEETING_LINK}\n"
-            f"Time: {start_time.strftime('%Y-%m-%d %H:%M')} (Asia/Kolkata)\n\n"
-            f"I've attached the calendar invite.\n\nThanks!"
-        )
-        try:
-            send_outlook_email(
-                to_emails=["recruiter@company.com"],  # add candidate email if available
-                subject=subject,
-                body=body,
-                attachment_path=ics_path
-            )
-            print("📧 Outlook email sent with the invite attached.\n")
-        except Exception as e:
-            print(f"⚠️ Could not send Outlook email automatically: {e}")
-            print("   Tip: open the .ics and add recipients, or attach it manually.")
+    
+    # EMAIL DISABLED IN PYTHON - HANDLED BY NODE.JS BACKEND TO ENSURE CORRECT LINKS
+    # if recipient_email:
+    #     if result["score"] >= THRESHOLD:
+    #         # ... (Legacy Google Meet Link Logic Removed) ...
+    #         pass 
+    #     else:
+    #         pass
+    print(f"📊 Analysis Complete. Score: {result['score']}%")
 
 if __name__ == "__main__":
     main()

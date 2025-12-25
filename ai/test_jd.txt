@@ -1,0 +1,4 @@
+Job Description: Python Developer
+Must have strong experience with Python, Django, and React.
+Knowledge of AWS and Docker is required.
+Good communication skills.

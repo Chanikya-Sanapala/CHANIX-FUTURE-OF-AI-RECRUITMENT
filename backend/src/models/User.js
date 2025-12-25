@@ -10,14 +10,16 @@ const userSchema = new mongoose.Schema({
     maxlength: [30, 'Username cannot exceed 30 characters'],
     // match: [/^[a-zA-Z\s]+$/, 'Username can only contain letters and spaces']
   },
-  // lastName: {
-  //   type: String,
-  //   required: [true, 'Last name is required'],
-  //   trim: true,
-  //   minlength: [2, 'Last name must be at least 2 characters long'],
-  //   maxlength: [30, 'Last name cannot exceed 30 characters'],
-  //   match: [/^[a-zA-Z\s]+$/, 'Last name can only contain letters and spaces']
-  // },
+  firstName: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   email: {
     type: String,
     required: [true, 'Email is required'],
@@ -25,7 +27,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
     validate: {
-      validator: function(email) {
+      validator: function (email) {
         return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
       },
       message: 'Please provide a valid email address'
@@ -36,7 +38,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters long'],
     validate: {
-      validator: function(password) {
+      validator: function (password) {
         return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/.test(password);
       },
       message: 'Password must contain at least one letter, one number, and one special character'
@@ -58,6 +60,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  profilePicture: {
+    type: String,
+    default: ''
+  },
   lastLogin: {
     type: Date,
     default: null
@@ -74,7 +80,7 @@ const userSchema = new mongoose.Schema({
 }, {
   timestamps: true,
   toJSON: {
-    transform: function(doc, ret) {
+    transform: function (doc, ret) {
       delete ret.password;
       delete ret.__v;
       delete ret.loginAttempts;
@@ -84,17 +90,17 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-userSchema.virtual('fullName').get(function() {
-  return `${this.firstName} ${this.lastName}`;
+userSchema.virtual('fullName').get(function () {
+  return [this.firstName, this.lastName].filter(Boolean).join(' ');
 });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
   try {
     const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12;
     this.password = await bcrypt.hash(this.password, saltRounds);
@@ -104,38 +110,38 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-userSchema.methods.isLocked = function() {
+userSchema.methods.isLocked = function () {
   return !!(this.lockUntil && this.lockUntil > Date.now());
 };
 
-userSchema.methods.incLoginAttempts = function() {
+userSchema.methods.incLoginAttempts = function () {
   if (this.lockUntil && this.lockUntil < Date.now()) {
     return this.updateOne({
       $unset: { lockUntil: 1 },
       $set: { loginAttempts: 1 }
     });
   }
-  
+
   const updates = { $inc: { loginAttempts: 1 } };
-  
+
   if (this.loginAttempts + 1 >= 5 && !this.isLocked()) {
     updates.$set = { lockUntil: Date.now() + 2 * 60 * 60 * 1000 };
   }
-  
+
   return this.updateOne(updates);
 };
 
-userSchema.methods.resetLoginAttempts = function() {
+userSchema.methods.resetLoginAttempts = function () {
   return this.updateOne({
     $unset: { loginAttempts: 1, lockUntil: 1 }
   });
 };
 
-userSchema.statics.findByEmail = function(email) {
+userSchema.statics.findByEmail = function (email) {
   return this.findOne({ email: email.toLowerCase() });
 };
 

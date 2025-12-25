@@ -1,0 +1,15 @@
+Interview Transcript
+=====================
+
+Q1: Explain the concept of virtual environments in Python.
+A1: a Python virtual environment is an isolated dictionary containing its own Python interpreter
+
+Q2: What is the difference between a list and a tuple?
+A2: nistar mutable tuples are
+
+Q3: How does Python manage memory internally?
+A3: Python managers memory primarily through a private in space with which users to make strate
+
+Q4: Scenario: Your Flask API is slow. How do you optimize it?
+A4: Mere potential botanics use a production very
+

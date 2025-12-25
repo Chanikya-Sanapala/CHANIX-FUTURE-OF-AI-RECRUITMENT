@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function JobseekerProfile() {
   const [activeSection, setActiveSection] = useState('basic');
@@ -70,7 +71,6 @@ export default function JobseekerProfile() {
     add((sectionsData.languages || []).length > 0);
     add((sectionsData.internship || []).length > 0);
     add((sectionsData.projects || []).length > 0);
-    add((sectionsData.competitiveExams || []).length > 0);
     add((sectionsData.academicAchievements || []).length > 0);
     // Summary
     add(!!sectionsData.summary?.trim());
@@ -137,7 +137,7 @@ export default function JobseekerProfile() {
           // Basic details (combine User and JobSeekerProfile fields)
           const fullName =
             u.fullName ||
-            [u.firstName, u.lastName].filter(Boolean).join(' ') ||
+            [u.firstName, u.lastName].filter(x => x && x !== 'undefined').join(' ') ||
             u.username ||
             (u.email ? u.email.split('@')[0] : '') ||
             basicDetails.fullName;
@@ -149,15 +149,16 @@ export default function JobseekerProfile() {
             phone: p.phone || prev.phone || '',
             address: (typeof p.address === 'string' ? p.address : (p.address?.street || '')) || prev.address || '',
             gender: p.gender || prev.gender || '',
-            dob: (p.dateOfBirth ? String(p.dateOfBirth).slice(0, 10) : '') || prev.dob || ''
+            dob: (p.dateOfBirth ? String(p.dateOfBirth).slice(0, 10) : '') || prev.dob || '',
+            studentId: p.studentId || prev.studentId || ''
           }));
 
           // Profile image with fallbacks (use profilePicture from JobSeekerProfile)
-          const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+          const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
           const apiImg = p.profilePicture || p.profileImage || p.avatar || p.avatarUrl || p.imageUrl || p.profilePhoto || '';
           const userId = u._id || u.id || u.email || 'default';
           if (apiImg) {
-            const fullImg = apiImg.startsWith('http') ? apiImg : (baseUrl ? `${baseUrl}${apiImg}` : apiImg);
+            const fullImg = apiImg.startsWith('http') ? apiImg : `${baseUrl}${apiImg.startsWith('/') ? '' : '/'}${apiImg}`;
             setProfileImage(fullImg);
             if (typeof window !== 'undefined') localStorage.setItem(`profileImageUrl_${userId}`, fullImg);
           } else if (typeof window !== 'undefined') {
@@ -167,11 +168,11 @@ export default function JobseekerProfile() {
 
           // Load resume info
           const resumeData = p.resume;
-          if (resumeData && resumeData.filepath) { // Schema uses filePath or resume.path? Backend schema says resume: { fileName, filePath }
+          if (resumeData && (resumeData.filePath || resumeData.path)) { // Fix case sensitivity
             const path = resumeData.filePath || resumeData.path;
             if (path) {
-              const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
-              const resumeUrl = path.startsWith('http') ? path : `${baseUrl}${path}`;
+              const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+              const resumeUrl = path.startsWith('http') ? path : `${baseUrl}${path.startsWith('/') ? '' : '/'}${path}`;
               setResumeInfo({
                 name: resumeData.fileName || resumeData.originalName || '',
                 url: resumeUrl,
@@ -195,8 +196,8 @@ export default function JobseekerProfile() {
             })) : [],
             skills: Array.isArray(p.skills) ? p.skills.map(s => ({
               id: s._id || Date.now(),
-              title: s.skillName,
-              name: s.skillName,
+              title: typeof s.skillName === 'string' ? s.skillName : (typeof s.skillName === 'object' ? 'Invalid Skill Data' : String(s.skillName || '')),
+              name: typeof s.skillName === 'string' ? s.skillName : String(s.skillName || ''),
               proficiency: s.proficiencyLevel ? (s.proficiencyLevel.charAt(0).toUpperCase() + s.proficiencyLevel.slice(1)) : 'Intermediate',
               description: `Proficiency: ${s.proficiencyLevel ? (s.proficiencyLevel.charAt(0).toUpperCase() + s.proficiencyLevel.slice(1)) : 'Intermediate'}`
             })) : [],
@@ -215,8 +216,9 @@ export default function JobseekerProfile() {
               tech: Array.isArray(proj.technologies) ? proj.technologies.join(', ') : '',
               link: proj.projectUrl,
               start: fmtDate(proj.startDate),
-              end: fmtDate(proj.endDate)
-              // Note: role and achievements not in backend schema for projects
+              end: fmtDate(proj.endDate),
+              role: proj.role || '',
+              achievements: proj.achievements || ''
             })) : [],
             languages: Array.isArray(p.languages) ? p.languages.map(l => ({
               id: l._id || Date.now(),
@@ -258,11 +260,8 @@ export default function JobseekerProfile() {
     { id: 'languages', label: 'Languages' },
     { id: 'position', label: 'Position of Responsibilities' },
     { id: 'projects', label: 'Projects' },
-    { id: 'accomplishments', label: 'Accomplishments' },
     { id: 'volunteering', label: 'Volunteering' },
     { id: 'extra-curricular', label: 'Extra-curricular Activities' },
-    { id: 'competitive-exams', label: 'Competitive Exams' },
-    { id: 'academic-achievements', label: 'Academic Achievements' },
     { id: 'profile-summary', label: 'Profile Summary' },
     { id: 'resume', label: 'Resume' }
   ];
@@ -300,38 +299,76 @@ export default function JobseekerProfile() {
     return res.json().catch(() => ({}));
   };
 
-  const handleImageChange = async (event) => {
+  const handleRemovePhoto = async () => {
+    if (!confirm('Are you sure you want to remove your profile photo?')) return;
+    try {
+      const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${baseUrl}/api/profile/remove-photo`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId: user._id || user.id, userType: 'jobseeker' })
+      });
+      const json = await res.json();
+      if (json?.success) {
+        setProfileImage(null);
+        if (typeof window !== 'undefined') {
+          const userId = user._id || user.id || user.email || 'default';
+          localStorage.removeItem(`profileImageUrl_${userId}`);
+        }
+        toast.success('Profile photo removed successfully');
+      } else {
+        toast.error(json?.message || 'Failed to remove photo');
+      }
+    } catch (e) {
+      toast.error('Failed to remove photo');
+    }
+  };
 
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setProfileImage(e.target.result);
 
-    };
+    // Preview immediately
+    const reader = new FileReader();
+    reader.onload = (e) => setProfileImage(e.target.result);
     reader.readAsDataURL(file);
+
     try {
       const result = await uploadAvatar(file);
-      const url = result?.data?.url || result?.url || result?.path || null;
-      if (url) {
-        const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || '').trim().replace(/[;\s]+$/, '').replace(/\/$/, '');
-        const fullUrl = url.startsWith('http') ? url : (baseUrl ? `${baseUrl}${url}` : url);
+      const url = result?.data?.url || result?.url;
+      // Handle profile picture
+      if (result?.data?.profile?.profilePicture) {
+        let backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/\/$/, '');
+        const picPath = result.data.profile.profilePicture;
+
+        // Construct full URL if path is relative
+        const fullUrl = picPath.startsWith('http')
+          ? picPath
+          : `${backendUrl}${picPath.startsWith('/') ? '' : '/'}${picPath}`;
+
+        setProfileImage(fullUrl);
+
+        // Persist for other components
+        if (user?._id) {
+          localStorage.setItem(`profileImageUrl_${user._id}`, fullUrl);
+        }
+      } else if (url) { // Fallback to general URL if profilePicture not directly available
+        let baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/\/$/, '');
+        const fullUrl = url.startsWith('http') ? url : (baseUrl ? `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}` : url);
         setProfileImage(fullUrl);
         if (typeof window !== 'undefined') {
-          const storedUser = localStorage.getItem('user');
-          let userId = 'default';
-          if (storedUser) {
-            try {
-              const u = JSON.parse(storedUser);
-              userId = u._id || u.id || u.email || userId;
-            } catch (_) { }
-          }
+          const userId = user._id || user.id || user.email || 'default';
           localStorage.setItem(`profileImageUrl_${userId}`, fullUrl);
+          // Force a storage event for other tabs/components
+          window.dispatchEvent(new Event('storage'));
         }
       }
-
     } catch (_) {
-      alert('Failed to upload photo. Please try again.');
+      toast.error('Failed to upload photo. Please try again.');
     }
   };
 
@@ -348,14 +385,14 @@ export default function JobseekerProfile() {
     ];
 
     if (!allowedTypes.includes(file.type)) {
-      alert('Please upload only PDF, DOC, or DOCX files.');
+      toast.error('Please upload only PDF, DOC, or DOCX files.');
       return;
     }
 
     // Validate file size (10MB max)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      alert('File too large. Maximum size is 10MB.');
+      toast.error('File too large. Maximum size is 10MB.');
       return;
     }
 
@@ -434,13 +471,13 @@ export default function JobseekerProfile() {
       if (json?.success) {
         setResumeInfo({ name: '', url: '', uploadDate: null, size: null });
         setResumeFile(null);
-        alert('Resume removed successfully!');
+        toast.success('Resume removed successfully!');
       } else {
-        alert(json?.message || 'Failed to remove resume. Please try again.');
+        toast.error(json?.message || 'Failed to remove resume. Please try again.');
       }
     } catch (error) {
       console.error('Resume removal error:', error);
-      alert('Failed to remove resume. Please try again.');
+      toast.error('Failed to remove resume. Please try again.');
     }
   };
 
@@ -459,7 +496,7 @@ export default function JobseekerProfile() {
         try {
           resumeData = await uploadResume();
         } catch (error) {
-          alert('Failed to upload resume: ' + error.message);
+          toast.error('Failed to upload resume: ' + error.message);
           return;
         }
       }
@@ -469,18 +506,16 @@ export default function JobseekerProfile() {
       // Normalize phone number to 10 digits (backend expects /^[0-9]{10}$/)
       const normalizedPhone = (basicDetails.phone || '').replace(/\D/g, '').slice(-10);
       if (normalizedPhone && normalizedPhone.length !== 10) {
-        alert('Please enter a valid 10-digit phone number (digits only).');
+        toast.error('Please enter a valid 10-digit phone number (digits only).');
         return;
       }
 
       // Normalize gender to match backend enum: 'male', 'female', 'other', 'prefer-not-to-say'
       let normalizedGender = (basicDetails.gender || '').toString().trim().toLowerCase();
-      if (normalizedGender === 'prefer not to say' || normalizedGender === 'prefer-not-to-say') {
-        normalizedGender = 'prefer-not-to-say';
-      }
+
       const allowedGenders = ['', 'male', 'female', 'other', 'prefer-not-to-say'];
       if (!allowedGenders.includes(normalizedGender)) {
-        alert('Please select a valid gender option.');
+        toast.error('Please select a valid gender option.');
         return;
       }
 
@@ -538,6 +573,8 @@ export default function JobseekerProfile() {
         projectUrl: item.link,
         startDate: item.start ? new Date(item.start) : undefined,
         endDate: item.end ? new Date(item.end) : undefined,
+        role: item.role,
+        achievements: item.achievements
       }));
 
       // Map Languages
@@ -548,6 +585,9 @@ export default function JobseekerProfile() {
 
       // Flatten payload to match backend JobSeekerProfile schema
       const payload = {
+        firstName: basicDetails.fullName?.trim() ? basicDetails.fullName.trim().split(' ')[0] : undefined,
+        lastName: basicDetails.fullName?.trim() && basicDetails.fullName.trim().split(' ').length > 1 ? basicDetails.fullName.trim().split(' ').slice(1).join(' ') : '',
+        studentId: basicDetails.studentId,
         phone: normalizedPhone || undefined,
         dateOfBirth: basicDetails.dob,
         gender: normalizedGender || undefined,
@@ -593,13 +633,23 @@ export default function JobseekerProfile() {
       const contentType = res.headers.get('content-type') || '';
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        alert(`Save failed (${res.status}). ${errText || 'No error body returned.'}`);
+        toast.error(`Save failed (${res.status}). ${errText || 'No error body returned.'}`);
         return;
       }
       const data = contentType.includes('application/json') ? await res.json().catch(() => ({})) : {};
-      alert(data?.message || 'Profile saved successfully.');
+
+      if (res.ok && data.success) {
+        const updatedUser = data.data?.user || data.user;
+        if (updatedUser) {
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+          setUser(updatedUser);
+          window.dispatchEvent(new Event('storage'));
+        }
+      }
+
+      toast.success(data?.message || 'Profile saved successfully.');
     } catch (e) {
-      alert(`Unable to save profile. ${e?.message || ''}`.trim());
+      toast.error(`Unable to save profile. ${e?.message || ''}`.trim());
     }
   };
 
@@ -630,7 +680,6 @@ export default function JobseekerProfile() {
 
   const sectionKey = (id) => {
     if (id === 'extra-curricular') return 'extraCurricular';
-    if (id === 'competitive-exams') return 'competitiveExams';
     if (id === 'academic-achievements') return 'academicAchievements';
     return id;
   };
@@ -934,10 +983,10 @@ export default function JobseekerProfile() {
                   onChange={(e) => setBasicDetails(prev => ({ ...prev, gender: e.target.value }))}
                 >
                   <option value="">Select</option>
-                  <option>Female</option>
-                  <option>Male</option>
-                  <option>Non-binary</option>
-                  <option>Prefer not to say</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="other">Non-binary</option>
+                  <option value="prefer-not-to-say">Prefer not to say</option>
                 </select>
               </div>
               <div>
@@ -1405,127 +1454,10 @@ export default function JobseekerProfile() {
               <p className="text-black text-sm">This section is available for you to update with your relevant information.</p>
             </div>
 
-            case 'competitive-exams':
-            return (
-            <div className="space-y-6">
-              <div className="bg-teal-50 border border-teal-200 rounded-lg p-4">
-                <h4 className="font-semibold text-teal-900 mb-2">Competitive Exams</h4>
-                <p className="text-teal-700 text-sm">Add details of exams like GATE, GRE, CAT, etc.</p>
-              </div>
 
-              {sectionsData.competitiveExams?.length > 0 && (
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-black text-lg">Added Exams</h4>
-                  {sectionsData.competitiveExams.map((item) => (
-                    <div key={item.id} className="border border-gray-200 rounded-lg p-4 bg-white">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <h5 className="font-bold text-black">{item.examName}</h5>
-                          <p className="text-sm text-gray-600">Year: {item.year} | Score: {item.score} | Rank: {item.rank}</p>
-                        </div>
-                        <button onClick={() => setSectionsData(prev => ({ ...prev, competitiveExams: prev.competitiveExams.filter(i => i.id !== item.id) }))} className="text-red-600 hover:text-red-800">
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-black mb-2">Exam Name</label>
-                  <input value={newCompetitiveExam.examName} onChange={(e) => setNewCompetitiveExam(prev => ({ ...prev, examName: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="e.g., GATE" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-black mb-2">Year</label>
-                  <input type="number" value={newCompetitiveExam.year} onChange={(e) => setNewCompetitiveExam(prev => ({ ...prev, year: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="e.g., 2024" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-black mb-2">Score</label>
-                  <input value={newCompetitiveExam.score} onChange={(e) => setNewCompetitiveExam(prev => ({ ...prev, score: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="e.g., 750/1000" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-black mb-2">Rank</label>
-                  <input value={newCompetitiveExam.rank} onChange={(e) => setNewCompetitiveExam(prev => ({ ...prev, rank: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="e.g., 150" />
-                </div>
-                <div className="md:col-span-2">
-                  <button
-                    onClick={() => {
-                      if (!newCompetitiveExam.examName.trim()) return;
-                      const item = { id: Date.now(), ...newCompetitiveExam };
-                      setSectionsData(prev => ({ ...prev, competitiveExams: [item, ...(prev.competitiveExams || [])] }));
-                      setNewCompetitiveExam({ examName: '', year: '', score: '', rank: '' });
-                    }}
-                    className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium"
-                  >
-                    + Add Exam
-                  </button>
-                </div>
-              </div>
-            </div>
-            );
-
-            case 'academic-achievements':
-            return (
-            <div className="space-y-6">
-              <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
-                <h4 className="font-semibold text-pink-900 mb-2">Academic Achievements</h4>
-                <p className="text-pink-700 text-sm">Highlight awards, scholarships, or academic recognitions.</p>
-              </div>
-
-              {sectionsData.academicAchievements?.length > 0 && (
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-black text-lg">Your Achievements</h4>
-                  {sectionsData.academicAchievements.map((item) => (
-                    <div key={item.id} className="border border-gray-200 rounded-lg p-4 bg-white">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <h5 className="font-bold text-black">{item.title}</h5>
-                          <p className="text-sm text-gray-600">{item.year ? `Year: ${item.year}` : ''}</p>
-                          <p className="text-sm text-gray-700 mt-1">{item.description}</p>
-                        </div>
-                        <button onClick={() => setSectionsData(prev => ({ ...prev, academicAchievements: prev.academicAchievements.filter(i => i.id !== item.id) }))} className="text-red-600 hover:text-red-800">
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-black mb-2">Title</label>
-                  <input value={newAcademicAchievement.title} onChange={(e) => setNewAcademicAchievement(prev => ({ ...prev, title: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="e.g., University Gold Medalist" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-black mb-2">Year</label>
-                  <input type="number" value={newAcademicAchievement.year} onChange={(e) => setNewAcademicAchievement(prev => ({ ...prev, year: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="e.g., 2023" />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-black mb-2">Description</label>
-                  <textarea value={newAcademicAchievement.description} onChange={(e) => setNewAcademicAchievement(prev => ({ ...prev, description: e.target.value }))} rows="2" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" placeholder="Brief details about the achievement" />
-                </div>
-                <div className="md:col-span-2">
-                  <button
-                    onClick={() => {
-                      if (!newAcademicAchievement.title.trim()) return;
-                      const item = { id: Date.now(), ...newAcademicAchievement };
-                      setSectionsData(prev => ({ ...prev, academicAchievements: [item, ...(prev.academicAchievements || [])] }));
-                      setNewAcademicAchievement({ title: '', year: '', description: '' });
-                    }}
-                    className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium"
-                  >
-                    + Add Achievement
-                  </button>
-                </div>
-              </div>
-            </div>
-            );
 
             {/* Generic add form for simple sections (enhanced) */}
-            {['position', 'accomplishments', 'volunteering', 'extra-curricular'].includes(activeSection) && (
+            {['position', 'volunteering', 'extra-curricular'].includes(activeSection) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">Title</label>
@@ -1708,298 +1640,372 @@ export default function JobseekerProfile() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-sm">
-          {/* Profile Header with completion */}
-          <div className="p-6">
-            <div className="bg-white rounded-2xl shadow-sm p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-6">
-              {/* Avatar + Completion ring (click to upload) */}
-              <div className="relative w-28 h-28">
-                <svg viewBox="0 0 36 36" className="absolute inset-0 w-28 h-28 rotate-[-90deg]">
-                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#F1F5F9" strokeWidth="3" />
-                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="#22C55E" strokeWidth="3" strokeDasharray={`${Math.max(0, Math.min(100, completion.pct))}, 100`} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Profile Card with Circular Progress */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-bl-full -mr-32 -mt-32 z-0" />
+
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+            {/* Circular Avatar with Progress */}
+            <div className="relative flex-shrink-0 group">
+              {/* Progress Ring SVG */}
+              <div className="relative w-40 h-40">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="76"
+                    stroke="#F3F4F6"
+                    strokeWidth="8"
+                    fill="transparent"
+                  />
+                  <circle
+                    cx="80"
+                    cy="80"
+                    r="76"
+                    stroke={completion.pct === 100 ? "#10B981" : "#3B82F6"}
+                    strokeWidth="8"
+                    fill="transparent"
+                    strokeDasharray={2 * Math.PI * 76}
+                    strokeDashoffset={2 * Math.PI * 76 * (1 - completion.pct / 100)}
+                    strokeLinecap="round"
+                    className="transition-all duration-1000 ease-out"
+                  />
                 </svg>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const el = document.getElementById('profile-image');
-                    if (el) el.click();
-                  }}
-                  className="w-24 h-24 bg-gray-200 rounded-full mx-auto mt-2 flex items-center justify-center overflow-hidden ring-2 ring-transparent hover:ring-blue-200 transition cursor-pointer"
-                  title="Click to upload photo"
-                >
+
+                {/* Avatar Image */}
+                <div className="absolute top-2 left-2 w-36 h-36 rounded-full overflow-hidden border-4 border-white shadow-inner bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
                   {profileImage ? (
-                    <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+                    <img
+                      src={profileImage}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
                   ) : (
-                    <span className="text-2xl text-black">👤</span>
+                    <div className="text-4xl font-bold text-blue-600">
+                      {basicDetails.fullName ? basicDetails.fullName.charAt(0).toUpperCase() : 'U'}
+                    </div>
                   )}
+
+                  {/* Upload Overlay */}
+                  <label className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                    <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                    <div className="text-white flex flex-col items-center">
+                      <svg className="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                      <span className="text-xs font-semibold">Update Photo</span>
+                    </div>
+                  </label>
+                </div>
+
+                {/* Remove Button (if image exists) */}
+                {profileImage && (
+                  <button
+                    onClick={handleRemovePhoto}
+                    className="absolute bottom-2 right-2 p-2 bg-white text-red-500 rounded-full shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 transition-all hover:bg-red-50 z-20"
+                    title="Remove Photo"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                  </button>
+                )}
+
+                {/* Percentage Badge */}
+                <div className={`absolute -bottom-2 flex left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold shadow-sm border ${completion.pct === 100 ? 'bg-green-100 text-green-700 border-green-200' : 'bg-blue-100 text-blue-700 border-blue-200'}`}>
+                  {completion.pct}% Complete
+                </div>
+              </div>
+            </div>
+
+            {/* User Info */}
+            <div className="text-center md:text-left flex-1">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">{basicDetails.fullName || 'New User'}</h1>
+              <p className="text-gray-600 mb-4 flex items-center justify-center md:justify-start gap-2">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                {basicDetails.address || 'Location not added'}
+              </p>
+
+              <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm text-gray-500">
+                {basicDetails.email && (
+                  <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    {basicDetails.email}
+                  </span>
+                )}
+                {basicDetails.phone && (
+                  <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    {basicDetails.phone}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
+                <button
+                  onClick={() => goToEdit('basic')}
+                  className="text-xs flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors font-medium border border-blue-100"
+                >
+                  <span>👤</span>
+                  {basicDetails.gender ? <span className="capitalize">{basicDetails.gender}</span> : 'Add Gender'}
                 </button>
-                <input
-                  id="profile-image"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full border">{completion.pct}%</div>
+                <button
+                  onClick={() => goToEdit('basic')}
+                  className="text-xs flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors font-medium border border-blue-100"
+                >
+                  <span>🎂</span>
+                  {basicDetails.dob ? <span>{basicDetails.dob}</span> : 'Add Birthday'}
+                </button>
               </div>
-
-              {/* Middle content */}
-              <div className="flex-1 w-full">
-                <h1 className="text-2xl font-bold text-black">{[user?.firstName, user?.lastName].filter(Boolean).join(' ') || user?.username || (user?.email ? user.email.split('@')[0] : 'User')}</h1>
-                <p className="text-black mt-1">{basicDetails.address || 'Add address / city'}</p>
-                <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="text-black">📍</span>
-                    <span className="text-black">{basicDetails.address?.split(',')[1]?.trim() || 'Chennai'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-black">📞</span>
-                    <span className="text-black">{basicDetails.phone || 'Add phone'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-black">✉️</span>
-                    <span className="text-black">{basicDetails.email || 'Add email'}</span>
-                  </div>
-                </div>
-                <div className="mt-2 flex items-center gap-6 text-sm">
-                  <button className="text-blue-600" onClick={() => goToEdit('basic')}>{basicDetails.gender ? `Gender: ${basicDetails.gender}` : 'Add Gender'}</button>
-                  <button className="text-blue-600" onClick={() => goToEdit('basic')}>{basicDetails.dob ? `Birthday: ${basicDetails.dob}` : 'Add birthday'}</button>
-                </div>
-              </div>
-              {/* Suggestions card removed as per request */}
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row">
-
-            {/* Sidebar Navigation - Desktop */}
-            <div className="hidden lg:block lg:w-64 border-r shrink-0">
-              <nav className="p-4 sticky top-6">
-                {/* Quick Links Card */}
-                <div className="mb-4 bg-gray-50 border border-gray-200 rounded-lg">
-                  <div className="px-4 py-3 border-b font-semibold text-black text-lg">Quick links</div>
-                  <div className="py-1">
-                    {[
-                      { label: 'Preference', target: 'preferences' },
-                      { label: 'Education', target: 'education' },
-                      { label: 'Key skills', target: 'skills' },
-                      { label: 'Languages', target: 'languages' },
-                      { label: 'Internships', target: 'internship' },
-                      { label: 'Projects', target: 'projects' },
-                      { label: 'Profile summary', target: 'profile-summary' },
-                      { label: 'Accomplishments', target: 'accomplishments' },
-                      { label: 'Competitive exams', target: 'competitive-exams' },
-                      { label: 'Employment', target: 'internship' },
-                      { label: 'Academic achievements', target: 'academic-achievements' },
-                      { label: 'Resume', target: 'resume' }
-                    ].map(item => (
-                      <button
-                        key={item.target + item.label}
-                        onClick={() => goToEdit(item.target)}
-                        className={`w-full text-left px-4 py-3 text-base transition-colors ${activeSection === item.target
-                          ? 'bg-white text-blue-700 font-semibold border-l-4 border-blue-600'
-                          : 'text-black hover:bg-white hover:text-blue-700'
-                          }`}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </nav>
             </div>
 
-            {/* Mobile Navigation Dropdown */}
-            <div className="lg:hidden mb-6">
-              <label htmlFor="mobile-nav" className="block text-sm font-medium text-gray-700 mb-2">Navigate to Section</label>
-              <select
-                id="mobile-nav"
-                className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base text-black bg-white"
-                value={activeSection}
-                onChange={(e) => goToEdit(e.target.value)}
-              >
-                {[
-                  { label: 'Basic Details', target: 'basic' },
-                  { label: 'Preference', target: 'preferences' },
-                  { label: 'Education', target: 'education' },
-                  { label: 'Key skills', target: 'skills' },
-                  { label: 'Languages', target: 'languages' },
-                  { label: 'Internships', target: 'internship' },
-                  { label: 'Projects', target: 'projects' },
-                  { label: 'Profile summary', target: 'profile-summary' },
-                  { label: 'Accomplishments', target: 'accomplishments' },
-                  { label: 'Competitive exams', target: 'competitive-exams' },
-                  { label: 'Academic achievements', target: 'academic-achievements' },
-                  { label: 'Resume', target: 'resume' }
-                ].map((item) => (
-                  <option key={item.target} value={item.target}>
-                    {item.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1 p-6">
-              {/* Header */}
-              <div className="border-b pb-3 mb-6">
-                <h2 className="text-xl font-semibold text-black">View & Edit</h2>
-              </div>
-
-              {mode === 'overview' ? (
-                <div className="space-y-4">
-                  {/* Preferences Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-black">Your career preferences</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>Add</button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
-                      <div>
-                        <div className="text-black">Preferred job type</div>
-                        <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.desiredJobType ? sectionsData.preferences.desiredJobType : 'Add desired job type'}</button>
-                      </div>
-                      <div>
-                        <div className="text-black">Availability to work</div>
-                        <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.availability ? sectionsData.preferences.availability : 'Add work availability'}</button>
-                      </div>
-                      <div>
-                        <div className="text-black">Preferred location</div>
-                        <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.preferredLocation ? sectionsData.preferences.preferredLocation : 'Add preferred work location'}</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Education Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Education</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('education')}>Add</button>
-                    </div>
-                    {sectionsData.education.length > 0 ? (
-                      <ul className="space-y-2 text-base text-black">
-                        {sectionsData.education.slice(0, 2).map(e => (
-                          <li key={e.id} className="flex items-center gap-2"><span className="font-medium">{e.degree}</span> <span className="text-black">{e.institute}</span></li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-black text-base">Add your degree details</p>
-                    )}
-                  </div>
-
-                  {/* Key skills Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Key skills</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('skills')}>Add</button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {(sectionsData.skills || []).slice(0, 8).map(s => (
-                        <span key={s.id} className="px-3 py-1.5 rounded-full bg-gray-100 text-black text-base">{s.title}</span>
-                      ))}
-                      {sectionsData.skills.length === 0 && <p className="text-black text-base">Add your key skills</p>}
-                    </div>
-                  </div>
-
-                  {/* Languages Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Languages</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('languages')}>Add</button>
-                    </div>
-                    {sectionsData.languages?.length ? (
-                      <ul className="text-base text-black list-disc list-inside">
-                        {sectionsData.languages.map(l => <li key={l.id}>{l.title} • {l.description}</li>)}
-                      </ul>
-                    ) : <p className="text-black text-base">Add languages you know</p>}
-                  </div>
-
-                  {/* Internships Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Internships</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('internship')}>Add</button>
-                    </div>
-                    {sectionsData.internship?.length ? (
-                      <ul className="text-base text-black list-disc list-inside">
-                        {sectionsData.internship.slice(0, 2).map(i => <li key={i.id}>{i.role} @ {i.company}</li>)}
-                      </ul>
-                    ) : <p className="text-black text-base">Add internship or work experience</p>}
-                  </div>
-
-                  {/* Projects Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Projects</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('projects')}>Add</button>
-                    </div>
-                    {sectionsData.projects?.length ? (
-                      <ul className="text-base text-black list-disc list-inside">
-                        {sectionsData.projects.slice(0, 2).map(p => <li key={p.id}>{p.title}</li>)}
-                      </ul>
-                    ) : <p className="text-black text-base">Add your projects</p>}
-                  </div>
-
-                  {/* Profile Summary Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Profile summary</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('profile-summary')}>Add</button>
-                    </div>
-                    <p className="text-base text-black">{sectionsData.summary || 'Write a concise summary to highlight your strengths'}</p>
-                  </div>
-
-                  {/* Resume Card */}
-                  <div className="bg-white rounded-2xl p-7 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-black">Resume</h3>
-                      <button className="text-blue-600" onClick={() => goToEdit('resume')}>
-                        {resumeInfo.name ? 'Update' : 'Add'}
-                      </button>
-                    </div>
-                    {resumeInfo.name ? (
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                          <span className="text-red-600 font-semibold text-xs">PDF</span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-black">{resumeInfo.name}</p>
-                          {resumeInfo.uploadDate && (
-                            <p className="text-sm text-black">
-                              Uploaded {new Date(resumeInfo.uploadDate).toLocaleDateString()}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-black text-base">Upload your resume to showcase your qualifications</p>
-                    )}
-                  </div>
+            {/* Profile Stats / Completion CTA */}
+            <div className="flex flex-col gap-3 min-w-[200px]">
+              {completion.pct < 100 ? (
+                <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
+                  <h4 className="font-semibold text-orange-800 text-sm mb-1">Complete your profile</h4>
+                  <p className="text-orange-600 text-xs mb-3">Add missing details to get noticed by 3x more recruiters.</p>
+                  <button
+                    onClick={() => goToEdit('basic')}
+                    className="w-full py-2 bg-white text-orange-600 text-xs font-bold rounded-lg border border-orange-200 hover:bg-orange-100 transition-colors"
+                  >
+                    Continue Editing
+                  </button>
                 </div>
               ) : (
-                <div id="editor-root">
-                  <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-black mb-2">
-                      {profileSections.find(s => s.id === activeSection)?.label}
-                    </h2>
-                    <p className="text-black">
-                      Manage your {profileSections.find(s => s.id === activeSection)?.label.toLowerCase()}
-                    </p>
-                  </div>
-
-                  {renderSectionContent()}
-
-                  <div className="mt-8 pt-6 border-t flex justify-end items-center">
-                    <button onClick={handleSave} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                      Save Changes
-                    </button>
-                  </div>
+                <div className="bg-green-50 rounded-xl p-4 border border-green-100 text-center">
+                  <span className="text-2xl">🎉</span>
+                  <h4 className="font-semibold text-green-800 text-sm mt-1">Profile Completed!</h4>
+                  <p className="text-green-600 text-xs">You're all set to apply.</p>
                 </div>
               )}
             </div>
           </div>
         </div>
+
+
+
+        <div className="flex flex-col lg:flex-row">
+
+          {/* Sidebar Navigation - Desktop */}
+          <div className="hidden lg:block lg:w-64 border-r shrink-0">
+            <nav className="p-4 sticky top-6">
+              {/* Quick Links Card */}
+              <div className="mb-4 bg-gray-50 border border-gray-200 rounded-lg">
+                <div className="px-4 py-3 border-b font-semibold text-black text-lg">Quick links</div>
+                <div className="py-1">
+                  {[
+                    { label: 'Preference', target: 'preferences' },
+                    { label: 'Education', target: 'education' },
+                    { label: 'Key skills', target: 'skills' },
+                    { label: 'Languages', target: 'languages' },
+                    { label: 'Internships', target: 'internship' },
+                    { label: 'Projects', target: 'projects' },
+                    { label: 'Profile summary', target: 'profile-summary' },
+                    { label: 'Resume', target: 'resume' }
+                  ].map(item => (
+                    <button
+                      key={item.target + item.label}
+                      onClick={() => goToEdit(item.target)}
+                      className={`w-full text-left px-4 py-3 text-base transition-colors ${activeSection === item.target
+                        ? 'bg-white text-blue-700 font-semibold border-l-4 border-blue-600'
+                        : 'text-black hover:bg-white hover:text-blue-700'
+                        }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </nav>
+          </div>
+
+          {/* Mobile Navigation Dropdown */}
+          <div className="lg:hidden mb-6">
+            <label htmlFor="mobile-nav" className="block text-sm font-medium text-gray-700 mb-2">Navigate to Section</label>
+            <select
+              id="mobile-nav"
+              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base text-black bg-white"
+              value={activeSection}
+              onChange={(e) => goToEdit(e.target.value)}
+            >
+              {[
+                { label: 'Basic Details', target: 'basic' },
+                { label: 'Preference', target: 'preferences' },
+                { label: 'Education', target: 'education' },
+                { label: 'Key skills', target: 'skills' },
+                { label: 'Languages', target: 'languages' },
+                { label: 'Internships', target: 'internship' },
+                { label: 'Projects', target: 'projects' },
+                { label: 'Profile summary', target: 'profile-summary' },
+                { label: 'Resume', target: 'resume' }
+              ].map((item) => (
+                <option key={item.target} value={item.target}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 p-6">
+            {/* Header */}
+            <div className="border-b pb-3 mb-6">
+              <h2 className="text-xl font-semibold text-black">View & Edit</h2>
+            </div>
+
+            {mode === 'overview' ? (
+              <div className="space-y-4">
+                {/* Preferences Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-black">Your career preferences</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('preferences')}>Add</button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
+                    <div>
+                      <div className="text-black">Preferred job type</div>
+                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.desiredJobType ? sectionsData.preferences.desiredJobType : 'Add desired job type'}</button>
+                    </div>
+                    <div>
+                      <div className="text-black">Availability to work</div>
+                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.availability ? sectionsData.preferences.availability : 'Add work availability'}</button>
+                    </div>
+                    <div>
+                      <div className="text-black">Preferred location</div>
+                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.preferredLocation ? sectionsData.preferences.preferredLocation : 'Add preferred work location'}</button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Education Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Education</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('education')}>Add</button>
+                  </div>
+                  {sectionsData.education.length > 0 ? (
+                    <ul className="space-y-2 text-base text-black">
+                      {sectionsData.education.slice(0, 2).map(e => (
+                        <li key={e.id} className="flex items-center gap-2"><span className="font-medium">{e.degree}</span> <span className="text-black">{e.institute}</span></li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-black text-base">Add your degree details</p>
+                  )}
+                </div>
+
+                {/* Key skills Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Key skills</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('skills')}>Add</button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {(sectionsData.skills || []).slice(0, 8).map(s => (
+                      <span key={s.id} className="px-3 py-1.5 rounded-full bg-gray-100 text-black text-base">{s.title}</span>
+                    ))}
+                    {sectionsData.skills.length === 0 && <p className="text-black text-base">Add your key skills</p>}
+                  </div>
+                </div>
+
+                {/* Languages Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Languages</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('languages')}>Add</button>
+                  </div>
+                  {sectionsData.languages?.length ? (
+                    <ul className="text-base text-black list-disc list-inside">
+                      {sectionsData.languages.map(l => <li key={l.id}>{l.title} • {l.description}</li>)}
+                    </ul>
+                  ) : <p className="text-black text-base">Add languages you know</p>}
+                </div>
+
+                {/* Internships Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Internships</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('internship')}>Add</button>
+                  </div>
+                  {sectionsData.internship?.length ? (
+                    <ul className="text-base text-black list-disc list-inside">
+                      {sectionsData.internship.slice(0, 2).map(i => <li key={i.id}>{i.role} @ {i.company}</li>)}
+                    </ul>
+                  ) : <p className="text-black text-base">Add internship or work experience</p>}
+                </div>
+
+                {/* Projects Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Projects</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('projects')}>Add</button>
+                  </div>
+                  {sectionsData.projects?.length ? (
+                    <ul className="text-base text-black list-disc list-inside">
+                      {sectionsData.projects.slice(0, 2).map(p => <li key={p.id}>{p.title}</li>)}
+                    </ul>
+                  ) : <p className="text-black text-base">Add your projects</p>}
+                </div>
+
+                {/* Profile Summary Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Profile summary</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('profile-summary')}>Add</button>
+                  </div>
+                  <p className="text-base text-black">{sectionsData.summary || 'Write a concise summary to highlight your strengths'}</p>
+                </div>
+
+                {/* Resume Card */}
+                <div className="bg-white rounded-2xl p-7 shadow-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-black">Resume</h3>
+                    <button className="text-blue-600" onClick={() => goToEdit('resume')}>
+                      {resumeInfo.name ? 'Update' : 'Add'}
+                    </button>
+                  </div>
+                  {resumeInfo.name ? (
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                        <span className="text-red-600 font-semibold text-xs">PDF</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-black">{resumeInfo.name}</p>
+                        {resumeInfo.uploadDate && (
+                          <p className="text-sm text-black">
+                            Uploaded {new Date(resumeInfo.uploadDate).toLocaleDateString()}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-black text-base">Upload your resume to showcase your qualifications</p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div id="editor-root">
+                <div className="mb-6">
+                  <h2 className="text-xl font-semibold text-black mb-2">
+                    {profileSections.find(s => s.id === activeSection)?.label}
+                  </h2>
+                  <p className="text-black">
+                    Manage your {profileSections.find(s => s.id === activeSection)?.label.toLowerCase()}
+                  </p>
+                </div>
+
+                {renderSectionContent()}
+
+                <div className="mt-8 pt-6 border-t flex justify-end items-center">
+                  <button onClick={handleSave} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
       </div>
     </div>
   );
