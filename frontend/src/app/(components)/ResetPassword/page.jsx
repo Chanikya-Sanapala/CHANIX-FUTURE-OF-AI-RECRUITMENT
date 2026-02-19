@@ -43,9 +43,7 @@ const ResetPasswordContent = () => {
 
     try {
       setSubmitting(true);
-      const url = process.env.NEXT_PUBLIC_BACKEND_URL
-        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/update-password`
-        : "http://localhost:5000/api/auth/update-password";
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000"}/api/auth/update-password`;
 
       const res = await axios.post(url, {
         password: newPassword,

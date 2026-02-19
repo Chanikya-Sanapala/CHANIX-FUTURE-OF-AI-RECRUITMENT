@@ -115,7 +115,7 @@ export default function InterviewSession() {
     };
 
     // Base URL for API
-    const API_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/\/$/, '') + '/api';
+    const API_URL = `${(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/\/$/, '')}/api`;
 
     useEffect(() => {
         fetchInterviewDetails();

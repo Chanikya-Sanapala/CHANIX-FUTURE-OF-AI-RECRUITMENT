@@ -21,7 +21,7 @@ const ForgotPassword = () => {
 
     setIsLoading(true);
     setMessage("");
-    const url = process.env.NEXT_PUBLIC_BACKEND_URL ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/request-password-reset` : "http://localhost:5000/api/auth/request-password-reset";
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000"}/api/auth/request-password-reset`;
 
     try {
       const res = await axios.post(url, { email });
