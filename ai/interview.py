@@ -8,10 +8,19 @@ load_dotenv(env_path)
 print("Loaded API KEY?:", os.getenv("OPENAI_API_KEY"))
 
 import os
-import cv2
-import pyaudio
+try:
+    import cv2
+except ImportError:
+    cv2 = None
+
+try:
+    import pyaudio
+except ImportError:
+    pyaudio = None
+
 import wave
 import threading
+
 import speech_recognition as sr
 from gtts import gTTS
 from question_gen import generate_questions
@@ -34,6 +43,10 @@ class InterviewRecorder:
         self.thread = None
 
     def start(self):
+        if not cv2 or not pyaudio:
+            print("⚠️ Video/Audio recording not available on this environment.")
+            return
+
         self.running = True
         self.cap = cv2.VideoCapture(0)
         fourcc = cv2.VideoWriter_fourcc(*"XVID")
