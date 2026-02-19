@@ -4,6 +4,12 @@ import uvicorn
 import shutil
 import os
 try:
+    from resume_matchmaker2 import analyze, read_file, extract_email, send_gmail_email, load_env_vars, suggestions
+except Exception as e:
+    print(f"⚠️ Matchmaker module fail: {e}")
+    analyze = read_file = extract_email = send_gmail_email = load_env_vars = suggestions = None
+
+try:
     from interview import recorder, create_interview, get_answer
 except Exception as e:
     print(f"⚠️ Interview module fail: {e}")
