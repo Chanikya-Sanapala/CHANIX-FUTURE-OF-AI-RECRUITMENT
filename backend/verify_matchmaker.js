@@ -7,7 +7,7 @@ import Job from './src/models/Job.js';
 import Application from './src/models/Application.js';
 
 // Configuration
-const MONGODB_URI = 'mongodb+srv://dasariharikrishna01_db_user:NPysZDsuMJtAEnwn@cluster0.pcjtqzs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || 'your_mongodb_uri_here';
 const BACKEND_URL = 'http://localhost:5000/api/applications';
 const RESUME_PATH = 'uploads/dummy_resume.txt'; // Relative to backend root
 

@@ -1,7 +1,20 @@
 {
-  "/page": "app/page.js",
-  "/(components)/Signup/page": "app/(components)/Signup/page.js",
-  "/(components)/jobseeker-dashboard/page": "app/(components)/jobseeker-dashboard/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(components)/Dashboard/page": "app/(components)/Dashboard/page.js",
+  "/(components)/ForgotPassword/page": "app/(components)/ForgotPassword/page.js",
   "/(components)/Login/page": "app/(components)/Login/page.js",
-  "/(components)/recruiter-dashboard/page": "app/(components)/recruiter-dashboard/page.js"
+  "/(components)/Landingpage/page": "app/(components)/Landingpage/page.js",
+  "/(components)/JobseekerProfile/page": "app/(components)/JobseekerProfile/page.js",
+  "/(components)/RecruiterProfileForm/page": "app/(components)/RecruiterProfileForm/page.js",
+  "/(components)/RecruiterProfile/page": "app/(components)/RecruiterProfile/page.js",
+  "/(components)/Navbar/page": "app/(components)/Navbar/page.js",
+  "/(components)/ResetPassword/page": "app/(components)/ResetPassword/page.js",
+  "/(components)/admin-dashboard/page": "app/(components)/admin-dashboard/page.js",
+  "/(components)/Signup/page": "app/(components)/Signup/page.js",
+  "/(components)/interview/[token]/page": "app/(components)/interview/[token]/page.js",
+  "/(components)/jobseeker-dashboard/page": "app/(components)/jobseeker-dashboard/page.js",
+  "/(components)/recruiter-dashboard/page": "app/(components)/recruiter-dashboard/page.js",
+  "/page": "app/page.js",
+  "/(components)/ResumeMatcher/page": "app/(components)/ResumeMatcher/page.js"
 }

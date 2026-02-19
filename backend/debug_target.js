@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import User from './src/models/User.js';
 import Application from './src/models/Application.js';
 
-const MONGODB_URI = 'mongodb+srv://sanapalachanikya_db_user:Chanikya%40123@cluster0.zh4m9a3.mongodb.net/?appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || 'your_mongodb_uri_here';
 
 async function run() {
     try {
