@@ -267,7 +267,18 @@ export const checkEmail = async (req, res) => {
   }
 };
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// Lazy initialize client to ensure env vars are loaded and trimmed
+let googleOAuthClient;
+const getGoogleClient = () => {
+  if (!googleOAuthClient) {
+    const clientId = (process.env.GOOGLE_CLIENT_ID || "").trim();
+    if (!clientId) {
+      console.error("❌ CRITICAL: GOOGLE_CLIENT_ID is missing in environment variables!");
+    }
+    googleOAuthClient = new OAuth2Client(clientId);
+  }
+  return googleOAuthClient;
+};
 
 export const googleLogin = async (req, res) => {
   try {
@@ -277,9 +288,12 @@ export const googleLogin = async (req, res) => {
       return sendError(res, 'Google token is required', null, 400);
     }
 
-    const ticket = await client.verifyIdToken({
+    const googleClient = getGoogleClient();
+    const audience = (process.env.GOOGLE_CLIENT_ID || "").trim();
+
+    const ticket = await googleClient.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: audience,
     });
 
     const { name, email, picture, sub } = ticket.getPayload();
@@ -344,7 +358,11 @@ export const googleLogin = async (req, res) => {
       }, 201);
     }
   } catch (error) {
-    console.error('Google login error:', error);
-    sendError(res, 'Google authentication failed', null, 500);
+    console.error('❌ Google login error details:', {
+      message: error.message,
+      stack: error.stack,
+      clientId: process.env.GOOGLE_CLIENT_ID ? "PRESENT" : "MISSING"
+    });
+    sendError(res, `Google authentication failed: ${error.message}`, null, 500);
   }
 };
