@@ -35,8 +35,7 @@ export default function LoginPage() {
     });
 
     try {
-      // Call the backend API
-      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000";
+      const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000").trim().replace(/\/$/, "");
       const res = await fetch(`${baseUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
