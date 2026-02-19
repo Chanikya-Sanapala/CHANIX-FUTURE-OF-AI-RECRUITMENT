@@ -27,7 +27,8 @@ export const resetPassword = async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' })
 
     const token = generateResetToken(user)
-    const resetLink = `http://localhost:${process.env.PORT}/auth/reset-password?token=${token}`
+    const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const resetLink = `${frontendUrl}/ResetPassword?token=${token}&UserId=${user._id}`
 
 
     const transporter = nodemailer.createTransport({
@@ -41,12 +42,12 @@ export const resetPassword = async (req, res) => {
       }
     });
 
-    // Send reset email <a href="${resetLink}">here</a> And 
+    // Send reset email 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: 'Password Reset Request',
-      html: `<p>Click <a href="http://localhost:3000/ResetPassword?token=${token}&UserId=${user._id}">click</a> to reset your password.</p>`,
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
     })
 
     res

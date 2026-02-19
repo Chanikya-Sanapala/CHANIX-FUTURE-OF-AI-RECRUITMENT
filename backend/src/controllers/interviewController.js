@@ -5,7 +5,7 @@ import { sendSuccess, sendError } from '../utils/responseHandler.js';
 import crypto from 'crypto';
 
 // Python Service URL
-const AI_SERVICE_URL = 'http://127.0.0.1:5001';
+const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://127.0.0.1:8000';
 
 // Helper to create interview internal (for use by other controllers)
 import { fileURLToPath } from 'url';

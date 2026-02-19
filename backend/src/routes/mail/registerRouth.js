@@ -19,7 +19,8 @@ const register = async (req, res) => {
     },
   });
 
-  const verificationLink = `http://localhost:5000/api/auth/confirm/${token}`;
+  const backendUrl = (process.env.BACKEND_URL || 'http://localhost:5000').replace(/\/$/, '');
+  const verificationLink = `${backendUrl}/api/auth/confirm/${token}`;
 
   const mailOptions = {
     from: 'your_email@gmail.com',
