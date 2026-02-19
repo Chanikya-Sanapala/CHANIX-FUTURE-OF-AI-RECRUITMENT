@@ -10,7 +10,7 @@ pywin32; platform_system == "Windows"
 pydantic
 # flask
 # openai
-# gTTS
+gTTS
 SpeechRecognition
 # pyaudio (Removed for cloud deployment - requires system libs)
 opencv-python-headless
