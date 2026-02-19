@@ -16,10 +16,10 @@ const transporter = nodemailer.createTransport({
  * @param {string} username - Recipient name
  * @param {string} userType - Recipient userType
  */
-async function sendWelcomeEmail(toEmail, username , userType) {
+async function sendWelcomeEmail(toEmail, username, userType) {
   try {
     const info = await transporter.sendMail({
-      from: `"AI Smart Engine" <${process.env.EMAIL_USER}>`,
+      from: `"Chanix" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject: "Welcome to AI Smart Engine 🎉",
       html: `

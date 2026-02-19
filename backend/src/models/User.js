@@ -60,6 +60,19 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  gameScores: [{
+    gameId: { type: String, required: true },
+    score: { type: Number, required: true },
+    playedAt: { type: Date, default: Date.now }
+  }],
+  cognitiveScore: {
+    type: Number,
+    default: 0
+  },
+  isRecruiterRecommended: {
+    type: Boolean,
+    default: false
+  },
   profilePicture: {
     type: String,
     default: ''

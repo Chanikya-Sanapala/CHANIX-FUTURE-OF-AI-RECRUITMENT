@@ -13,11 +13,7 @@ const jobSeekerProfileSchema = new mongoose.Schema({
     enum: ['male', 'female', 'other', 'prefer-not-to-say']
   },
 
-  studentId: {
-    type: String,
-    trim: true,
-    default: ''
-  },
+
 
   profilePicture: {
     type: String,

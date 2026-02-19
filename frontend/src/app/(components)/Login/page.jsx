@@ -1,51 +1,47 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function LoginPage() {
-  const [formData, setFormData] = useState({ email: '', password: '', userType: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [userType, setUserType] = useState('Job Seeker'); // Default to Job Seeker
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // Debug: Log state changes
   useEffect(() => {
-    console.log('🔄 Form state updated:', formData);
-  }, [formData]);
+    console.log('🔄 Form state updated:', formData, userType);
+  }, [formData, userType]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
     setIsLoading(true);
 
     // Validation
     if (!formData.email || !formData.password) {
-      setMessage('❌ Please fill in all required fields');
-      setIsLoading(false);
-      return;
-    }
-
-    if (!formData.userType) {
-      setMessage('❌ Please select a user type');
+      setMessage("❌ Please fill in all required fields");
       setIsLoading(false);
       return;
     }
 
     console.log('🔐 Attempting login with:', {
       email: formData.email,
-      userType: formData.userType,
+      userType: userType,
       passwordLength: formData.password.length
     });
 
     try {
       // Call the backend API
-      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5005";
+      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000";
       const res = await fetch(`${baseUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, userType }),
       });
       const data = await res.json();
       console.log('📨 Login response:', { status: res.status, data });
@@ -64,7 +60,7 @@ export default function LoginPage() {
 
         setTimeout(() => {
           // Prefer backend userType, but fall back to the selected form userType
-          const type = (user?.userType || formData.userType || '').toLowerCase();
+          const type = (user?.userType || userType || '').toLowerCase();
           let path = '/jobseeker-dashboard';
           if (type === 'recruiter') path = '/recruiter-dashboard';
           else if (type === 'admin' || type === 'administrator') path = '/admin-dashboard';
@@ -82,253 +78,131 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error('❌ Login error:', error);
-      setMessage('❌ Network error: Could not connect to server. Make sure backend is running on port 5005.');
+      setMessage('❌ Network error: Could not connect to server. Make sure backend is running on port 5000.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      inset: '0',
-      zIndex: 50,
-      backgroundColor: '#000000',
-      backgroundImage: `
-        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%)
-      `,
-      overflowY: 'auto'
-    }}>
-      <div style={{
-        minHeight: '100%',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px'
-      }}>
-        <style jsx global>{`
-        .glass-login-card {
-          background: rgba(255, 255, 255, 0.1) !important;
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 24px;
-          padding: 48px;
-          width: 100%;
-          max-width: 420px;
-          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-          margin: 0 !important;
-        }
+    <div className="flex flex-col md:flex-row min-h-screen w-full bg-[#D97706] text-white overflow-x-hidden">
 
-        .glass-title {
-          color: white;
-          font-size: 32px;
-          font-weight: 700;
-          text-align: center;
-          margin-bottom: 32px;
-          letter-spacing: -0.5px;
-        }
-
-        .glass-input-wrapper {
-          position: relative;
-          margin-bottom: 20px;
-        }
-
-        .glass-input-field {
-          width: 100%;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 12px;
-          padding: 16px 16px 16px 48px;
-          color: white;
-          font-size: 15px;
-          outline: none;
-          transition: all 0.2s ease;
-        }
-
-        .glass-input-field::placeholder {
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        .glass-input-field:focus {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .glass-input-field option {
-          background: #1a1a1a;
-          color: white;
-        }
-
-        .glass-icon {
-          position: absolute;
-          left: 16px;
-          top: 50%;
-          transform: translateY(-50%);
-          font-size: 18px;
-          opacity: 0.7;
-          z-index: 10;
-        }
-
-        .glass-toggle-password {
-          position: absolute;
-          right: 16px;
-          top: 50%;
-          transform: translateY(-50%);
-          cursor: pointer;
-          font-size: 18px;
-          opacity: 0.7;
-        }
-
-        .glass-toggle-password:hover {
-          opacity: 1;
-        }
-
-        .glass-btn-primary {
-          width: 100%;
-          background: white;
-          color: black;
-          font-weight: 600;
-          padding: 16px;
-          border-radius: 12px;
-          border: none;
-          font-size: 16px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          margin-top: 24px;
-        }
-
-        .glass-btn-primary:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .glass-btn-primary:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
-
-        .glass-forgot-wrapper {
-          text-align: right;
-          margin-top: 8px;
-        }
-
-        .glass-forgot-link {
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 14px;
-          text-decoration: none;
-          transition: color 0.2s;
-        }
-
-        .glass-forgot-link:hover {
-          color: white;
-        }
-
-        .glass-footer-text {
-          text-align: center;
-          margin-top: 24px;
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 14px;
-        }
-
-        .glass-link {
-          color: white;
-          font-weight: 600;
-          text-decoration: none;
-        }
-
-        .glass-link:hover {
-          text-decoration: underline;
-        }
-      `}</style>
-
-        <form className="glass-login-card" onSubmit={handleLogin}>
-          <h1 className="glass-title">Welcome Back</h1>
-          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.6)', marginBottom: '32px', marginTop: '-24px', fontSize: '15px' }}>
-            Enter your credentials to access your account
+      {/* Branding - Top on mobile, Left on desktop (Swapped) */}
+      <div
+        className="w-full md:w-1/2 order-1 flex flex-col justify-center items-center p-8 md:p-12 relative min-h-[300px] md:min-h-screen bg-gradient-to-br from-[#D97706] to-[#78350f] border-b md:border-b-0 md:border-r border-white/20"
+      >
+        <div className="text-center max-w-md relative z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 leading-tight tracking-tighter uppercase">
+            Welcome <span className="text-white/40">Back</span>
+          </h1>
+          <p className="text-base md:text-lg text-white/80 mb-4 font-medium italic">
+            "Your next big opportunity is just a login away."
           </p>
+        </div>
+        {/* Subtle decorative glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/10 rounded-full blur-[100px] pointer-events-none"></div>
+      </div>
 
-          {message && (
-            <div style={{
-              textAlign: 'center',
-              fontSize: '14px',
-              marginBottom: '24px',
-              padding: '12px',
-              borderRadius: '12px',
-              color: message.includes('✅') ? '#86efac' : '#fca5a5',
-              backgroundColor: message.includes('✅') ? 'rgba(22, 101, 52, 0.2)' : 'rgba(153, 27, 27, 0.2)',
-              border: `1px solid ${message.includes('✅') ? 'rgba(134, 239, 172, 0.2)' : 'rgba(252, 165, 165, 0.2)'}`,
-              backdropFilter: 'blur(4px)'
-            }}>
-              {message}
-            </div>
-          )}
+      {/* Form Side */}
+      <div className="w-full md:w-1/2 order-2 flex flex-col justify-center items-center px-6 py-12 md:p-12 lg:p-20 shrink-0 bg-white">
+        <div className="w-full max-w-md space-y-8">
 
-          <div className="glass-input-wrapper">
-            <span className="glass-icon email-icon">✉️</span>
-            <input
-              type="email"
-              placeholder="Email address"
-              className="glass-input-field"
-              value={formData.email}
-              onChange={(e) => {
-                console.log('Email changed to:', e.target.value);
-                setFormData({ ...formData, email: e.target.value });
-              }}
-              required
-            />
+          <div className="text-center md:text-left">
+            <h2 className="text-2xl md:text-3xl font-black text-[#78350f] tracking-tight mb-2 uppercase">Log In</h2>
+            <p className="text-[#D97706]/60 font-bold text-sm tracking-widest uppercase">
+              Access your {userType} portal
+            </p>
           </div>
 
-          <div className="glass-input-wrapper">
-            <span className="glass-icon">👤</span>
-            <select
-              className="glass-input-field"
-              value={formData.userType}
-              onChange={(e) => {
-                console.log('User type changed to:', e.target.value);
-                setFormData({ ...formData, userType: e.target.value });
+          {/* User Type Toggle */}
+          <div className="flex bg-[#D97706]/5 border-2 border-[#D97706]/10 p-1.5 rounded-2xl mb-8 relative">
+            <div
+              className="absolute top-1.5 bottom-1.5 bg-[#D97706] rounded-xl transition-all duration-300 ease-in-out shadow-lg"
+              style={{
+                left: userType === 'Job Seeker' ? '6px' : '50%',
+                width: 'calc(50% - 6px)'
               }}
-              style={{ paddingLeft: '48px', appearance: 'none' }}
-              required
+            />
+            <button
+              onClick={() => setUserType('Job Seeker')}
+              className={`flex-1 py-3 text-xs font-black z-10 transition-all tracking-widest ${userType === 'Job Seeker' ? 'text-white' : 'text-[#D97706]/50 hover:text-[#D97706]'}`}
+              type="button"
             >
-              <option value="">Select User Type</option>
-              <option value="jobseeker">Job Seeker</option>
-              <option value="recruiter">Recruiter</option>
-              <option value="admin">Administrator</option>
-            </select>
-            <span style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>▼</span>
+              JOB SEEKER
+            </button>
+            <button
+              onClick={() => setUserType('Recruiter')}
+              className={`flex-1 py-3 text-xs font-black z-10 transition-all tracking-widest ${userType === 'Recruiter' ? 'text-white' : 'text-[#D97706]/50 hover:text-[#D97706]'}`}
+              type="button"
+            >
+              RECRUITER
+            </button>
           </div>
 
-          <div className="glass-input-wrapper">
-            <span className="glass-icon password-icon">🔒</span>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              className="glass-input-field"
-              value={formData.password}
-              onChange={(e) => {
-                console.log('Password changed, length:', e.target.value.length);
-                setFormData({ ...formData, password: e.target.value });
-              }}
-              required
-            />
-            <span className="glass-toggle-password" onClick={() => setShowPassword(!showPassword)}>{showPassword ? '🙈' : '👁️'}</span>
-          </div>
-          <div className="glass-forgot-wrapper">
-            <Link href="/ForgotPassword" className="glass-forgot-link">Forgot password?</Link>
-          </div>
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block mb-2 text-xs font-black uppercase tracking-widest text-[#78350f]/40">Email Address</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-gray-900 outline-none focus:border-[#D97706]/30 focus:ring-4 focus:ring-[#D97706]/5 transition-all font-medium"
+                required
+              />
+            </div>
 
-          <button type="submit" className="glass-btn-primary" disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Sign In'}
-          </button>
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-xs font-black uppercase tracking-widest text-[#78350f]/40">Password</label>
+                <Link href="/ForgotPassword" size="sm" className="text-xs font-bold text-[#D97706] hover:underline underline-offset-4">RESET PASSWORD?</Link>
+              </div>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 pr-12 text-gray-900 outline-none focus:border-[#D97706]/30 focus:ring-4 focus:ring-[#D97706]/5 transition-all font-medium"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#D97706] transition-colors p-1"
+                >
+                  {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                </button>
+              </div>
+            </div>
 
-          <p className="glass-footer-text">
-            Don&apos;t have an account? <Link href="/Signup" className="glass-link">Sign up</Link>
-          </p>
-        </form>
+            {message && (
+              <div className={`p-4 rounded-2xl text-sm font-bold border animate-fade-in text-center ${message.includes('✅')
+                ? 'bg-green-50 text-green-600 border-green-100'
+                : 'bg-red-50 text-red-600 border-red-100'
+                }`}>
+                {message}
+              </div>
+            )}
+
+            <button
+              disabled={isLoading}
+              className={`w-full bg-[#D97706] text-white font-black p-4 rounded-2xl transition-all hover:bg-[#b45309] hover:scale-[0.98] active:scale-[0.95] shadow-xl shadow-[#D97706]/20 uppercase tracking-widest ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                  <span>AUTHENTICATING...</span>
+                </div>
+              ) : "Sign In"}
+            </button>
+
+            <p className="text-center text-gray-400 text-sm font-bold pt-4">
+              NEW HERE? <Link href="/Signup" className="text-[#D97706] hover:underline underline-offset-4 decoration-[#D97706]/30 uppercase">Create an account</Link>
+            </p>
+          </form>
+
+        </div>
       </div>
     </div>
   );

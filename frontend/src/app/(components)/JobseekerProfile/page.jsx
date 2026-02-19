@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
+import IOSDatePicker from '../ui/IOSDatePicker';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 export default function JobseekerProfile() {
+
   const [activeSection, setActiveSection] = useState('basic');
   const [profileImage, setProfileImage] = useState(null);
   const [user, setUser] = useState(null);
@@ -587,7 +589,7 @@ export default function JobseekerProfile() {
       const payload = {
         firstName: basicDetails.fullName?.trim() ? basicDetails.fullName.trim().split(' ')[0] : undefined,
         lastName: basicDetails.fullName?.trim() && basicDetails.fullName.trim().split(' ').length > 1 ? basicDetails.fullName.trim().split(' ').slice(1).join(' ') : '',
-        studentId: basicDetails.studentId,
+
         phone: normalizedPhone || undefined,
         dateOfBirth: basicDetails.dob,
         gender: normalizedGender || undefined,
@@ -814,11 +816,11 @@ export default function JobseekerProfile() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="block text-xs text-black mb-1">Start</label>
-                            <input type="month" value={item.start || ''} onChange={(e) => updateItem('projects', item.id, { start: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                            <IOSDatePicker selected={item.start} onChange={(date) => updateItem('projects', item.id, { start: date })} placeholderText="Start Date" />
                           </div>
                           <div>
                             <label className="block text-xs text-black mb-1">End</label>
-                            <input type="month" value={item.end || ''} onChange={(e) => updateItem('projects', item.id, { end: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                            <IOSDatePicker selected={item.end} onChange={(date) => updateItem('projects', item.id, { end: date })} placeholderText="End Date" />
                           </div>
                         </div>
                         <div>
@@ -858,11 +860,11 @@ export default function JobseekerProfile() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">Start</label>
-                  <input type="month" value={newProject.start} onChange={(e) => setNewProject(prev => ({ ...prev, start: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                  <IOSDatePicker selected={newProject.start} onChange={(date) => setNewProject(prev => ({ ...prev, start: date }))} placeholderText="Start Date" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">End</label>
-                  <input type="month" value={newProject.end} onChange={(e) => setNewProject(prev => ({ ...prev, end: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                  <IOSDatePicker selected={newProject.end} onChange={(date) => setNewProject(prev => ({ ...prev, end: date }))} placeholderText="End Date" />
                 </div>
               </div>
               <div>
@@ -941,16 +943,7 @@ export default function JobseekerProfile() {
                   onChange={(e) => setBasicDetails(prev => ({ ...prev, fullName: e.target.value }))}
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-black mb-2">Student ID</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                  placeholder="Enter your student ID"
-                  value={basicDetails.studentId}
-                  onChange={(e) => setBasicDetails(prev => ({ ...prev, studentId: e.target.value }))}
-                />
-              </div>
+
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -991,12 +984,7 @@ export default function JobseekerProfile() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-black mb-2">Birthday</label>
-                <input
-                  type="date"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                  value={basicDetails.dob}
-                  onChange={(e) => setBasicDetails(prev => ({ ...prev, dob: e.target.value }))}
-                />
+                <IOSDatePicker selected={basicDetails.dob} onChange={(date) => setBasicDetails(prev => ({ ...prev, dob: date }))} placeholderText="YYYY-MM-DD" />
               </div>
             </div>
             <div>
@@ -1098,48 +1086,50 @@ export default function JobseekerProfile() {
             </div>
 
             {/* Current Resume Display */}
-            {resumeInfo.name && (
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                      <span className="text-red-600 font-semibold text-sm">PDF</span>
+            {
+              resumeInfo.name && (
+                <div className="bg-white border border-gray-200 rounded-lg p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                        <span className="text-red-600 font-semibold text-sm">PDF</span>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-black">{resumeInfo.name}</h4>
+                        {resumeInfo.uploadDate && (
+                          <p className="text-sm text-black">
+                            Uploaded {new Date(resumeInfo.uploadDate).toLocaleDateString()}
+                          </p>
+                        )}
+                        {resumeInfo.size && (
+                          <p className="text-sm text-black">
+                            Size: {(resumeInfo.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-medium text-black">{resumeInfo.name}</h4>
-                      {resumeInfo.uploadDate && (
-                        <p className="text-sm text-black">
-                          Uploaded {new Date(resumeInfo.uploadDate).toLocaleDateString()}
-                        </p>
+                    <div className="flex space-x-3">
+                      {resumeInfo.url && (
+                        <a
+                          href={resumeInfo.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 font-medium"
+                        >
+                          View Resume
+                        </a>
                       )}
-                      {resumeInfo.size && (
-                        <p className="text-sm text-black">
-                          Size: {(resumeInfo.size / 1024 / 1024).toFixed(2)} MB
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex space-x-3">
-                    {resumeInfo.url && (
-                      <a
-                        href={resumeInfo.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 font-medium"
+                      <button
+                        onClick={handleRemoveResume}
+                        className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 font-medium"
                       >
-                        View Resume
-                      </a>
-                    )}
-                    <button
-                      onClick={handleRemoveResume}
-                      className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 font-medium"
-                    >
-                      Remove
-                    </button>
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )
+            }
 
             {/* Upload New Resume */}
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-8">
@@ -1174,33 +1164,35 @@ export default function JobseekerProfile() {
             </div>
 
             {/* Selected File Preview */}
-            {resumeFile && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <span className="text-blue-600 font-semibold text-sm">NEW</span>
+            {
+              resumeFile && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <span className="text-blue-600 font-semibold text-sm">NEW</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-blue-900">{resumeFile.name}</p>
+                        <p className="text-sm text-blue-700">
+                          Ready to upload • {(resumeFile.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-blue-900">{resumeFile.name}</p>
-                      <p className="text-sm text-blue-700">
-                        Ready to upload • {(resumeFile.size / 1024 / 1024).toFixed(2)} MB
-                      </p>
-                    </div>
+                    <button
+                      onClick={() => {
+                        setResumeFile(null);
+                        setResumeInfo(prev => ({ ...prev, name: prev.url ? prev.name : '', uploadDate: prev.url ? prev.uploadDate : null, size: prev.url ? prev.size : null }));
+                      }}
+                      className="text-blue-600 hover:text-blue-800"
+                    >
+                      Cancel
+                    </button>
                   </div>
-                  <button
-                    onClick={() => {
-                      setResumeFile(null);
-                      setResumeInfo(prev => ({ ...prev, name: prev.url ? prev.name : '', uploadDate: prev.url ? prev.uploadDate : null, size: prev.url ? prev.size : null }));
-                    }}
-                    className="text-blue-600 hover:text-blue-800"
-                  >
-                    Cancel
-                  </button>
                 </div>
-              </div>
-            )}
-          </div>
+              )
+            }
+          </div >
         );
 
       case 'education':
@@ -1227,11 +1219,11 @@ export default function JobseekerProfile() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">Start</label>
-                  <input type="month" value={newEducation.start} onChange={(e) => setNewEducation(prev => ({ ...prev, start: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                  <IOSDatePicker selected={newEducation.start} onChange={(date) => setNewEducation(prev => ({ ...prev, start: date }))} placeholderText="Start Date" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">End</label>
-                  <input type="month" value={newEducation.end} onChange={(e) => setNewEducation(prev => ({ ...prev, end: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                  <IOSDatePicker selected={newEducation.end} onChange={(date) => setNewEducation(prev => ({ ...prev, end: date }))} placeholderText="End Date" />
                 </div>
               </div>
               <div className="md:col-span-2">
@@ -1271,11 +1263,11 @@ export default function JobseekerProfile() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="block text-xs text-black mb-1">Start</label>
-                            <input type="month" value={item.start || ''} onChange={(e) => updateItem('education', item.id, { start: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                            <IOSDatePicker selected={item.start} onChange={(date) => updateItem('education', item.id, { start: date })} placeholderText="Start Date" />
                           </div>
                           <div>
                             <label className="block text-xs text-black mb-1">End</label>
-                            <input type="month" value={item.end || ''} onChange={(e) => updateItem('education', item.id, { end: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                            <IOSDatePicker selected={item.end} onChange={(date) => updateItem('education', item.id, { end: date })} placeholderText="End Date" />
                           </div>
                         </div>
                       </div>
@@ -1385,11 +1377,11 @@ export default function JobseekerProfile() {
                         <div className="grid grid-cols-2 gap-3">
                           <div>
                             <label className="block text-xs text-black mb-1">Start</label>
-                            <input type="month" value={item.start || ''} onChange={(e) => updateItem('internship', item.id, { start: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                            <IOSDatePicker selected={item.start} onChange={(date) => updateItem('internship', item.id, { start: date })} placeholderText="Start Date" />
                           </div>
                           <div>
                             <label className="block text-xs text-black mb-1">End</label>
-                            <input type="month" value={item.end || ''} onChange={(e) => updateItem('internship', item.id, { end: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                            <IOSDatePicker selected={item.end} onChange={(date) => updateItem('internship', item.id, { end: date })} placeholderText="End Date" />
                           </div>
                         </div>
                         <div className="md:col-span-2">
@@ -1417,11 +1409,11 @@ export default function JobseekerProfile() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">Start</label>
-                  <input type="month" value={newInternship.start} onChange={(e) => setNewInternship(prev => ({ ...prev, start: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                  <IOSDatePicker selected={newInternship.start} onChange={(date) => setNewInternship(prev => ({ ...prev, start: date }))} placeholderText="Start Date" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">End</label>
-                  <input type="month" value={newInternship.end} onChange={(e) => setNewInternship(prev => ({ ...prev, end: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                  <IOSDatePicker selected={newInternship.end} onChange={(date) => setNewInternship(prev => ({ ...prev, end: date }))} placeholderText="End Date" />
                 </div>
               </div>
               <div className="md:col-span-2">
@@ -1475,7 +1467,7 @@ export default function JobseekerProfile() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-black mb-2">Date</label>
-                      <input type="date" value={newGeneric.date} onChange={(e) => setNewGeneric(prev => ({ ...prev, date: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                      <IOSDatePicker selected={newGeneric.date} onChange={(date) => setNewGeneric(prev => ({ ...prev, date: date }))} placeholderText="Date" />
                     </div>
                   </>
                 ) : (
@@ -1491,16 +1483,16 @@ export default function JobseekerProfile() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-black mb-2">Start</label>
-                        <input type="month" value={newGeneric.start} onChange={(e) => setNewGeneric(prev => ({ ...prev, start: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                        <IOSDatePicker selected={newGeneric.start} onChange={(date) => setNewGeneric(prev => ({ ...prev, start: date }))} placeholderText="Start Date" />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-black mb-2">End</label>
-                        <input type="month" value={newGeneric.end} onChange={(e) => setNewGeneric(prev => ({ ...prev, end: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                        <IOSDatePicker selected={newGeneric.end} onChange={(date) => setNewGeneric(prev => ({ ...prev, end: date }))} placeholderText="End Date" />
                       </div>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-black mb-2">Date</label>
-                      <input type="date" value={newGeneric.date} onChange={(e) => setNewGeneric(prev => ({ ...prev, date: e.target.value }))} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black" />
+                      <IOSDatePicker selected={newGeneric.date} onChange={(date) => setNewGeneric(prev => ({ ...prev, date: date }))} placeholderText="Date" />
                     </div>
                   </>
                 )}
@@ -1550,7 +1542,7 @@ export default function JobseekerProfile() {
                             </div>
                             <div>
                               <label className="block text-xs text-black mb-1">Date</label>
-                              <input type="date" value={item.date || ''} onChange={(e) => updateItem(activeSection, item.id, { date: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                              <IOSDatePicker selected={item.date} onChange={(date) => updateItem(activeSection, item.id, { date: date })} placeholderText="Date" />
                             </div>
                           </>
                         ) : (
@@ -1566,16 +1558,16 @@ export default function JobseekerProfile() {
                             <div className="grid grid-cols-2 gap-3">
                               <div>
                                 <label className="block text-xs text-black mb-1">Start</label>
-                                <input type="month" value={item.start || ''} onChange={(e) => updateItem(activeSection, item.id, { start: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                                <IOSDatePicker selected={item.start} onChange={(date) => updateItem(activeSection, item.id, { start: date })} placeholderText="Start Date" />
                               </div>
                               <div>
                                 <label className="block text-xs text-black mb-1">End</label>
-                                <input type="month" value={item.end || ''} onChange={(e) => updateItem(activeSection, item.id, { end: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                                <IOSDatePicker selected={item.end} onChange={(date) => updateItem(activeSection, item.id, { end: date })} placeholderText="End Date" />
                               </div>
                             </div>
                             <div>
                               <label className="block text-xs text-black mb-1">Date</label>
-                              <input type="date" value={item.date || ''} onChange={(e) => updateItem(activeSection, item.id, { date: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded" />
+                              <IOSDatePicker selected={item.date} onChange={(date) => updateItem(activeSection, item.id, { date: date })} placeholderText="Date" />
                             </div>
                           </>
                         )}
@@ -1602,39 +1594,33 @@ export default function JobseekerProfile() {
     }
   };
 
+
+
   return (
-    <div className="min-h-screen bg-gray-50" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial', background: '#f9fafb', minHeight: '100vh' }}>
+    <div className="min-h-screen bg-[#F2F2F7]" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
       <Head>
         <title>Jobseeker Profile</title>
         <meta name="description" content="Jobseeker Profile Management" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </Head>
 
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      {/* Header - Glassmorphism */}
+      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/20 shadow-sm supports-[backdrop-filter]:bg-white/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <button
                 onClick={handleBackToDashboard}
-                className="flex items-center text-black hover:text-gray-700 mr-6"
+                className="flex items-center text-blue-600 hover:text-blue-700 mr-4 transition-colors font-medium -ml-2"
               >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                 </svg>
-                Back to Dashboard
+                Back
               </button>
-              <h1 className="text-2xl font-bold text-black">Career Portal</h1>
+              <h1 className="text-xl font-bold text-gray-900 tracking-tight">My Profile</h1>
             </div>
-            <nav className="flex space-x-8">
-              <Link href="/jobseeker-dashboard" className="text-black hover:text-gray-700 font-medium">
-                Dashboard
-              </Link>
-              <Link href="/profiles/jobseeker-profile" className="text-blue-600 font-medium border-b-2 border-blue-600">
-                My Profile
-              </Link>
+            <nav className="flex space-x-1">
+              {/* Optional: Add more nav items if needed, or keep clean for iOS look */}
             </nav>
           </div>
         </div>
@@ -1642,21 +1628,23 @@ export default function JobseekerProfile() {
 
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Profile Card with Circular Progress */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-bl-full -mr-32 -mt-32 z-0" />
 
-          <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+        {/* Profile Card with iOS Style */}
+        <div className="ios-card p-0 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-100/40 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none" />
+
+          <div className="relative z-10 p-8 flex flex-col md:flex-row items-center gap-8">
             {/* Circular Avatar with Progress */}
             <div className="relative flex-shrink-0 group">
               {/* Progress Ring SVG */}
               <div className="relative w-40 h-40">
-                <svg className="w-full h-full transform -rotate-90">
+                <svg className="w-full h-full transform -rotate-90 drop-shadow-lg">
                   <circle
                     cx="80"
                     cy="80"
                     r="76"
-                    stroke="#F3F4F6"
+                    stroke="rgba(255,255,255,0.5)"
                     strokeWidth="8"
                     fill="transparent"
                   />
@@ -1664,13 +1652,13 @@ export default function JobseekerProfile() {
                     cx="80"
                     cy="80"
                     r="76"
-                    stroke={completion.pct === 100 ? "#10B981" : "#3B82F6"}
+                    stroke={completion.pct === 100 ? "#34C759" : "#007AFF"} // iOS Green / iOS Blue
                     strokeWidth="8"
                     fill="transparent"
                     strokeDasharray={2 * Math.PI * 76}
                     strokeDashoffset={2 * Math.PI * 76 * (1 - completion.pct / 100)}
                     strokeLinecap="round"
-                    className="transition-all duration-1000 ease-out"
+                    className="transition-all duration-1000 ease-in-out"
                   />
                 </svg>
 
@@ -1684,18 +1672,15 @@ export default function JobseekerProfile() {
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   ) : (
-                    <div className="text-4xl font-bold text-blue-600">
+                    <div className="text-5xl font-bold text-gray-300">
                       {basicDetails.fullName ? basicDetails.fullName.charAt(0).toUpperCase() : 'U'}
                     </div>
                   )}
 
                   {/* Upload Overlay */}
-                  <label className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                  <label className="absolute inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                     <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
-                    <div className="text-white flex flex-col items-center">
-                      <svg className="w-8 h-8 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      <span className="text-xs font-semibold">Update Photo</span>
-                    </div>
+                    <span className="ios-btn bg-white/90 text-black text-xs px-3 py-1.5 shadow-lg">Edit Photo</span>
                   </label>
                 </div>
 
@@ -1703,302 +1688,61 @@ export default function JobseekerProfile() {
                 {profileImage && (
                   <button
                     onClick={handleRemovePhoto}
-                    className="absolute bottom-2 right-2 p-2 bg-white text-red-500 rounded-full shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 transition-all hover:bg-red-50 z-20"
+                    className="absolute bottom-1 right-1 p-2 bg-white text-red-500 rounded-full shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 transition-all hover:scale-110 z-20"
                     title="Remove Photo"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
                 )}
 
                 {/* Percentage Badge */}
-                <div className={`absolute -bottom-2 flex left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold shadow-sm border ${completion.pct === 100 ? 'bg-green-100 text-green-700 border-green-200' : 'bg-blue-100 text-blue-700 border-blue-200'}`}>
-                  {completion.pct}% Complete
+                <div className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold shadow-md border bg-white ${completion.pct === 100 ? 'text-green-600 border-green-100' : 'text-blue-600 border-blue-100'}`}>
+                  {completion.pct}% Ready
                 </div>
               </div>
             </div>
 
             {/* User Info */}
             <div className="text-center md:text-left flex-1">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{basicDetails.fullName || 'New User'}</h1>
-              <p className="text-gray-600 mb-4 flex items-center justify-center md:justify-start gap-2">
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                {basicDetails.address || 'Location not added'}
+              <h1 className="text-4xl font-bold text-gray-900 mb-2 tracking-tight">{basicDetails.fullName || 'New User'}</h1>
+              <p className="text-gray-500 text-lg mb-4 flex items-center justify-center md:justify-start gap-2 font-medium">
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                {basicDetails.address || 'Add location'}
               </p>
 
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm text-gray-500">
+              <div className="flex flex-wrap gap-3 justify-center md:justify-start text-sm">
                 {basicDetails.email && (
-                  <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full">
+                  <span className="flex items-center gap-1.5 bg-gray-100/80 px-4 py-2 rounded-full text-gray-600 backdrop-blur-sm">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                     {basicDetails.email}
                   </span>
                 )}
                 {basicDetails.phone && (
-                  <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full">
+                  <span className="flex items-center gap-1.5 bg-gray-100/80 px-4 py-2 rounded-full text-gray-600 backdrop-blur-sm">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                     {basicDetails.phone}
                   </span>
                 )}
               </div>
 
-              <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-3">
-                <button
-                  onClick={() => goToEdit('basic')}
-                  className="text-xs flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors font-medium border border-blue-100"
-                >
-                  <span>👤</span>
-                  {basicDetails.gender ? <span className="capitalize">{basicDetails.gender}</span> : 'Add Gender'}
-                </button>
-                <button
-                  onClick={() => goToEdit('basic')}
-                  className="text-xs flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors font-medium border border-blue-100"
-                >
-                  <span>🎂</span>
-                  {basicDetails.dob ? <span>{basicDetails.dob}</span> : 'Add Birthday'}
+              <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
+                <button onClick={() => goToEdit('basic')} className="ios-btn bg-black text-white px-6 py-2 shadow-lg hover:bg-gray-800 text-sm">
+                  Edit Basics
                 </button>
               </div>
             </div>
 
             {/* Profile Stats / Completion CTA */}
-            <div className="flex flex-col gap-3 min-w-[200px]">
-              {completion.pct < 100 ? (
-                <div className="bg-orange-50 rounded-xl p-4 border border-orange-100">
-                  <h4 className="font-semibold text-orange-800 text-sm mb-1">Complete your profile</h4>
-                  <p className="text-orange-600 text-xs mb-3">Add missing details to get noticed by 3x more recruiters.</p>
+            {completion.pct < 100 && (
+              <div className="min-w-[240px] hidden md:block">
+                <div className="ios-card bg-white/60 p-5 backdrop-blur-md border border-white/50">
+                  <h4 className="font-bold text-gray-900 mb-1">Finish Up!</h4>
+                  <p className="text-gray-500 text-xs mb-3">Complete your profile to unlock full features.</p>
                   <button
                     onClick={() => goToEdit('basic')}
-                    className="w-full py-2 bg-white text-orange-600 text-xs font-bold rounded-lg border border-orange-200 hover:bg-orange-100 transition-colors"
+                    className="ios-btn w-full py-2 bg-blue-500 text-white text-sm hover:bg-blue-600 shadow-md"
                   >
-                    Continue Editing
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-green-50 rounded-xl p-4 border border-green-100 text-center">
-                  <span className="text-2xl">🎉</span>
-                  <h4 className="font-semibold text-green-800 text-sm mt-1">Profile Completed!</h4>
-                  <p className="text-green-600 text-xs">You're all set to apply.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-
-
-        <div className="flex flex-col lg:flex-row">
-
-          {/* Sidebar Navigation - Desktop */}
-          <div className="hidden lg:block lg:w-64 border-r shrink-0">
-            <nav className="p-4 sticky top-6">
-              {/* Quick Links Card */}
-              <div className="mb-4 bg-gray-50 border border-gray-200 rounded-lg">
-                <div className="px-4 py-3 border-b font-semibold text-black text-lg">Quick links</div>
-                <div className="py-1">
-                  {[
-                    { label: 'Preference', target: 'preferences' },
-                    { label: 'Education', target: 'education' },
-                    { label: 'Key skills', target: 'skills' },
-                    { label: 'Languages', target: 'languages' },
-                    { label: 'Internships', target: 'internship' },
-                    { label: 'Projects', target: 'projects' },
-                    { label: 'Profile summary', target: 'profile-summary' },
-                    { label: 'Resume', target: 'resume' }
-                  ].map(item => (
-                    <button
-                      key={item.target + item.label}
-                      onClick={() => goToEdit(item.target)}
-                      className={`w-full text-left px-4 py-3 text-base transition-colors ${activeSection === item.target
-                        ? 'bg-white text-blue-700 font-semibold border-l-4 border-blue-600'
-                        : 'text-black hover:bg-white hover:text-blue-700'
-                        }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </nav>
-          </div>
-
-          {/* Mobile Navigation Dropdown */}
-          <div className="lg:hidden mb-6">
-            <label htmlFor="mobile-nav" className="block text-sm font-medium text-gray-700 mb-2">Navigate to Section</label>
-            <select
-              id="mobile-nav"
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base text-black bg-white"
-              value={activeSection}
-              onChange={(e) => goToEdit(e.target.value)}
-            >
-              {[
-                { label: 'Basic Details', target: 'basic' },
-                { label: 'Preference', target: 'preferences' },
-                { label: 'Education', target: 'education' },
-                { label: 'Key skills', target: 'skills' },
-                { label: 'Languages', target: 'languages' },
-                { label: 'Internships', target: 'internship' },
-                { label: 'Projects', target: 'projects' },
-                { label: 'Profile summary', target: 'profile-summary' },
-                { label: 'Resume', target: 'resume' }
-              ].map((item) => (
-                <option key={item.target} value={item.target}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Main Content */}
-          <div className="flex-1 p-6">
-            {/* Header */}
-            <div className="border-b pb-3 mb-6">
-              <h2 className="text-xl font-semibold text-black">View & Edit</h2>
-            </div>
-
-            {mode === 'overview' ? (
-              <div className="space-y-4">
-                {/* Preferences Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-black">Your career preferences</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('preferences')}>Add</button>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
-                    <div>
-                      <div className="text-black">Preferred job type</div>
-                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.desiredJobType ? sectionsData.preferences.desiredJobType : 'Add desired job type'}</button>
-                    </div>
-                    <div>
-                      <div className="text-black">Availability to work</div>
-                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.availability ? sectionsData.preferences.availability : 'Add work availability'}</button>
-                    </div>
-                    <div>
-                      <div className="text-black">Preferred location</div>
-                      <button className="text-blue-600" onClick={() => goToEdit('preferences')}>{sectionsData.preferences.preferredLocation ? sectionsData.preferences.preferredLocation : 'Add preferred work location'}</button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Education Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Education</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('education')}>Add</button>
-                  </div>
-                  {sectionsData.education.length > 0 ? (
-                    <ul className="space-y-2 text-base text-black">
-                      {sectionsData.education.slice(0, 2).map(e => (
-                        <li key={e.id} className="flex items-center gap-2"><span className="font-medium">{e.degree}</span> <span className="text-black">{e.institute}</span></li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-black text-base">Add your degree details</p>
-                  )}
-                </div>
-
-                {/* Key skills Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Key skills</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('skills')}>Add</button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {(sectionsData.skills || []).slice(0, 8).map(s => (
-                      <span key={s.id} className="px-3 py-1.5 rounded-full bg-gray-100 text-black text-base">{s.title}</span>
-                    ))}
-                    {sectionsData.skills.length === 0 && <p className="text-black text-base">Add your key skills</p>}
-                  </div>
-                </div>
-
-                {/* Languages Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Languages</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('languages')}>Add</button>
-                  </div>
-                  {sectionsData.languages?.length ? (
-                    <ul className="text-base text-black list-disc list-inside">
-                      {sectionsData.languages.map(l => <li key={l.id}>{l.title} • {l.description}</li>)}
-                    </ul>
-                  ) : <p className="text-black text-base">Add languages you know</p>}
-                </div>
-
-                {/* Internships Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Internships</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('internship')}>Add</button>
-                  </div>
-                  {sectionsData.internship?.length ? (
-                    <ul className="text-base text-black list-disc list-inside">
-                      {sectionsData.internship.slice(0, 2).map(i => <li key={i.id}>{i.role} @ {i.company}</li>)}
-                    </ul>
-                  ) : <p className="text-black text-base">Add internship or work experience</p>}
-                </div>
-
-                {/* Projects Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Projects</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('projects')}>Add</button>
-                  </div>
-                  {sectionsData.projects?.length ? (
-                    <ul className="text-base text-black list-disc list-inside">
-                      {sectionsData.projects.slice(0, 2).map(p => <li key={p.id}>{p.title}</li>)}
-                    </ul>
-                  ) : <p className="text-black text-base">Add your projects</p>}
-                </div>
-
-                {/* Profile Summary Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Profile summary</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('profile-summary')}>Add</button>
-                  </div>
-                  <p className="text-base text-black">{sectionsData.summary || 'Write a concise summary to highlight your strengths'}</p>
-                </div>
-
-                {/* Resume Card */}
-                <div className="bg-white rounded-2xl p-7 shadow-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-black">Resume</h3>
-                    <button className="text-blue-600" onClick={() => goToEdit('resume')}>
-                      {resumeInfo.name ? 'Update' : 'Add'}
-                    </button>
-                  </div>
-                  {resumeInfo.name ? (
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                        <span className="text-red-600 font-semibold text-xs">PDF</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-black">{resumeInfo.name}</p>
-                        {resumeInfo.uploadDate && (
-                          <p className="text-sm text-black">
-                            Uploaded {new Date(resumeInfo.uploadDate).toLocaleDateString()}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="text-black text-base">Upload your resume to showcase your qualifications</p>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div id="editor-root">
-                <div className="mb-6">
-                  <h2 className="text-xl font-semibold text-black mb-2">
-                    {profileSections.find(s => s.id === activeSection)?.label}
-                  </h2>
-                  <p className="text-black">
-                    Manage your {profileSections.find(s => s.id === activeSection)?.label.toLowerCase()}
-                  </p>
-                </div>
-
-                {renderSectionContent()}
-
-                <div className="mt-8 pt-6 border-t flex justify-end items-center">
-                  <button onClick={handleSave} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                    Save Changes
+                    Complete Now
                   </button>
                 </div>
               </div>
@@ -2006,6 +1750,173 @@ export default function JobseekerProfile() {
           </div>
         </div>
 
+        <div className="flex flex-col lg:flex-row gap-8">
+
+          {/* Sidebar Navigation - Floating iOS Style */}
+          <div className="lg:w-72 shrink-0">
+            <nav className="sticky top-24 space-y-1">
+              <div className="ios-card bg-white/80 backdrop-blur-xl p-3 shadow-sm border border-white/50">
+                <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Sections</div>
+                {[
+                  { label: 'Preferences', target: 'preferences', icon: '🎯' },
+                  { label: 'Education', target: 'education', icon: '🎓' },
+                  { label: 'Skills', target: 'skills', icon: '⚡' },
+                  { label: 'Languages', target: 'languages', icon: '🌐' },
+                  { label: 'Internships', target: 'internship', icon: '💼' },
+                  { label: 'Projects', target: 'projects', icon: '🚀' },
+                  { label: 'Summary', target: 'profile-summary', icon: '📝' },
+                  { label: 'Resume', target: 'resume', icon: '📄' }
+                ].map(item => (
+                  <button
+                    key={item.target}
+                    onClick={() => goToEdit(item.target)}
+                    className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-3 ${activeSection === item.target
+                      ? 'bg-blue-500 text-white shadow-md shadow-blue-200'
+                      : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900'
+                      }`}
+                  >
+                    <span className="text-lg">{item.icon}</span>
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </nav>
+          </div>
+
+          {/* Mobile Navigation Dropdown (Visible only on small screens) */}
+          <div className="lg:hidden mb-6">
+            <div className="ios-card p-2 bg-white/80 backdrop-blur-md">
+              <select
+                id="mobile-nav"
+                className="block w-full px-4 py-3 bg-transparent border-none text-gray-900 text-base font-medium focus:ring-0 cursor-pointer"
+                value={activeSection}
+                onChange={(e) => goToEdit(e.target.value)}
+              >
+                {[
+                  { label: 'Basic Details', target: 'basic' },
+                  { label: 'Preferences', target: 'preferences' },
+                  { label: 'Education', target: 'education' },
+                  { label: 'Skills', target: 'skills' },
+                  { label: 'Languages', target: 'languages' },
+                  { label: 'Internships', target: 'internship' },
+                  { label: 'Projects', target: 'projects' },
+                  { label: 'Summary', target: 'profile-summary' },
+                  { label: 'Resume', target: 'resume' }
+                ].map((item) => (
+                  <option key={item.target} value={item.target}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="flex-1">
+            {/* Header for Content Area */}
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+                {mode === 'overview' ? 'Overview' : (profileSections.find(s => s.id === activeSection)?.label || 'Edit')}
+              </h2>
+              {mode === 'edit' && (
+                <button onClick={() => setMode('overview')} className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                  Cancel
+                </button>
+              )}
+            </div>
+
+            {mode === 'overview' ? (
+              <div className="space-y-6">
+
+                {/* Generic Section Card Component */}
+                {[
+                  { id: 'preferences', title: 'Preferences', content: sectionsData.preferences.desiredJobType ? `${sectionsData.preferences.desiredJobType} • ${sectionsData.preferences.preferredLocation}` : 'Add preferences', filled: !!sectionsData.preferences.desiredJobType },
+                  { id: 'education', title: 'Education', list: sectionsData.education, map: e => `${e.degree} in ${e.field} at ${e.institute}` },
+                  { id: 'skills', title: 'Skills', tags: sectionsData.skills },
+                  { id: 'internship', title: 'Experience', list: sectionsData.internship, map: i => `${i.role} at ${i.company}` },
+                  { id: 'projects', title: 'Projects', list: sectionsData.projects, map: p => p.title },
+                ].map(section => (
+                  <div key={section.id} className="ios-card bg-white p-6 md:p-8 hover:shadow-lg transition-shadow duration-300">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold text-gray-900">{section.title}</h3>
+                      <button onClick={() => goToEdit(section.id)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-colors">
+                        <span className="text-lg font-semibold">+</span>
+                      </button>
+                    </div>
+
+                    {section.list ? (
+                      section.list.length > 0 ? (
+                        <ul className="space-y-3">
+                          {section.list.slice(0, 3).map((item, i) => (
+                            <li key={item.id || i} className="flex items-start gap-3 text-gray-600">
+                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></span>
+                              <span>{section.map(item)}</span>
+                            </li>
+                          ))}
+                          {section.list.length > 3 && <li className="text-sm text-gray-400 pl-4">+{section.list.length - 3} more</li>}
+                        </ul>
+                      ) : <p className="text-gray-400 italic">No {section.title.toLowerCase()} added yet.</p>
+                    ) : section.tags ? (
+                      section.tags.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {section.tags.slice(0, 10).map((t, i) => (
+                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">{t.title}</span>
+                          ))}
+                        </div>
+                      ) : <p className="text-gray-400 italic">No skills added yet.</p>
+                    ) : (
+                      <p className={`${section.filled ? 'text-gray-700' : 'text-gray-400 italic'}`}>{section.content}</p>
+                    )}
+                  </div>
+                ))}
+
+                {/* Resume Section Overview */}
+                <div className="ios-card bg-white p-6 md:p-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-gray-900">Resume</h3>
+                    <button onClick={() => goToEdit('resume')} className="text-blue-600 font-medium text-sm">Manage</button>
+                  </div>
+                  {resumeInfo.name ? (
+                    <div className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                      <div className="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center mr-4">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                      </div>
+                      <div className="overflow-hidden">
+                        <p className="font-semibold text-gray-900 truncate">{resumeInfo.name}</p>
+                        <p className="text-xs text-gray-500">Uploaded on {new Date(resumeInfo.uploadDate).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-gray-400 italic">No resume uploaded.</p>
+                  )}
+                </div>
+
+              </div>
+            ) : (
+              <div id="editor-root" className="ios-card bg-white p-6 md:p-8 shadow-xl border border-gray-100/50">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    {profileSections.find(s => s.id === activeSection)?.label}
+                  </h2>
+                  <p className="text-gray-500">
+                    Update your {profileSections.find(s => s.id === activeSection)?.label.toLowerCase()} details below.
+                  </p>
+                </div>
+
+                {renderSectionContent()}
+
+                <div className="mt-10 pt-6 border-t border-gray-100 flex justify-end items-center gap-4">
+                  <button onClick={() => setMode('overview')} className="ios-btn bg-gray-100 text-gray-600 px-6 py-3 hover:bg-gray-200">
+                    Cancel
+                  </button>
+                  <button onClick={handleSave} className="ios-btn bg-black text-white px-8 py-3 hover:bg-gray-800 shadow-lg">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

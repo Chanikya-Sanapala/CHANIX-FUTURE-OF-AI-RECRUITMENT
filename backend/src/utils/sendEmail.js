@@ -14,7 +14,7 @@ const sendEmail = async (options) => {
         });
 
         const mailOptions = {
-            from: `"AI Smart Engine" <${process.env.EMAIL_USER}>`,
+            from: `"Chanix" <${process.env.EMAIL_USER}>`,
             to: options.email,
             subject: options.subject,
             html: options.message, // applicationRoutes passes 'message' as HTML

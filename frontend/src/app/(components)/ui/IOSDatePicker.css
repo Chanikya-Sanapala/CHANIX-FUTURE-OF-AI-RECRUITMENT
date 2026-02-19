@@ -1,0 +1,84 @@
+/* IOSDatePicker.css */
+.ios-calendar {
+    border: none !important;
+    border-radius: 16px !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    padding: 16px !important;
+}
+
+.react-datepicker__header {
+    background-color: transparent !important;
+    border-bottom: none !important;
+    padding-top: 0 !important;
+}
+
+.react-datepicker__current-month {
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    color: #1f2937 !important;
+    margin-bottom: 12px !important;
+}
+
+.react-datepicker__day-name {
+    color: #9ca3af !important;
+    font-weight: 500 !important;
+    width: 2.5rem !important;
+}
+
+.react-datepicker__day {
+    width: 2.5rem !important;
+    line-height: 2.5rem !important;
+    border-radius: 50% !important;
+    margin: 0.1rem !important;
+    font-weight: 400 !important;
+    color: #374151 !important;
+}
+
+.react-datepicker__day:hover {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: #007AFF !important;
+    /* iOS Blue */
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.react-datepicker__day--today {
+    color: #007AFF !important;
+    font-weight: 600 !important;
+    border: 1px solid transparent !important;
+    /* Remove default border if any */
+    position: relative;
+}
+
+.react-datepicker__day--today::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: #007AFF;
+    border-radius: 50%;
+}
+
+.react-datepicker__day--selected.react-datepicker__day--today::after {
+    background-color: white;
+}
+
+.react-datepicker__navigation {
+    top: 18px !important;
+}
+
+.react-datepicker__triangle {
+    display: none !important;
+}

@@ -452,7 +452,7 @@ def main():
          recipient_email = env_vars["EMAIL_USER"]
          print(f"⚠️  No email found in resume. Sending to self ({recipient_email}) for testing.")
 
-    THRESHOLD = 75.0
+    THRESHOLD = 65.0
     candidate_name = os.path.splitext(os.path.basename(args.resume))[0] if args.resume else "Candidate"
     
     # EMAIL DISABLED IN PYTHON - HANDLED BY NODE.JS BACKEND TO ENSURE CORRECT LINKS

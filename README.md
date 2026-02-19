@@ -1,94 +1,86 @@
-This is a Next.js project bootstrapped with create-next-app.
+# Chanix - The Future of AI Recruitment
 
-Getting Started
-First, run the development server:
+Chanix is a hyper-premium AI recruitment platform designed to revolutionize the hiring process. By leveraging advanced AI for structured interviews and precision candidate matching, Chanix eliminates bias and drastically reduces hiring cycles from months to weeks.
 
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-Open http://localhost:3000 with your browser to see the result.
+## 🚀 Visual Showcase
 
-You can start editing the page by modifying app/page.js. The page auto-updates as you edit the file.
+### Landing Page
+![Landing Page](assets/images/landing_page.png)
 
-This project uses next/font to automatically optimize and load Geist, a new font family for Vercel.
+### Recruiter Dashboard
+![Recruiter Dashboard](assets/images/recruiter_dashboard.png)
 
-Learn More
-To learn more about Next.js, take a look at the following resources:
+### Career Portal (Jobseeker)
+![Jobseeker Dashboard](assets/images/jobseeker_dashboard.png)
 
-Next.js Documentation - learn about Next.js features and API.
-Learn Next.js - an interactive Next.js tutorial.
-You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
+---
 
-Deploy on Vercel
-The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
+## ✨ Key Features
 
-Check out our Next.js deployment documentation for more details.
+- **AI-Driven Interviews**: Automated, structured interviews that ensure fair and consistent evaluation.
+- **Precision Matching**: Advanced algorithms that connect talent with the right opportunities based on skills, not just resumes.
+- **Recruiter Analytics**: Comprehensive dashboards for tracking performance, submittals, and placement metrics.
+- **Career Portal**: A dedicated space for candidates to find jobs, track applications, and improve their "Brain Workout" streak.
+- **Responsive Design**: A premium, supercar-themed UI optimized for all devices.
 
-This is a Next.js project bootstrapped with create-next-app.
+---
 
-Getting Started
-First, run the development server:
+## 🏗️ Project Architecture
 
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-Open http://localhost:3000 with your browser to see the result.
+The project is structured as a monorepo with three primary modules:
 
-You can start editing the page by modifying app/page.js. The page auto-updates as you edit the file.
+- **Frontend**: Built with **Next.js**, **React**, and **Tailwind CSS**, focusing on high-performance animations and a premium UX.
+- **Backend**: A robust **Node.js/Express** API connected to **MongoDB** for secure data management.
+- **AI Engine**: A specialized **Python** service that handles interview logic and candidate assessment.
 
-This project uses next/font to automatically optimize and load Geist, a new font family for Vercel.
+---
 
-Learn More
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Getting Started
 
-Next.js Documentation - learn about Next.js features and API.
-Learn Next.js - an interactive Next.js tutorial.
-You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
+### Prerequisites
+- Node.js (v18+)
+- MongoDB (Running locally or via URI)
+- Python (v3.9+)
 
-Deploy on Vercel
-The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
+### Installation
 
-Check out our Next.js deployment documentation for more details.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Chanikya-Sanapala/SMART_ENGINE.git
+   cd SMART_ENGINE
+   ```
 
-Smart Engine Backend
-Minimal setup guide to install dependencies, update environment, and run the server.
+2. **Setup Backend**:
+   ```bash
+   cd backend
+   npm install
+   # Configure .env with MONGODB_URI and PORT
+   npm run dev
+   ```
 
-Prerequisites
-Node.js (v16+)
-MongoDB running locally or a MongoDB connection string
-Setup
-Install dependencies
-npm install
-Create or update .env
-PORT=5000
-NODE_ENV=development
+3. **Setup Frontend**:
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
 
-MONGODB_URI=mongodb://localhost:27017/smart-engine
-DB_NAME=smart-engine
-Start MongoDB
-If installed as a Windows service:
-net start MongoDB
-Or start manually in another terminal:
-mongod
-Run the server
-node server.js
-Health Check
-Open:
+4. **Setup AI Engine**:
+   ```bash
+   cd ../ai
+   pip install -r requirements.txt
+   python app.py
+   ```
 
-http://localhost:5000/health
-Expected JSON:
+---
 
-{
-  "success": true,
-  "message": "Smart Engine API is running!",
-  "timestamp": "...",
-  "environment": "development"
-  
+## 🧰 Tech Stack
+
+- **Frontend**: Next.js 15, Tailwind CSS, Vanta.js (Three.js), Recharts
+- **Backend**: Node.js, Express, MongoDB
+- **AI**: Python, NLP Libraries
+- **Styling**: Modern, high-contrast aesthetic with Glassmorphism and Cinematic animations.
+
+---
+
+© 2024 Chanix. All rights reserved.

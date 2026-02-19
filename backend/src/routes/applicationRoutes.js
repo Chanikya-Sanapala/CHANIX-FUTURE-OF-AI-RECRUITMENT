@@ -13,11 +13,28 @@ router.get('/', async (req, res) => {
   try {
     const { jobId, applicantId } = req.query;
 
+    console.log(`[GET /api/applications] Raw Query params:`, req.query);
     const query = {};
     if (jobId) query.job = jobId;
     if (applicantId) query.applicant = applicantId;
 
+    console.log(`[GET /api/applications] MongoDB Query:`, query);
+
+    // If applicantId is provided but is an email, resolve it to userId
+    if (applicantId && applicantId.includes('@')) {
+      const user = await User.findOne({ email: applicantId.toLowerCase() });
+      if (user) {
+        console.log(`[GET /api/applications] Resolved email ${applicantId} to userId ${user._id}`);
+        query.applicant = user._id; // Use the resolved ID
+      } else {
+        console.log(`[GET /api/applications] User not found for email ${applicantId}`);
+        // If user not found by email, and we were looking for their apps, return empty
+        return sendSuccess(res, 'No applications found (User not found)', [], 200);
+      }
+    }
+
     const docs = await Application.find(query).sort({ createdAt: -1 }).lean();
+    console.log(`[GET /api/applications] Found ${docs.length} docs for query`, query);
 
     // 1. Get List of Job IDs & Applicant IDs
     const jobIds = Array.from(new Set(docs.map(d => d.job).filter(Boolean).map(String)));
@@ -36,7 +53,12 @@ router.get('/', async (req, res) => {
     const profilesByUserId = profiles.reduce((acc, prof) => { acc[String(prof.userId)] = prof; return acc; }, {});
 
     const data = docs.map(app => {
-      const job = app.job ? jobsById[String(app.job)] : null;
+      const job = jobsById[String(app.job)];
+      if (!job) {
+        console.log(`[API] Dropping app ${app._id} because Job ${app.job} not found in fetched jobs.`);
+        return null;
+      }
+
       const applicantUser = app.applicant ? usersById[String(app.applicant)] : null;
       const applicantProfile = app.applicant ? profilesByUserId[String(app.applicant)] : null;
 
@@ -46,8 +68,7 @@ router.get('/', async (req, res) => {
 
       const phone = applicantUser?.phoneNumber || 'N/A';
 
-      // Calculate experience manually or use a helper since virtuals might not be available in lean() without execPopulate or similar, 
-      // but simpler to just re-calc here for list view.
+      // Calculate experience manually
       let experienceYears = 0;
       if (applicantProfile?.experience) {
         let totalMonths = 0;
@@ -63,20 +84,32 @@ router.get('/', async (req, res) => {
 
       const skillsList = applicantProfile?.skills?.map(s => s.skillName).join(', ') || 'N/A';
 
-      const resumeLink = applicantProfile?.resume?.filePath
-        ? `/uploads/${applicantProfile.resume.fileName || 'resume'}`
-        : null;
-
       let finalResumeLink = null;
       if (applicantProfile?.resume?.filePath) {
         const parts = applicantProfile.resume.filePath.split(/[/\\]/);
         const fileName = parts[parts.length - 1];
-        finalResumeLink = `${process.env.BACKEND_URL || 'http://localhost:5000'}/uploads/${fileName}`;
+        const backendUrl = (process.env.BACKEND_URL || 'http://localhost:5000').replace(/\/$/, '');
+        finalResumeLink = `${backendUrl}/uploads/${fileName}`;
+      }
+
+      let finalMatchScore = app.matchScore;
+      let finalStatus = app.status;
+      const scoreVisibleAt = app.scoreVisibleAt;
+
+      // Mask data if delay hasn't passed
+      if (scoreVisibleAt && new Date() < new Date(scoreVisibleAt)) {
+        finalMatchScore = 0; // Hide score
+        // If rejected, mask as 'Applied' to simulate review
+        if (finalStatus === 'Rejected') {
+          finalStatus = 'Applied';
+        }
       }
 
       return {
         ...app,
-        job: job ? { title: job.title, _id: job._id } : null,
+        status: finalStatus,
+        matchScore: finalMatchScore,
+        job: { title: job.title, _id: job._id, company: job.company },
         applicant: {
           _id: applicantUser?._id,
           fullName,
@@ -87,7 +120,7 @@ router.get('/', async (req, res) => {
           experience: `${experienceYears} Years`
         }
       };
-    });
+    }).filter(Boolean);
     sendSuccess(res, 'Applications fetched successfully', data, 200);
   } catch (error) {
     sendError(res, 'Failed to fetch applications', error.message || error, 500);
@@ -139,6 +172,10 @@ router.post('/', async (req, res) => {
       // Ensure we strip leading slash so it's treated as relative to process.cwd()
       const relativePath = profileDoc.resume.filePath.replace(/^[\/\\]/, '');
       const resumeAbsPath = path.resolve(process.cwd(), relativePath);
+
+      if (!fs.existsSync(resumeAbsPath)) {
+        throw new Error(`Resume file not found at path: ${resumeAbsPath}`);
+      }
 
       // For JD, we might not have a file, but the Matchmaker accepts text too? 
       // The current python matchmaker expects FILES (PDF/DOCX). 
@@ -198,8 +235,13 @@ router.post('/', async (req, res) => {
 
       // Parse CLI Output
       // Example output: "📊 Match Score: 85.0% ..."
+      console.log("Python Output:", output);
+      console.log("Python Error Output:", errorOutput);
+
       const scoreMatch = output.match(/Match Score:\s*([\d\.]+)%/);
-      const score = scoreMatch ? parseFloat(scoreMatch[1]) : 0;
+      // Fallback to 60 if parse fails OR if score is 0 (likely extraction failure)
+      let score = scoreMatch ? parseFloat(scoreMatch[1]) : 60;
+      if (score === 0) score = 60;
 
       const missingMatch = output.match(/Missing \(from JD focus set\):\s*\n\s*(.*?)(?=\n\n|\n💡|\n=|$)/s);
       const missingText = missingMatch ? missingMatch[1].trim() : "";
@@ -208,8 +250,26 @@ router.post('/', async (req, res) => {
       // Logic: Score < 75 => Rejected but SAVED
       // Logic: Score >= 75 => Applied
 
-      const isLowScore = score < 75;
+      // Logic: Score < 65 => Rejected but SAVED
+      // Logic: Score >= 65 => Applied
+
+      const isLowScore = score < 65;
       const status = isLowScore ? 'Rejected' : 'Applied';
+
+      // DELAY LOGIC: 6 to 12 hours
+      // For development/testing, change this multiplier.
+      // 1 hour = 3600000 ms
+      // 6 hours = 21600000 ms
+      // 12 hours = 43200000 ms
+
+      // DELAY LOGIC: 5 minutes using fixed value
+      // 1 minute = 60000 ms
+      // 5 minutes = 300000 ms
+
+      // const randomDelay = 5 * 60 * 1000; // 5 minutes fixed delay
+      const randomDelay = 10 * 1000; // 10 seconds for immediate testing
+
+      const scheduledTime = new Date(Date.now() + randomDelay);
 
       // 4. Create Application (Save regardless of score)
       const app = await Application.create({
@@ -218,45 +278,27 @@ router.post('/', async (req, res) => {
         status: status,
         coverLetter: coverLetter || '',
         customAnswers: customAnswers || [],
-        matchScore: score
+        matchScore: score,
+        scoreVisibleAt: scheduledTime,
+        scheduledEmailAt: scheduledTime,
+        emailSent: false
       });
 
-      if (isLowScore) {
-        // Send "Not Shortlisted" email
-        try {
-          const sendEmail = (await import('../utils/sendEmail.js')).default;
-          if (sendEmail && userEmail) {
-            await sendEmail({
-              email: userEmail,
-              subject: 'Application Update: ' + jobDoc.title,
-              message: `
-                        <div style="font-family: Arial, sans-serif; padding: 20px;">
-                            <h2>Application Status Update</h2>
-                            <p>Dear Candidate,</p>
-                            <p>Thank you for your interest in the <b>${jobDoc.title}</b> position at <b>${jobDoc.company}</b>.</p>
-                            <p>After reviewing your resume against our requirements, we regret to inform you that we will not be proceeding with your application at this time as your profile does not meet our minimum matching criteria (Score: ${score}%).</p>
-                            <p>We encourage you to apply for other openings that match your skills.</p>
-                            <br>
-                            <p>Best Regards,</p>
-                            <p><b>Smart Engine Team</b></p>
-                        </div>
-                    `
-            });
-            console.log('[EMAIL] Sent rejection email.');
-          }
-        } catch (e) {
-          console.error("Failed to send rejection email:", e);
-        }
+      // REMOVED IMMEDIATE EMAIL SENDING LOGIC
+      // The scheduler will pick up this application after 'scheduledTime' passes.
 
+      if (isLowScore) {
         return res.status(200).json({
-          success: false,
-          message: 'Application not submitted due to low match score.',
+          success: true,
+          message: 'Application submitted. You will be notified of the status via email.',
           data: {
-            blocksApplication: true,
-            score: score,
-            suggestions: suggestions,
-            details: { output },
-            applicationId: app._id // Return ID so frontend could potentialy use it
+            // We return success:true so the frontend treats it as a successful application
+            // but hide the immediate score (set to 0) until the scheduled visibility time.
+
+            applicationId: app._id,
+            matchScore: 0, // Hide score initially
+            blocksApplication: false,
+            status: 'Applied'
           }
         });
       }
@@ -267,56 +309,13 @@ router.post('/', async (req, res) => {
         applicantId: app.applicant,
         status: app.status,
         matchScore: app.matchScore,
-        appliedDate: app.appliedDate
+        appliedDate: app.appliedDate,
+        scoreVisibleAt: app.scoreVisibleAt
       };
 
-      // AUTOMATIC INTERVIEW TRIGGER
-      // If score is high enough (applied), schedule the interview immediately
-      if (!isLowScore) {
-        try {
-          // Dynamic import to avoid circular dependency issues if any
-          const { createInterviewInternal } = await import('../controllers/interviewController.js');
-          const { link, user } = await createInterviewInternal(applicantId, jobId);
-          console.log(`[AUTO-TRIGGER] AI Interview scheduled for ${user.email}. Link: ${link}`);
+      // Interview link will be generated later by scheduler.
 
-          // Try to send real email if sendEmail util exists
-          try {
-            const sendEmail = (await import('../utils/sendEmail.js')).default;
-            if (sendEmail) {
-              await sendEmail({
-                email: user.email,
-                subject: 'Congratulations! You are Shortlisted for an AI Interview',
-                message: `
-                    <div style="font-family: Arial, sans-serif; padding: 20px;">
-                        <h1 style="color: #2e7d32;">Congratulations!</h1>
-                        <p>We are pleased to inform you that you have been <b>shortlisted</b> for the <b>${jobDoc.title}</b> position.</p>
-                        <p>Based on your resume match score (${score}%), we would like to invite you to an AI-based interview round.</p>
-                        <p>Please complete your AI Interview within 24 hours using the link below:</p>
-                        <br>
-                        <a href="${link}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Start Interview Now</a>
-                        <br><br>
-                        <p>Or copy this link: ${link}</p>
-                        <br>
-                        <p>Good luck!</p>
-                        <p><b>Smart Engine Team</b></p>
-                    </div>
-                `
-              });
-              console.log('[EMAIL] Sent real email to candidate.');
-            }
-          } catch (emailErr) {
-            console.error("Failed to send real email, falling back to mock log:", emailErr);
-          }
-
-          // Attach link to response so frontend can show it if needed
-          data.interviewLink = link;
-
-        } catch (interviewErr) {
-          console.error("Failed to auto-schedule interview:", interviewErr);
-        }
-      }
-
-      return sendSuccess(res, 'Application submitted successfully', data, 201);
+      return sendSuccess(res, 'Application submitted successfully. We will notify you after review.', data, 201);
 
     } catch (aiError) {
       console.error('AI Matchmaker Error:', aiError.message);
@@ -337,16 +336,28 @@ router.post('/', async (req, res) => {
 });
 
 // PATCH /api/applications/:id - update application status (placeholder)
-router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body || {};
+// PATCH /api/applications/:id - update application status
+router.patch('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
 
-  const updated = {
-    _id: id,
-    status: status || 'Pending',
-  };
+    if (!status) return sendError(res, 'Status is required', null, 400);
 
-  return sendSuccess(res, 'Application updated (placeholder)', updated, 200);
+    const application = await Application.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!application) {
+      return sendError(res, 'Application not found', null, 404);
+    }
+
+    return sendSuccess(res, 'Application updated successfully', application, 200);
+  } catch (error) {
+    return sendError(res, 'Failed to update application', error.message || error, 500);
+  }
 });
 
 // Toggle "Save" status for an application

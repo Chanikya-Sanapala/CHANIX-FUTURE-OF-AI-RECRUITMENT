@@ -1,267 +1,130 @@
 "use client"
-// ForgotPassword
 
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+import Link from "next/link";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import {
-    Card,
-    CardContent
-} from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// // import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
-
 const ForgotPassword = () => {
+  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
 
-  const [loading,setLoading] = useState(true)
-    const router = useRouter();
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        const email = data.get("email");
-        const url = "http://localhost:5000/api/auth/request-password-reset";
-        // setTimeout(() => {
-        //     router.push('/Login');
-        // },8000);
-//         // ...
-//         // Swal.fire({
-//         // icon: 'success',
-//         // title: 'Password reset email sent. Please check your inbox.',
-//         // text: data.message
-//         // });
-        // console.log("Email:", data);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (!email) return;
 
-
-        // const res = await axios.post(url, { email: email });
-        // if(!res.data.success){
-        //     toast.error(res.data.message, {
-        //         autoClose: 5000,
-        //         position: "top-right",
-        //     });
-        // }
-        // if (res.data.success === false) {
-        //     toast.error(res.data.message, {
-        //         autoClose: 5000,
-        //         position: "top-right",
-        //     });
-        // } else {
-        //     toast.success(res.data.message, {
-        //         autoClose: 3000,
-        //         position: "top-right",
-        //         onClose: () => {
-        //             router.push('/Login');
-        //         }
-        //     });
-        // }
-
+    setIsLoading(true);
+    setMessage("");
+    const url = process.env.NEXT_PUBLIC_BACKEND_URL ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/request-password-reset` : "http://localhost:5000/api/auth/request-password-reset";
 
     try {
-    const res = await axios.post(url, { email });
-    
-    // Success
-    if (!res.data.error) {
-      toast.success(res.data.message, { position: "top-right", autoClose: 5000,
-        onClose: () => {
-            router.push('/Login');
-        }
-      });
-    } else {
-      toast.error(res.data.message, { position: "top-right", autoClose: 5000 });
-    }
-  } catch (error) {
-    // Axios errors have a response object
-    if (error.response) {
-      // Backend responded with a status code out of 2xx range
-      toast.error(`Error: ${error.response.data.message || error.response.statusText}`, {
-        position: "top-right",
-        autoClose: 5000,
-      });
-    } else if (error.request) {
-      // Request was made but no response
-      toast.error("Network error: Server did not respond", {
-        position: "top-right",
-        autoClose: 5000,
-      });
-    } else {
-      // Something else happened
-      toast.error(`Error: ${error.message}`, { position: "top-right", autoClose: 5000 });
-    }
-  }
-    };
-
-    useEffect(() => {
-        // Any side effects or data fetching can go here
-        setLoading(false);
-      }, []);
-      
-      if (loading) {
-        return (
-          <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading Forgot Password...</p>
-            </div>
-          </div>
-        );
+      const res = await axios.post(url, { email });
+      if (!res.data.error) {
+        toast.success(res.data.message || "Reset link sent!");
+        setMessage("✅ Success! Please check your email for the reset link.");
+        setTimeout(() => router.push('/Login'), 5000);
+      } else {
+        toast.error(res.data.message);
+        setMessage("❌ " + res.data.message);
       }
-    
+    } catch (error) {
+      const errMsg = error.response?.data?.message || "Network error: Could not connect to server.";
+      toast.error(errMsg);
+      setMessage("❌ " + errMsg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
     return (
-        <div>
-        <Container maxWidth="sm">
-            <Box
-                sx={{
-                    marginTop: 10,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }}
-            >
-                <Card sx={{ boxShadow: "4" }}>
-                    <CardContent sx={{ m: 3 }}>
-                        <Avatar sx={{
-                            m: "auto",
-                            bgcolor: "primary.main"
-                        }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1"
-                            variant="h5" sx={{ mt: 1 }}>
-                            Forgot Password
-                        </Typography>
-
-                        <Box component="form"
-                            onSubmit={submitHandler} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Reset Password
-                            </Button>
-                            <a href="/Login" className="forgot-link">Back to Login</a>
-                        </Box>
-                        <ToastContainer />
-                    </CardContent>
-                </Card>
-            </Box>
-        </Container>
-        <ToastContainer />
-        </div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+      </div>
     );
+  }
+
+  return (
+    <div className="min-h-screen w-full bg-[#D97706] flex items-center justify-center p-6 sm:p-12 overflow-x-hidden">
+      <ToastContainer theme="colored" />
+
+      <div className="w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row border-4 border-white/20">
+
+        {/* Visual Side */}
+        <div className="w-full md:w-1/3 bg-gradient-to-br from-[#D97706] to-[#78350f] p-8 flex flex-col justify-between items-center text-center relative overflow-hidden">
+          <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md relative z-10">
+            <LockOutlinedIcon className="text-white text-3xl" />
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-white font-black text-2xl uppercase tracking-tighter leading-none mb-2">Secure <br /> Access</h2>
+            <p className="text-white/60 text-xs font-bold uppercase tracking-widest">Smart Engine Auth</p>
+          </div>
+          {/* Decorative circles */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-xl"></div>
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full -ml-16 -mb-16 blur-xl"></div>
+        </div>
+
+        {/* Form Side */}
+        <div className="flex-1 p-8 sm:p-12">
+          <div className="mb-8 text-center md:text-left">
+            <h1 className="text-3xl font-black text-[#78350f] uppercase tracking-tight mb-2 leading-none">Forgot <br className="hidden sm:block md:hidden" /> Password?</h1>
+            <p className="text-gray-400 font-bold text-sm tracking-wide uppercase">No worries, we'll send you reset instructions.</p>
+          </div>
+
+          <form onSubmit={submitHandler} className="space-y-6">
+            <div>
+              <label className="block mb-2 text-xs font-black uppercase tracking-widest text-[#78350f]/40">Email Address</label>
+              <input
+                type="email"
+                placeholder="Enter registered email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-gray-900 outline-none focus:border-[#D97706]/30 focus:ring-4 focus:ring-[#D97706]/5 transition-all font-medium"
+                required
+              />
+            </div>
+
+            {message && (
+              <div className={`p-4 rounded-2xl text-xs font-bold border animate-fade-in text-center ${message.includes('✅')
+                ? 'bg-green-50 text-green-600 border-green-100'
+                : 'bg-red-50 text-red-600 border-red-100'
+                }`}>
+                {message}
+              </div>
+            )}
+
+            <button
+              disabled={isLoading}
+              className={`w-full bg-[#D97706] text-white font-black p-4 rounded-2xl transition-all hover:bg-[#b45309] hover:scale-[0.98] active:scale-[0.95] shadow-xl shadow-[#D97706]/20 uppercase tracking-widest ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                  <span>SENDING...</span>
+                </div>
+              ) : "Reset Password"}
+            </button>
+
+            <div className="text-center pt-4">
+              <Link href="/Login" className="text-sm font-black text-[#D97706] hover:underline underline-offset-4 uppercase tracking-widest">
+                Back to Login
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ForgotPassword;
-
-
-
-// import { useRouter } from "next/navigation";
-// import { useState } from "react";
-// import axios from "axios";
-// import { toast, ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-
-// export default function ForgotPassword() {
-//   const router = useRouter();
-//   const [email, setEmail] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const submitHandler = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-
-//     try {
-//       const res = await axios.post("http://localhost:5000/api/auth/request-password-reset", { email });
-
-//       if (res.data.success) {
-//         toast.success(res.data.message, { autoClose: 5000, position: "top-right" });
-
-//         setTimeout(() => {
-//           router.push("/Login"); // navigate after toast
-//         }, 1500);
-//       } else {
-//         toast.error(res.data.message || "Something went wrong", { autoClose: 5000, position: "top-right" });
-//       }
-//     } catch (err) {
-//       toast.error(err.response?.data?.message || "Network error. Try again.", { autoClose: 5000, position: "top-right" });
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
-//       {/* <h2>Forgot Password</h2> */}
-//       <Container maxWidth="sm">
-//              <Box
-//                 sx={{
-//                     marginTop: 10,
-//                     display: "flex",
-//                     flexDirection: "column",
-//                     alignItems: "center",
-//                 }}
-//             >
-//                 <Card sx={{ boxShadow: "4" }}>
-//                     <CardContent sx={{ m: 3 }}>
-//                         <Avatar sx={{
-//                             m: "auto",
-//                             bgcolor: "primary.main"
-//                         }}>
-//                             <LockOutlinedIcon />
-//                         </Avatar>
-//                         <Typography component="h1"
-//                             variant="h5" sx={{ mt: 1 }}>
-//                             Forgot Password
-//                         </Typography>
-
-//                         <Box component="form"
-//                             onSubmit={submitHandler} sx={{ mt: 1 }}>
-//                             <TextField
-//                                 margin="normal"
-//                                 required
-//                                 fullWidth
-//                                 id="email"
-//                                 label="Email Address"
-//                                 name="email"
-//                                 autoComplete="email"
-//                                 autoFocus
-//                             />
-//                             <Button
-//                                 type="submit"
-//                                 fullWidth
-//                                 variant="contained"
-//                                 sx={{ mt: 3, mb: 2 }}
-//                             >
-//                                 Reset Password
-//                             </Button>
-//                             <a href="/Login" className="forgot-link">Back to Login</a>
-//                         </Box>
-//                         <ToastContainer />
-//                     </CardContent>
-//                 </Card>
-//             </Box>
-//         </Container>
-//       <ToastContainer />
-//     </div>
-//   );
-// }

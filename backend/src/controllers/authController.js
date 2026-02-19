@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { OAuth2Client } from 'google-auth-library';
 import User from '../models/User.js';
 import { jwtConfig, jwtOptions } from '../config/jwt.js';
 import { sendSuccess, sendError } from '../utils/responseHandler.js';
@@ -22,18 +23,18 @@ export const register = async (req, res) => {
       password,
       userType
     });
-    
+
     await user.save();
     await sendWelcomeEmail(email, username, userType);
-    
+
     // Don't create profile during registration to avoid validation errors
     // Profile will be created when user first updates their profile
-    
+
     const token = generateToken(user._id);
-    
+
     user.lastLogin = new Date();
     await user.save();
-    
+
     sendSuccess(res, 'User registered successfully', {
       token,
       user: {
@@ -46,14 +47,14 @@ export const register = async (req, res) => {
         createdAt: user.createdAt
       }
     }, 201);
-    
+
   } catch (error) {
     console.error('Registration error:', error);
-    
+
     if (error.code === 11000) {
       return sendError(res, 'Email already exists. Please use a different email.', null, 409);
     }
-    
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         field: err.path,
@@ -61,7 +62,7 @@ export const register = async (req, res) => {
       }));
       return sendError(res, 'Validation failed', validationErrors, 422);
     }
-    
+
     sendError(res, 'Registration failed. Please try again.', null, 500);
   }
 };
@@ -70,36 +71,36 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     const user = await User.findByEmail(email);
     if (!user) {
       return sendError(res, 'Invalid email or password', null, 401);
     }
-    
+
     if (user.isLocked()) {
       return sendError(res, 'Account temporarily locked due to too many failed login attempts. Please try again later.', null, 423);
     }
-    
+
     if (!user.isActive) {
       return sendError(res, 'Account is inactive. Please contact support.', null, 401);
     }
-    
+
     const isPasswordValid = await user.comparePassword(password);
-    
+
     if (!isPasswordValid) {
       await user.incLoginAttempts();
       return sendError(res, 'Invalid email or password', null, 401);
     }
-    
+
     if (user.loginAttempts > 0) {
       await user.resetLoginAttempts();
     }
-    
+
     const token = generateToken(user._id);
-    
+
     user.lastLogin = new Date();
     await user.save();
-    
+
     sendSuccess(res, 'Login successful', {
       token,
       user: {
@@ -114,7 +115,7 @@ export const login = async (req, res) => {
         lastLogin: user.lastLogin
       }
     });
-    
+
   } catch (error) {
     console.error('Login error:', error);
     sendError(res, 'Login failed. Please try again.', null, 500);
@@ -134,7 +135,10 @@ export const getProfile = async (req, res) => {
         isActive: req.user.isActive,
         isProfileCompleted: req.user.isProfileCompleted,
         lastLogin: req.user.lastLogin,
-        createdAt: req.user.createdAt
+        createdAt: req.user.createdAt,
+        gameScores: req.user.gameScores,
+        cognitiveScore: req.user.cognitiveScore,
+        isRecruiterRecommended: req.user.isRecruiterRecommended
       }
     });
   } catch (error) {
@@ -147,16 +151,16 @@ export const updateProfile = async (req, res) => {
   try {
     const { firstName, lastName } = req.body;
     const user = req.user;
-    
+
     if (firstName) {
       user.firstName = firstName;
     }
     if (lastName) {
       user.lastName = lastName;
     }
-    
+
     await user.save();
-    
+
     sendSuccess(res, 'Profile updated successfully', {
       user: {
         id: user._id,
@@ -169,7 +173,7 @@ export const updateProfile = async (req, res) => {
         updatedAt: user.updatedAt
       }
     });
-    
+
   } catch (error) {
     console.error('Update profile error:', error);
     sendError(res, 'Failed to update profile', null, 500);
@@ -244,21 +248,103 @@ export const resetPassword = async (req, res) => {
 
 
 // router.get('/check-email', 
-  export const checkEmail = async (req, res) => {
-    try {
-        const { email } = req.query;
-        console.log("Received email:", email);
+export const checkEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+    console.log("Received email:", email);
 
-        if (!email) {
-            return res.status(400).json({ message: 'Email is required' });
-        }
-
-        const user = await User.findOne({ email: email.toLowerCase() });
-        console.log("User found:", user);
-
-        res.json({ exists: !!user });
-    } catch (err) {
-        console.error("Error in /check-email:", err);
-        res.status(500).json({ message: 'Server error', error: err.message });
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
     }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+    console.log("User found:", user);
+
+    res.json({ exists: !!user });
+  } catch (err) {
+    console.error("Error in /check-email:", err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const googleLogin = async (req, res) => {
+  try {
+    const { token, userType } = req.body;
+
+    if (!token) {
+      return sendError(res, 'Google token is required', null, 400);
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const { name, email, picture, sub } = ticket.getPayload();
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Login existing user
+      if (!user.isActive) {
+        return sendError(res, 'Account is inactive', null, 401);
+      }
+
+      const authToken = generateToken(user._id);
+      user.lastLogin = new Date();
+      await user.save();
+
+      return sendSuccess(res, 'Login successful', {
+        token: authToken,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          userType: user.userType,
+          isActive: user.isActive,
+          isProfileCompleted: user.isProfileCompleted,
+          lastLogin: user.lastLogin
+        }
+      });
+    } else {
+      // Register new user
+      // If userType is not provided, default to Job Seeker
+      const type = userType || 'Job Seeker';
+
+      // Create a random password that satisfies validation (letter + number + special char)
+      const randomPassword = 'Gauth_' + Math.random().toString(36).slice(-8) + Math.floor(Math.random() * 900 + 100) + '!';
+
+      user = new User({
+        username: name || email.split('@')[0],
+        email,
+        password: randomPassword,
+        userType: type,
+        isProfileCompleted: false,
+        isActive: true
+      });
+
+      await user.save();
+      // await sendWelcomeEmail(email, user.username, type); // Optional: send email
+
+      const authToken = generateToken(user._id);
+
+      return sendSuccess(res, 'User registered successfully', {
+        token: authToken,
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          userType: user.userType,
+          isActive: user.isActive,
+          isProfileCompleted: user.isProfileCompleted,
+          createdAt: user.createdAt
+        }
+      }, 201);
+    }
+  } catch (error) {
+    console.error('Google login error:', error);
+    sendError(res, 'Google authentication failed', null, 500);
+  }
 };

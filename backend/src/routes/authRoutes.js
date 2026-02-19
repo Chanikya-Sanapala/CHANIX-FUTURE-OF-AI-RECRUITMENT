@@ -5,7 +5,8 @@ import {
   getProfile,
   updateProfile,
   checkEmail,
-  logout
+  logout,
+  googleLogin
 } from '../controllers/authController.js';
 import {
   validateRegistration,
@@ -16,9 +17,9 @@ import { authenticateToken } from '../middleware/auth.js';
 import rateLimit from 'express-rate-limit';
 import { sendWelcomeEmail } from './mail/emailService.js';
 import userSchema from '../models/User.js';
-import {  } from '../controllers/authController.js';
+import { } from '../controllers/authController.js';
 // import { PasswordReset } from '../routes/passwordReset.js';
-import { resetPassword , changePassword, updatePassword} from '../controllers/resetPassword.js';
+import { resetPassword, changePassword, updatePassword } from '../controllers/resetPassword.js';
 import { matchResume } from '../controllers/resumeController.js';
 
 
@@ -36,18 +37,20 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-router.post('/register', 
+router.post('/register',
   authLimiter,
-  validateRegistration, 
-  checkValidation, 
+  validateRegistration,
+  checkValidation,
   register,
   sendWelcomeEmail
 );
 
-router.post('/login', 
+router.post('/google', googleLogin);
+
+router.post('/login',
   authLimiter,
-  validateLogin, 
-  checkValidation, 
+  validateLogin,
+  checkValidation,
   login
 );
 

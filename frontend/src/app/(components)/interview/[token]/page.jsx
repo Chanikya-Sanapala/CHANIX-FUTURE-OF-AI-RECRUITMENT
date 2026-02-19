@@ -23,6 +23,21 @@ export default function InterviewSession() {
     const mediaRecorderRef = useRef(null);
     const chunksRef = useRef([]);
 
+    // Captions State
+    const [captions, setCaptions] = useState('');
+    const recognitionRef = useRef(null);
+
+    // Proctoring State
+    const [warnings, setWarnings] = useState(0);
+    const [warningMsg, setWarningMsg] = useState(null);
+    const [isTerminated, setIsTerminated] = useState(false);
+
+    // Refs for proctoring
+    const warningsRef = useRef(0);
+    const faceDetectorRef = useRef(null);
+    const lastFaceCheckRef = useRef(0);
+    const missingFaceFramesRef = useRef(0);
+
     // Canvas Refs
     const canvasRef = useRef(null); // Visible PREVIEW
     const recordingCanvasRef = useRef(null); // Hidden RECORDING
@@ -36,8 +51,71 @@ export default function InterviewSession() {
         isSpeakingRef.current = isSpeaking;
     }, [isSpeaking]);
 
+    // Tab Switching Detection
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.hidden && started && !completed && !isTerminated) {
+                handleWarning("Tab switching is not allowed!");
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+    }, [started, completed, isTerminated]);
+
+    // Full Screen Enforcement (Malpractice Detection)
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && started && !completed && !isTerminated) {
+                handleWarning("Malpractice: Exited Full Screen mode!");
+            }
+        };
+
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+            document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+        };
+    }, [started, completed, isTerminated]);
+
+    const handleWarning = (msg) => {
+        if (warningsRef.current >= 3) return; // Already terminated or terminating
+
+        // Debounce warnings
+        if (warningMsg) return;
+
+        const newCount = warningsRef.current + 1;
+        warningsRef.current = newCount;
+        setWarnings(newCount);
+        setWarningMsg(msg);
+
+        // REMOVED: SpeechWarning (requested by user)
+        // Only visual notification now
+
+        // Check termination
+        if (newCount >= 3) {
+            setTimeout(() => terminateInterview("Too many violations."), 1000);
+        } else {
+            // Clear warning msg after 3 seconds
+            setTimeout(() => setWarningMsg(null), 3000);
+        }
+    };
+
+    const terminateInterview = async (reason) => {
+        setIsTerminated(true);
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+            mediaRecorderRef.current.stop();
+        }
+        if (stream) stream.getTracks().forEach(t => t.stop());
+
+        // Submit what we have, or just flag
+        alert(`Interview Terminated: ${reason}`);
+        router.push('/');
+    };
+
     // Base URL for API
-    const API_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5005').trim().replace(/\/$/, '') + '/api';
+    const API_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000').trim().replace(/\/$/, '') + '/api';
 
     useEffect(() => {
         fetchInterviewDetails();
@@ -141,6 +219,13 @@ export default function InterviewSession() {
             ctx.textBaseline = 'middle';
             ctx.fillText(isSpeakingRef.current ? 'AI is speaking...' : 'Listening...', centerX, centerY + 130);
 
+            // User Captions (Subtitles)
+            if (captions) {
+                ctx.font = '18px sans-serif';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillText(`"${captions}"`, centerX, canvas.height - 80);
+            }
+
             // C. PiP (User Camera)
             drawPiP(ctx, cameraVideo, canvas.width, canvas.height);
         }
@@ -162,8 +247,36 @@ export default function InterviewSession() {
             drawPiP(ctx, cameraVideo, canvas.width, canvas.height);
         }
 
+        // Face Detection Logic (Throttled)
+        if (cameraVideo && cameraVideo.readyState >= 2 && started && !isTerminated && !completed) {
+            const now = Date.now();
+            if (now - lastFaceCheckRef.current > 500) { // Check every 500ms
+                lastFaceCheckRef.current = now;
+                if (window.FaceDetector && faceDetectorRef.current) {
+                    try {
+                        faceDetectorRef.current.detect(cameraVideo).then(faces => {
+                            if (faces.length === 0) {
+                                missingFaceFramesRef.current += 1;
+                                if (missingFaceFramesRef.current > 4) { // ~2 seconds missing
+                                    handleWarning("Face not detected! Please stay in frame.");
+                                    missingFaceFramesRef.current = 0; // Reset to avoid spam
+                                }
+                            } else {
+                                missingFaceFramesRef.current = 0;
+                            }
+                        }).catch(e => console.warn("Face Detect Error", e));
+                    } catch (e) { }
+                }
+            }
+        }
+
         requestRef.current = requestAnimationFrame(() => drawLoops(screenVideo, cameraVideo));
     };
+
+    useEffect(() => {
+        // Redraw canvas explicitly when captions change to ensure they appear immediately if loop is slow
+        // (Optional, but drawLoops runs at 60fps anyway)
+    }, [captions]);
 
     const drawPiP = (ctx, cameraVideo, width, height) => {
         if (cameraVideo && cameraVideo.readyState >= 2) {
@@ -263,6 +376,13 @@ export default function InterviewSession() {
             recCanvas.height = 720;
             recordingCanvasRef.current = recCanvas;
 
+            // Initialize FaceDetector
+            if (window.FaceDetector) {
+                faceDetectorRef.current = new window.FaceDetector({ fastMode: true, maxDetectedFaces: 1 });
+            } else {
+                console.warn("FaceDetector API not supported in this browser. Proctoring limited to Tab Switching.");
+            }
+
             // 7. Start Drawing Loops
             drawLoops(screenVideo, cameraVideo);
 
@@ -293,6 +413,46 @@ export default function InterviewSession() {
             // 9. Speak Question
             if (interview && interview.questions) {
                 speakQuestion(interview.questions[0]);
+            }
+
+            // 10. Start Full Screen
+            try {
+                if (document.documentElement.requestFullscreen) {
+                    await document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { /* Safari */
+                    await document.documentElement.webkitRequestFullscreen();
+                }
+            } catch (err) {
+                console.warn("Fullscreen denied:", err);
+            }
+
+            // 11. Start Speech Recognition (Captions)
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            // setCaptions(event.results[i][0].transcript); // Keep final?
+                            // Actually, for "captions" style, we usually want floating text that clears.
+                            // Let's just show what's being said.
+                            setCaptions(event.results[i][0].transcript);
+                            // Clear after 3 seconds
+                            setTimeout(() => setCaptions(''), 3000);
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                            setCaptions(interimTranscript);
+                        }
+                    }
+                };
+
+                recognition.start();
+                recognitionRef.current = recognition;
             }
 
         } catch (err) {
@@ -383,6 +543,8 @@ export default function InterviewSession() {
                 submitRecordings(blob);
             };
             if (stream) stream.getTracks().forEach(track => track.stop());
+            if (recognitionRef.current) recognitionRef.current.stop();
+            if (document.fullscreenElement) document.exitFullscreen().catch(e => { });
         }
     };
 
@@ -507,6 +669,20 @@ export default function InterviewSession() {
                         </div>
                     )}
                 </div>
+
+                {/* Proctoring Warning Overlay */}
+                {warningMsg && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50">
+                        <div className="bg-red-600/90 text-white px-8 py-6 rounded-2xl shadow-2xl animate-bounce flex flex-col items-center border-4 border-red-500">
+                            <span className="text-4xl mb-2">⚠️</span>
+                            <h2 className="text-3xl font-bold uppercase tracking-widest">Warning</h2>
+                            <p className="text-xl font-medium mt-2">{warningMsg}</p>
+                            <p className="mt-4 text-sm bg-red-800/50 px-3 py-1 rounded-full border border-red-400">
+                                Strike {warnings}/3
+                            </p>
+                        </div>
+                    </div>
+                )}
 
                 {/* Question Controls */}
                 {started && (

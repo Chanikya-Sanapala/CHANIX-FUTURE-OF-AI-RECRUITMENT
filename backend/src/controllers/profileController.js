@@ -125,7 +125,7 @@ export const updateJobSeekerProfile = async (req, res) => {
       'phone', 'dateOfBirth', 'gender', 'address', 'profilePicture',
       'summary', 'experience', 'education', 'skills', 'certifications',
       'languages', 'projects', 'socialProfiles', 'preferences',
-      'competitiveExams', 'academicAchievements', 'studentId'
+      'competitiveExams', 'academicAchievements'
     ];
 
     allowedFields.forEach(field => {

@@ -13,6 +13,7 @@ import eventRoutes from './routes/eventRoutes.js';
 import competitionRoutes from './routes/competitionRoutes.js';
 import connectionRoutes from './routes/connectionRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import gameRoutes from './routes/gameRoutes.js';
 import { sendError } from './utils/responseHandler.js';
 
 const app = express();
@@ -61,6 +62,7 @@ app.use('/api/assessments', assessmentRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/competitions', competitionRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/games', gameRoutes);
 
 // Serve uploaded files (e.g. resumes) statically
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
