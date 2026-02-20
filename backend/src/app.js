@@ -22,12 +22,30 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }
 }));
 
+const allowedOriginsEnv = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+
+// Dynamic CORS: allow env origins + any Vercel preview deployments + localhost
 const corsOptions = {
-  origin: process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) || ['http://localhost:3000'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    // Allow if explicitly listed
+    if (allowedOriginsEnv.includes(origin)) return callback(null, true);
+    // Allow any Vercel preview URL for this project
+    if (origin.match(/^https:\/\/chanix.*\.vercel\.app$/)) return callback(null, true);
+    // Allow localhost in any form
+    if (origin.match(/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/)) return callback(null, true);
+    console.warn(`[CORS] Blocked origin: ${origin}`);
+    callback(new Error(`CORS: Origin ${origin} not allowed`));
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
