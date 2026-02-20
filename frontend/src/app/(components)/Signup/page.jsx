@@ -163,6 +163,7 @@ export default function SignupPage() {
               <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                   try {
+                    setIsLoading(true);
                     const { credential } = credentialResponse;
                     const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000").trim().replace(/\/$/, "");
                     const res = await fetch(`${baseUrl}/api/auth/google`, {
