@@ -1064,7 +1064,7 @@ export default function JobseekerDashboard() {
     { id: 'find-jobs', label: 'Find Jobs', icon: FiSearch },
     { id: 'applied-jobs', label: 'Applied Jobs', icon: FiCheck },
     { id: 'saved-jobs', label: 'Saved Jobs', icon: FiBookmark },
-    { id: 'my-profile', label: 'My Profile', icon: FiUser, path: '/JobseekerProfile' },
+    { id: 'my-profile', label: 'My Profile', icon: FiUser },
     { id: 'interviews', label: 'Interviews', icon: FiCalendar },
     { id: 'assessments', label: 'Assessments', icon: FiBook },
     { id: 'events', label: 'Events', icon: FiAward },
@@ -1072,13 +1072,19 @@ export default function JobseekerDashboard() {
   ];
 
   const handleNavigation = (item) => {
+    // Always close sidebar on navigation
+    setIsSidebarOpen(false);
+    setIsMobileMenuOpen(false);
+    if (item.id === 'my-profile') {
+      // Open the profile panel instead of navigating away
+      openProfilePanel();
+      return;
+    }
     if (item.path) {
       router.push(item.path);
-      setIsSidebarOpen(false);
       return;
     }
     setActiveTab(item.id);
-    setIsSidebarOpen(false);
   };
 
   const toggleMobileMenu = () => {
@@ -1267,7 +1273,7 @@ export default function JobseekerDashboard() {
                 return (
                   <button
                     key={item.id}
-                    onClick={() => { handleNavigation(item); setIsMobileMenuOpen(false); if (typeof window !== 'undefined' && window.innerWidth < 1024) setIsSidebarOpen(false); }}
+                    onClick={() => handleNavigation(item)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
                       ? 'bg-blue-50 text-blue-700 font-semibold'
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
