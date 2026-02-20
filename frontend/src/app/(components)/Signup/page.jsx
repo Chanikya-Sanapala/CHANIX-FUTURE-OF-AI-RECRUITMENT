@@ -162,8 +162,8 @@ export default function SignupPage() {
             <div className="flex justify-center w-full">
               <GoogleLogin
                 onSuccess={async (credentialResponse) => {
+                  setIsLoading(true);
                   try {
-                    setIsLoading(true);
                     const { credential } = credentialResponse;
                     const baseUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000").trim().replace(/\/$/, "");
                     const res = await fetch(`${baseUrl}/api/auth/google`, {
@@ -174,7 +174,7 @@ export default function SignupPage() {
                         userType: formData.userType
                       }),
                     });
-                    const data = await res.json();
+                    const data = await res.json().catch(() => ({}));
                     if (res.ok && data.success) {
                       setMessage('✅ ' + data.message);
                       if (data.data && data.data.token) {
@@ -185,11 +185,14 @@ export default function SignupPage() {
                         window.location.href = data.data.user.userType === 'Recruiter' ? '/recruiter-dashboard' : '/jobseeker-dashboard';
                       }, 1500);
                     } else {
-                      setMessage('❌ ' + (data?.message || 'Google signup failed'));
+                      // Show the real error from backend
+                      setMessage('❌ ' + (data?.message || `Server error (${res.status})`));
                     }
                   } catch (err) {
                     console.error('Google login error', err);
-                    setMessage('❌ Google login failed');
+                    setMessage('❌ Network error: Could not reach server. Check your connection.');
+                  } finally {
+                    setIsLoading(false);
                   }
                 }}
                 onError={() => {
