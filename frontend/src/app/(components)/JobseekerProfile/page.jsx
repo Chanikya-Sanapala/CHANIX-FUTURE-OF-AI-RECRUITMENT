@@ -118,6 +118,21 @@ export default function JobseekerProfile() {
     } catch (_) { }
   }, [router]);
 
+  // Re-fetch data on window focus to keep multiple devices in sync
+  useEffect(() => {
+    const onFocus = () => {
+      if (user?._id || user?.id) {
+        // Trigger a re-fetch by updating a dummy state or calling load() directly if extracted
+        // Since load() is inside another useEffect, we can force it by toggling a version counter
+        setRefreshVersion(v => v + 1);
+      }
+    };
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, [user]);
+
+  const [refreshVersion, setRefreshVersion] = useState(0);
+
   // Load existing profile from backend when user is available
   useEffect(() => {
     if (!user) return;
@@ -251,7 +266,7 @@ export default function JobseekerProfile() {
       } catch (_) { console.error(_); }
     };
     load();
-  }, [user]);
+  }, [user, refreshVersion]);
 
   const profileSections = [
     { id: 'basic', label: 'Basic Details' },
